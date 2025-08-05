@@ -1,0 +1,56 @@
+
+--- Stack tecnológico ---
+
+✅ Frontend: Bootstrap, HTML, CSS, JavaScript  
+✅ Backend: PHP, MySQL  
+✅ APIs:   
+✅ MVC (Modelo-Vista-Controlador)  
+✅ Hosting: Hostinger  
+✅ Control de versiones: GitHub  
+
+--- Estructura ---
+
+📂 BonafideWeb 		
+├── 📁 public/                  # Carpeta pública: todo lo que se ve desde el navegador
+│   ├── 📁 css/                 # Estilos personalizados
+│   │   └── styles.css
+│   ├── 📁 js/                  # Scripts JS
+│   │   └── scripts.js
+│   ├── 📁 img/                 # Imágenes usadas en el sitio
+│   ├── 📁 uploads/             # Carpeta para imágenes subidas por usuarios (productos, etc.)
+│   ├── 📁 libs/                # Librerías externas (por ejemplo Bootstrap, jQuery si no usás CDN)
+│   ├── 📁 views/               # Archivos de vistas (HTML con PHP embebido)
+│   │   ├── home.php
+│   │   ├── productos.php
+│   │   ├── carrito.php
+│   │   ├── login.php
+│   │   └── ...
+│   ├── index.php              # Punto de entrada principal
+│   └── .htaccess              # Para redirecciones y seguridad
+│
+├── 📁 app/                     # Lógica de la aplicación
+│   ├── 📁 controllers/         # Controladores: lógica que conecta modelos y vistas
+│   │   ├── ProductoController.php
+│   │   ├── UsuarioController.php
+│   │   ├── PedidoController.php
+│   │   └── ...
+│   ├── 📁 models/              # Modelos: conexión a la base de datos
+│   │   ├── Producto.php
+│   │   ├── Usuario.php
+│   │   ├── Pedido.php
+│   │   └── ...
+│   └── 📁 core/                # Archivos base del framework PHP que estés usando o estructura propia
+│       ├── Database.php       # Conexión PDO o MySQLi
+│       ├── Router.php         # Opcional si manejás rutas personalizadas
+│       └── Auth.php           # Control de sesión y autenticación
+│
+├── 📁 config/                 # Configuraciones generales del sitio
+│   ├── config.php            # Configuración de rutas, base de datos, etc.
+│   └── constants.php         # Constantes generales
+│
+├── 📁 sql/                    # Scripts SQL para generar la base de datos
+│   └── schema.sql
+│
+├── README.md                 # Explicación del proyecto
+├── LICENSE                   # Licencia (MIT si es para compartir sin restricciones)
+└── .gitignore                # Archivos y carpetas a ignorar por Git
