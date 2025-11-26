@@ -14,7 +14,7 @@ class ProviderService {
 
         let newProvider = await providerModel.createProvider({ provider_name, provider_cuit, provider_detail });
 
-        return { newProviderId: newProvider.insertId, provider_name, provider_cuit, provider_detail };
+        return { newProviderId: Number(newProvider.insertId), provider_name, provider_cuit, provider_detail };
     }
 
 }

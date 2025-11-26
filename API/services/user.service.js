@@ -28,10 +28,10 @@ class UserService {
 
     async loginUser({ user_email, user_password }) {
 
-        let user = await userModel.findUser({ user_email });
+        let user = await userModel.findUser({ user_email })
 
         let authUser = await bcrypt.compare(user_password, user.contraseña_usuario);
-
+        
         if (!authUser) {
             throw new Error("Credenciales inválidas.");
         }
