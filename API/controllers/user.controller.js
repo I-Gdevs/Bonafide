@@ -50,14 +50,23 @@ class UserController {
             console.error("Error durante el login: ", error.message);
 
             if (error.message === "Credenciales inválidas.") {
+                // Efectivamente hubo un error de contraseña errónea
                 return res.status(401).json({
                     error: error.message
                 });
             }
 
+            if (error.message.includes("encontró")) {
+                // Se sabe que se ingresó una credencial no registrada, pero no se le informa eso al usuario
+                return res.status(401).json({
+                    error: "Usuario no registrado o credenciales inválidas."
+                });
+            }
+
             return res.status(500).json({
+                // Otro error
                 error: "Error interno del servidor."
-            })
+            });
         }
     }
 }

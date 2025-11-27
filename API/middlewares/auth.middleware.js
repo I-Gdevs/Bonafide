@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
-    let authHeader = req.headers['authorization'];
+    let authHeader = req.headers.authorization;
 
     if (!authHeader) {
         return res.status(401).json({
@@ -12,10 +12,10 @@ export const verifyToken = (req, res, next) => {
     let authHeaderSplitted = authHeader.split(" ");
 
     let token = null;
-    if (authHeaderSplitted.length === 2 && authHeaderSplitted[0] === "Bearer ") {
+    if (authHeaderSplitted.length === 2 && authHeaderSplitted[0] === "Bearer") {
         token = authHeaderSplitted[1];
     }
-
+    
     if (!token) {
         return res.status(401).json({
             error_message: "Formato de token inválido."

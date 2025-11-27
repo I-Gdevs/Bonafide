@@ -10,8 +10,7 @@ export const validateCreateUser = [
     body("user_email")
     .trim()
     .notEmpty().withMessage("El correo electrónico es un campo obligatorio.")
-    .isEmail().withMessage("No es un correo electrónico válido.")
-    .normalizeEmail(),
+    .isEmail().withMessage("No es un correo electrónico válido."),
 
     body("user_dni")
     .trim()
@@ -46,8 +45,7 @@ export const validateLoginuser = [
     body('user_email')
     .trim()
     .notEmpty().withMessage("El correo electrónico es un campo obligatorio.")
-    .isEmail().withMessage("No es un correo electrónico valido.")
-    .normalizeEmail(),
+    .isEmail().withMessage("No es un correo electrónico valido."),
 
     body("user_password")
     .notEmpty().withMessage("La contraseña es un campo obligatorio."),

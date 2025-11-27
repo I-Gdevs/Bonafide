@@ -32,7 +32,7 @@ class UserModel {
         } finally {
 
             if (dbConnection) {
-                await dbConnection.release()
+                await dbConnection.release();
             }
 
             return result[0];
@@ -61,19 +61,25 @@ class UserModel {
 
             if (dbParams.length === 0) {
                 throw new Error("No se pasó ningún parámetro { user, user_email }");
-            } else {
-                result = await dbConnection.query(dbQuery, dbParams);
             }
-            
+
+            result = await dbConnection.query(dbQuery, dbParams);
+
         } catch (error) {
             console.error(error);
             
         } finally {
+
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result[0];
 
+            if (!result[0]) {
+                throw new Error("No se encontró ningún usuario con esas credenciales.");
+                
+            } else {
+                return result[0];
+            }
         }
     }
 }
