@@ -6,7 +6,7 @@ USE bonafide;
 CREATE TABLE proveedores (
 	id_proveedor INT(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre_proveedor VARCHAR(100) NOT NULL,
-	cuit_proveedor INT(12) NOT NULL,
+	cuit_proveedor TINYTEXT NOT NULL,
 	detalle_proveedor VARCHAR(100)
 );
 
