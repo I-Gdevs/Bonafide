@@ -134,7 +134,7 @@ class ProviderModel {
                 throw new Error("No se pasó ningún parámetro { name_provider, detail_provider }. No se puede editar proveedor.");
             }
             
-            let dbQuery = `UPDATE proveedores SET ${dbUpdates.join(", ")} WHERE id_proveedor = ?`;
+            let dbQuery = `UPDATE proveedores SET ${dbUpdates.join(", ")} WHERE id_proveedor = (?)`;
 
             await dbConnection.beginTransaction();
 

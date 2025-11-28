@@ -40,7 +40,6 @@ class ProviderService {
         let updatedProvider = await providerModel.updateProvider({ provider_id, new_provider_name, new_provider_detail });
         
         if (updatedProvider) {
-            console.log(updatedProvider);
             throw new Error("No se puede actualizar proveedor.");
         }
 

@@ -31,12 +31,11 @@ class ProviderController {
 
     async getAllProviders(req, res) {
         try {
-            let providers_list = await providerService.getAllProviders();
+            let providersList = await providerService.getAllProviders();
 
             return res.status(200).json({
-                providers_list
+                providers_list: providersList
             });
-
         } catch (error) {
             console.error("Error al buscar la lista de proveedores: ", error.message);
 
