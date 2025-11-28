@@ -10,5 +10,4 @@ stockRouter.post("/list", verifyToken, (req, res) => stockController.getStock(re
 stockRouter.patch("/update", verifyToken, (req, res) => stockController.updateStock(req, res));
 stockRouter.delete("/delete", verifyToken, (req, res) => stockController.deleteStock(req, res));
 
-
 export default stockRouter;
