@@ -9,17 +9,18 @@ class BuildingModel {
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "INSERT INTO proveedores (nombre_proveedor, cuit_proveedor, detalle_proveedor) VALUES (?, ?, ?);";
+            let dbQuery = "INSERT INTO locales (direccion_local, empleados_local, id_usuario) VALUES (?, ?, ?);";
 
             dbConnection.beginTransaction();
 
             result[0] = await dbConnection.query(dbQuery, [
-                provider_name,
-                provider_cuit,
-                provider_detail
+                building_address,
+                building_employees,
+                building_manager
             ]);
 
             await dbConnection.commit();
+
         } catch (error) {
             console.error(error);
             
@@ -31,8 +32,12 @@ class BuildingModel {
             if (dbConnection) {
                 await dbConnection.release();
             }
-
+            console.log(result);
             return result[0];
         }
     }
+
+
 }
+
+export default BuildingModel;
