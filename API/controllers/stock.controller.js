@@ -51,7 +51,7 @@ class StockController {
 
             let updatedStock = await stockService.updateStock({ stock_id, new_stock_name, new_stock_measurement_unit });
 
-            return res.staus(200).json({
+            return res.status(200).json({
                 message: "Ingrediente/stock actualizado correctamente",
                 updatedStock
             });

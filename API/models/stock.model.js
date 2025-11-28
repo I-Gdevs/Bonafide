@@ -9,7 +9,7 @@ class StockModel {
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "INSERT INTO ingredientes_modelos (nombre_ingrediente, unidad_medida_ingrediente) VALUES (?, ?);";
+            let dbQuery = "INSERT INTO ingredientes_modelo (nombre_ingrediente, unidad_medida_ingrediente) VALUES (?, ?);";
 
             dbConnection.beginTransaction();
 
