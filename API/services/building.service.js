@@ -15,6 +15,8 @@ class BuildingService {
 
         let buildings = [];
 
+        buildings = await buildingModel.getBuildings();
+
         if (buildings.length === 0) {
             throw new Error("No hay ningún local cargado.");
         }
@@ -33,12 +35,11 @@ class BuildingService {
 
         let updatedBuilding = await buildingModel.updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager });
 
-        if (!updatedBuilding) {
-            console.log(updatedBuilding);
+        if (updatedBuilding.affectedRows != 1) {
             throw new Error("No se puede actualizar local.");
         }
         
-        return updatedBuilding;
+        return updatedBuilding = { building_id, new_building_address, new_building_employees, new_building_manager };
     }
 
     async deleteBuilding({ building_id }) {
@@ -49,11 +50,11 @@ class BuildingService {
 
         let deletedBuilding = await buildingModel.deleteBuilding({ building_id });
 
-        if (!deletedBuilding) {
+        if (deletedBuilding.affectedRows != 1) {
             throw new Error("No se pudo eliminar el local.");
         }
 
-        return deletedBuilding;
+        return deletedBuilding = { building_id };
     }
 }
 

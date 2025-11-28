@@ -64,6 +64,7 @@ class UserModel {
             }
 
             result = await dbConnection.query(dbQuery, dbParams);
+            console.log(result);
 
         } catch (error) {
             console.error(error);
@@ -74,12 +75,7 @@ class UserModel {
                 dbConnection.release();
             }
 
-            if (!result[0]) {
-                throw new Error("No se encontró ningún usuario con esas credenciales.");
-                
-            } else {
-                return result[0];
-            }
+            return result[0];
         }
     }
 }

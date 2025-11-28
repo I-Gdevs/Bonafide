@@ -74,11 +74,11 @@ class BuildingController {
         try {
             let { building_id } = req.body;
 
-            let deleteBuilding = await buildingService.deleteBuilding({ building_id });
+            let deletedBuilding = await buildingService.deleteBuilding({ building_id });
 
             return res.status(200).json({
                 message: "Local eliminado correctamente.",
-                deleteBuilding
+                deletedBuilding
             });
         } catch (error) {
             console.error("Error al intentar eliminar local: ", error.message);
@@ -89,7 +89,7 @@ class BuildingController {
                 });
             }
 
-            return res.status(5000).json({
+            return res.status(500).json({
                 error: "Error interno al intentar eliminar el local."
             });
         }

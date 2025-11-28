@@ -57,6 +57,7 @@ class BuildingModel {
             if (dbConnection) {
                 await dbConnection.release();
             }
+            console.log(result);
             return result;
         }
     }
@@ -82,7 +83,7 @@ class BuildingModel {
             }
             
             if (new_building_manager) {
-                dbUpdates.push("direccion_local = (?)");
+                dbUpdates.push("id_usuario = (?)");
                 dbParams.push(new_building_manager);
             }
 
@@ -106,7 +107,8 @@ class BuildingModel {
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result[0];
+            console.log(result);
+            return result;
         }
     }
 
@@ -131,7 +133,7 @@ class BuildingModel {
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result[0];
+            return result;
         }
     }
 }
