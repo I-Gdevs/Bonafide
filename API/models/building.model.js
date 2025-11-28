@@ -133,7 +133,7 @@ class BuildingModel {
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result;
+            return result[0];
         }
     }
 }
