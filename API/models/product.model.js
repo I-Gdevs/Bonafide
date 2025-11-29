@@ -1,49 +1,50 @@
 import dbPool from "../database/db.js";
 
-class BuildingModel {
+class ProductModel {
 
-    async createBuilding({ building_address, building_employees, building_manager }) {
+    async createProduct({ product_name, product_price, is_combo_bool, product_category }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "INSERT INTO locales (direccion_local, empleados_local, id_usuario) VALUES (?, ?, ?);";
+            let dbQuery = "INSERT INTO producto_para_venta (nombre_producto, precio_producto, es_combo_bool, categoria_producto) VALUES (?, ?, ?, ?);";
 
             dbConnection.beginTransaction();
 
             result[0] = await dbConnection.query(dbQuery, [
-                building_address,
-                building_employees,
-                building_manager
+                product_name,
+                product_price,
+                is_combo_bool,
+                product_category
             ]);
 
             await dbConnection.commit();
 
         } catch (error) {
             console.error(error);
-            
+
             if (dbConnection) {
                 await dbConnection.rollback();
             }
 
         } finally {
             if (dbConnection) {
-                await dbConnection.release();
+                dbConnection.release();
             }
             return result[0];
         }
     }
 
-    async getBuildings() {
+    async getProducts() {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM locales;";
+            let dbQuery = "SELECT * FROM producto_para_venta;";
 
             result = await dbConnection.query(dbQuery);
 
@@ -62,7 +63,7 @@ class BuildingModel {
         }
     }
 
-    async updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager }) {
+    async updateProduct({ product_id, new_product_name, new_product_price, new_product_category }) {
         let dbConnection;
         let result = [];
 
@@ -72,24 +73,24 @@ class BuildingModel {
             let dbUpdates = [];
             let dbParams = [];
 
-            if (new_building_address) {
-                dbUpdates.push("direccion_local = (?)");
-                dbParams.push(new_building_address);
-            }
-            
-            if (new_building_employees) {
-                dbUpdates.push("empleados_local = (?)");
-                dbParams.push(new_building_employees);
-            }
-            
-            if (new_building_manager) {
-                dbUpdates.push("id_usuario = (?)");
-                dbParams.push(new_building_manager);
+            if (new_product_name) {
+                dbUpdates.push("nombre_producto = (?)");
+                dbParams.push(new_product_name);
             }
 
-            dbParams.push(building_id);
+            if (new_product_price) {
+                dbUpdates.push("precio_producto = (?)");
+                dbParams.push(new_product_price);
+            }
 
-            let dbQuery = `UPDATE locales SET ${dbUpdates.join(", ")} WHERE id_local = (?)`
+            if (new_product_category) {
+                dbUpdates.push("categoria_producto = (?)");
+                dbParams.push(new_product_category);
+            }
+
+            dbParams.push(product_id);
+
+            let dbQuery = `UPDATE producto_para_venta SET ${dbUpdates.join(", ")} WHERE id_producto = (?);`
 
             await dbConnection.beginTransaction();
 
@@ -99,35 +100,38 @@ class BuildingModel {
 
         } catch (error) {
             console.error(error);
-            
+
             if (dbConnection) {
-                dbConnection.release();
+                dbConnection.rollback();
             }
         } finally {
             if (dbConnection) {
                 dbConnection.release();
             }
-            console.log(result);
             return result;
         }
     }
 
-    async deleteBuilding({ building_id }) {
+    async deleteProduct({ product_id }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "UPDATE locales SET local_desactivado_bool = 1 WHERE id_local = (?);"
+            dbConnection.beginTransaction();
 
-            result = await dbConnection.query(dbQuery, building_id);
+            let dbQuery = "UPDATE producto_para_venta SET producto_desactivado_bool = 1 WHERE id_producto = (?);"
+
+            result = await dbConnection.query(dbQuery, product_id);
+
+            dbConnection.commit();
 
         } catch (error) {
             console.error(error);
 
             if (dbConnection) {
-                dbConnection.release();
+                dbConnection.rollback();
             }
         } finally {
             if (dbConnection) {
@@ -138,4 +142,4 @@ class BuildingModel {
     }
 }
 
-export default BuildingModel;
+export default ProductModel;

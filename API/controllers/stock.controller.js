@@ -30,8 +30,9 @@ class StockController {
             return res.status(200).json({
                 stock_templates_list: stockTemplateList
             });
+            
         } catch (error) {
-            console.log("Error al buscar la lista de ingredientes/stock: ", error.message);
+            console.error("Error al buscar la lista de ingredientes/stock: ", error.message);
 
             if (error.message.includes("No hay")) {
                 return res.status(404).json({
