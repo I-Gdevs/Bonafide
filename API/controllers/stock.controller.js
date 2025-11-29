@@ -69,6 +69,25 @@ class StockController {
             });
         }
     }
+
+    async addStock(req, res) {
+        try {
+            let { stock_id, stock_ammount, building_id } = req.body;
+
+            let addedStock = await stockService.addStock({ stock_id, stock_ammount, building_id });
+
+            return res.status(200).json({
+                message: "Cantidad de ingrediente/stock agregada correctamente",
+                addedStock
+            });
+        } catch (error) {
+            console.error("Error al intentar agregar nueva cantidad de ingredientes/stock: ", error.message);
+
+            return res.status(500).json({
+                error: "Error interno al intentar agregar nueva cantidad de ingredientes/stock."
+            });
+        }
+    }
 }
 
 export default StockController;
