@@ -17,14 +17,26 @@ class StockService {
 
     async getStockTemplate() {
         
-        let stock = [];
+        let stockTemplates = [];
 
-        stock = await stockModel.getStockTemplate();
+        stockTemplates = await stockModel.getStockTemplate();
 
-        if (stock.length === 0) {
-            throw new Error("No hay ningún ingrediente/stock cargado.");
+        if (stockTemplates.length === 0) {
+            throw new Error("No hay ningún modelo de stock cargado.");
         }
-        return stock;
+        return stockTemplates;
+    }
+
+    async getStockAmount({ stock_id, building_id }) {
+
+        let stockAmount = [];
+
+        stockAmount = await stockModel.getStockAmount({ stock_id, building_id });
+
+        if (stockAmount.length === 0) {
+            throw new Error("No hay nada de stock cargado.");
+        }
+        return stockAmount;
     }
 
     async updateStock({ stock_id, new_stock_name, new_stock_measurement_unit }) {
