@@ -15,11 +15,11 @@ class StockService {
         }
     }
 
-    async getStock() {
+    async getStockTemplate() {
         
         let stock = [];
 
-        stock = await stockModel.getStock();
+        stock = await stockModel.getStockTemplate();
 
         if (stock.length === 0) {
             throw new Error("No hay ningún ingrediente/stock cargado.");
@@ -48,6 +48,39 @@ class StockService {
             new_stock_name,
             new_stock_measurement_unit
         }
+    }
+
+    async deleteStock({}) {
+
+    }
+
+    async moveStock({ stock_movement_type, stock_movement_reason, building_id, provider_id, stock_list }) {
+        let movedStock;
+
+        if (!stock_movement_reason || !stock_movement_type) {
+            throw new Error("No se puede cargar movimiento de stock. Datos faltantes. No se proporcionó motivo o tipo de movimiento { stock_movement_type, stock_movement_reason }.");
+        }
+
+        if (!building_id) {
+            throw new Error("No se puede cargar movimiento de stock. Datos faltantes. No se proporcionó ningún local { building_id }.");
+        }
+
+        if (!stock_list) {
+            throw new Error("No se puede cargar movimiento de stock. Datos faltantes. No se proporcionó ningún ítem [{ stock_id, stock_quantity }, ...] ");
+        }
+
+        // Si el movimiento es por ajuste manual, entonces no enviamos ningún prooveedor.
+        if (stock_movement_reason.includes("ajuste")) {
+            movedStock = stockModel.moveStock({ stock_movement_type, stock_movement_reason, building_id, provider_id: null, stock_list });
+        } else {
+            movedStock = stockModel.moveStock({ stock_movement_type, stock_movement_reason, building_id, provider_id, stock_list });
+        }
+
+        if (!movedStock) {
+            throw new Error("No se pudo cargar nuevo movimiento de stock");
+        }
+
+        return movedStock;
     }
 }
 
