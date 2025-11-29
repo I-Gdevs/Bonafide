@@ -10,8 +10,6 @@ class UserController {
 
             let newUser = await userService.createUser({ user_name, user_email, user_dni, user_password, user_role });
 
-            console.log(newUser);
-
             return res.status(201).json({
                 message: "Usuario creado correctamente",
                 newUser: newUser

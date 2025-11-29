@@ -1,22 +1,21 @@
 import dbPool from "../database/db.js";
 
-class BuildingModel {
+class StockModel {
 
-    async createBuilding({ building_address, building_employees, building_manager }) {
+    async createStock({ stock_name, stock_measurement_unit}) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "INSERT INTO locales (direccion_local, empleados_local, id_usuario) VALUES (?, ?, ?);";
+            let dbQuery = "INSERT INTO ingredientes_modelo (nombre_ingrediente, unidad_medida_ingrediente) VALUES (?, ?);";
 
             dbConnection.beginTransaction();
 
             result[0] = await dbConnection.query(dbQuery, [
-                building_address,
-                building_employees,
-                building_manager
+                stock_name,
+                stock_measurement_unit
             ]);
 
             await dbConnection.commit();
@@ -36,14 +35,14 @@ class BuildingModel {
         }
     }
 
-    async getBuildings() {
+    async getStock() {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM locales;";
+            let dbQuery = "SELECT * FROM ingredientes_modelo;";
 
             result = await dbConnection.query(dbQuery);
 
@@ -62,7 +61,7 @@ class BuildingModel {
         }
     }
 
-    async updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager }) {
+    async updateStock({ stock_id, new_stock_name, new_stock_measurement_unit }) {
         let dbConnection;
         let result = [];
 
@@ -72,24 +71,19 @@ class BuildingModel {
             let dbUpdates = [];
             let dbParams = [];
 
-            if (new_building_address) {
-                dbUpdates.push("direccion_local = (?)");
-                dbParams.push(new_building_address);
+            if (new_stock_name) {
+                dbUpdates.push("nombre_ingrediente = (?)");
+                dbParams.push(new_stock_name);
             }
             
-            if (new_building_employees) {
-                dbUpdates.push("empleados_local = (?)");
-                dbParams.push(new_building_employees);
-            }
-            
-            if (new_building_manager) {
-                dbUpdates.push("id_usuario = (?)");
-                dbParams.push(new_building_manager);
+            if (new_stock_measurement_unit) {
+                dbUpdates.push("unidad_medida_ingrediente = (?)");
+                dbParams.push(new_stock_measurement_unit);
             }
 
-            dbParams.push(building_id);
+            dbParams.push(stock_id);
 
-            let dbQuery = `UPDATE locales SET ${dbUpdates.join(", ")} WHERE id_local = (?)`
+            let dbQuery = `UPDATE ingredientes_modelo SET ${dbUpdates.join(", ")} WHERE id_ing_mod = (?)`
 
             await dbConnection.beginTransaction();
 
@@ -111,31 +105,6 @@ class BuildingModel {
             return result;
         }
     }
-
-    async deleteBuilding({ building_id }) {
-        let dbConnection;
-        let result = [];
-
-        try {
-            dbConnection = await dbPool.getConnection();
-
-            let dbQuery = "UPDATE locales SET local_desactivado_bool = 1 WHERE id_local = (?);"
-
-            result = await dbConnection.query(dbQuery, building_id);
-
-        } catch (error) {
-            console.error(error);
-
-            if (dbConnection) {
-                dbConnection.release();
-            }
-        } finally {
-            if (dbConnection) {
-                dbConnection.release();
-            }
-            return result[0];
-        }
-    }
 }
 
-export default BuildingModel;
+export default StockModel;
