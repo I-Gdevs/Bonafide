@@ -13,10 +13,6 @@
 
     <div class="container my-5">
 
-        <div class="col-md-6 text-left">
-          <img src="public\img\views\home\bonafide.png" 
-               alt="Bonafide" class="img-fluid">
-        </div>
         
         <div class="row g-4 align-items-top">
             
@@ -65,11 +61,6 @@
                     </p>
                     
                     <hr>
-                    
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3 class="fw-bolder text-danger mb-0">$2.500</h3>
-                        <span class="badge bg-success">En Stock</span>
-                    </div>
 
                     <button class="btn btn-red w-100 py-2 fs-5">
                         Pedir Ahora
@@ -77,11 +68,22 @@
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5.485 14.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0m7 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0"/>
                         </svg>
                     </button>
+
                 </div>
+
+                    <div class="text-center">
+                        <p class="mt-5">Inicia sesión para pedir
+                            <a href="login.php" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
+                        </p>
+
+                        
+
+                        <p class="mt-2">¿No estás registrado?
+                            <a href="register.php" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                        </p>
+                    </div>
             </div>
-            
         </div>
-        
     </div>
 </main>
 
