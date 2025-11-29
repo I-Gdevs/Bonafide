@@ -1,19 +1,14 @@
 <?php include __DIR__ . '/partials/head.php'; ?>
 <?php include __DIR__ . '/partials/header.php'; ?>
 
-
+<head>
+    <title>Bonafide Home</title>
+</head>
 
 <main>
     <div class="container login-container">
         
-        <div class="text-center mb-4">
-            <h2 class="mb-2 fw-bold">Iniciar sesión</h2>
-            <p>¿No tienes cuenta?
-                <a href="#" class="btn btn-red btn-sm ms-2">Registrarse</a>
-            </p>
-        </div>
-        
-        <div class="row g-4 align-items-center">
+        <div class="row g-4 align-items-top">
             
             <div class="col-md-6 text-center">
                 <img src="https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg" 
@@ -26,7 +21,7 @@
                     <h4 class="mb-3 fw-bold">Iniciar sesión</h4>
                     <form>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email o D.N.I.</label>
+                            <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com">
                         </div>
                         <div class="mb-3">
@@ -42,11 +37,30 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-red w-100 mt-2">Iniciar sesión</button>
+
+                        <div class="text-center">
+                            <p class="mt-5">¿No tienes cuenta?
+                                <a href="#" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                            </p>
+                            <a href="#" class="ms-2 text-dark text-decoration-none">Olvidé mi contraseña</a>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+  <!-- Script para mostrar/ocultar contraseña -->
+  <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordField = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+      const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordField.setAttribute('type', type);
+      this.classList.toggle('active');
+    });
+  </script>
 
 <?php include __DIR__ . '/partials/footer.php'; ?>
