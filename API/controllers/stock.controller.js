@@ -25,10 +25,10 @@ class StockController {
 
     async getStockTemplate(req, res) {
         try {
-            let stockList = await stockService.getStockTemplate();
+            let stockTemplateList = await stockService.getStockTemplate();
 
             return res.status(200).json({
-                stock_list: stockList
+                stock_templates_list: stockTemplateList
             });
         } catch (error) {
             console.log("Error al buscar la lista de ingredientes/stock: ", error.message);
@@ -41,6 +41,30 @@ class StockController {
 
             return res.status(500).json({
                 error: "Error interno al buscar la lista de ingredientes/stock."
+            });
+        }
+    }
+
+    async getStockAmount(req, res) {
+        try {
+            let { stock_id, building_id } = req.body;
+
+            let stockList = await stockService.getStockAmount({ stock_id, building_id });
+
+            return res.status(200).json({
+                stock_list: stockList
+            });
+        } catch (error) {
+            console.error("Error al intentar buscar la cantidad de stock: ", error.message);
+
+            if (error.message.includes("No hay")) {
+                return res.status(404).json({
+                    error: error.message
+                });
+            }
+
+            return res.status(500).json({
+                error: "Error interno al intentar buscar la cantidad de stock."
             });
         }
     }
