@@ -119,7 +119,7 @@ class StockModel {
 
             dbParams.push(stock_id);
 
-            let dbQuery = `UPDATE ingredientes_modelo SET ${dbUpdates.join(", ")} WHERE id_ing_mod = (?)`
+            let dbQuery = `UPDATE ingredientes_modelo SET ${dbUpdates.join(", ")} WHERE id_ing_mod = (?);`
 
             await dbConnection.beginTransaction();
 
@@ -131,13 +131,12 @@ class StockModel {
             console.error(error);
             
             if (dbConnection) {
-                dbConnection.release();
+                dbConnection.rollback();
             }
         } finally {
             if (dbConnection) {
                 dbConnection.release();
             }
-            console.log(result);
             return result;
         }
     }
