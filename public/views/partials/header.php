@@ -1,4 +1,87 @@
-<!-- NAVBAR -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bonafide E-commerce</title> 
+
+    <link rel="icon" href="/img/BonafideLogo.png" type="image/png">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/styles.css"> 
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+
+
+ 
+
+<!-- Estilos personalizados -->
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #e53935 !important;
+    }
+    .nav-link.active {
+      font-weight: 600;
+      color: #e53935 !important;
+    }
+    main {
+      flex: 1;
+    }
+    .login-container {
+      max-width: 1000px;
+      margin: 3rem auto;
+    }
+    .login-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.08);
+    }
+    .footer {
+      background-color: #f9f9f9;
+      padding: 2rem 0;
+      margin-top: auto;
+    }
+    .footer h5 {
+      font-weight: 700;
+      color: #e53935;
+    }
+    .footer a {
+      text-decoration: none;
+      color: #333;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .footer small {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      color: #777;
+    }
+    .btn-red {
+      background-color: #e53935;
+      color: #fff;
+    }
+    .btn-red:hover {
+      background-color: #c62828;
+      color: #fff;
+    }
+  </style>
   <nav class="navbar navbar-expand-lg bg-white shadow-sm">
     <div class="container">
       <a class="navbar-brand" href="#">Bonafide</a>

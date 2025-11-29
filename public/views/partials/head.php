@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bonafide</title>
+  <link rel="icon" href="/img/BonafideLogo.png" type="image/png">
 
   <!-- Bootstrap -->
   <link href="../libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
