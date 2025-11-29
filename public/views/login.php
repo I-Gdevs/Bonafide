@@ -2,7 +2,7 @@
 <?php include __DIR__ . '/partials/header.php'; ?>
 
 <head>
-    <title>Bonafide Home</title>
+    <title>Login</title>
 </head>
 
 <main>
@@ -40,9 +40,9 @@
 
                         <div class="text-center">
                             <p class="mt-5">¿No tienes cuenta?
-                                <a href="#" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                                <a href="register.php" class="btn btn-red btn-sm ms-2">Registrarse</a>
                             </p>
-                            <a href="#" class="ms-2 text-dark text-decoration-none">Olvidé mi contraseña</a>
+                            <a href="forgottenPassword.php" class="ms-2 text-dark text-decoration-none">Olvidé mi contraseña</a>
                         </div>
                     </form>
                 </div>

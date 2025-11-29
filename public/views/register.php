@@ -59,7 +59,7 @@
 
                         <div class="text-center">
                             <p class="mt-5">¿Ya estás registrado?
-                                <a href="#" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
+                                <a href="login.php" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
                             </p>
                         </div>
                     </form>
