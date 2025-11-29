@@ -64,7 +64,6 @@ class UserModel {
             }
 
             result = await dbConnection.query(dbQuery, dbParams);
-            console.log(result);
 
         } catch (error) {
             console.error(error);

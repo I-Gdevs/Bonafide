@@ -23,9 +23,9 @@ class StockController {
         }
     }
 
-    async getStock(req, res) {
+    async getStockTemplate(req, res) {
         try {
-            let stockList = await stockService.getStock();
+            let stockList = await stockService.getStockTemplate();
 
             return res.status(200).json({
                 stock_list: stockList
@@ -70,21 +70,21 @@ class StockController {
         }
     }
 
-    async addStock(req, res) {
+    async moveStock(req, res) {
         try {
-            let { stock_id, stock_ammount, building_id } = req.body;
+            let { stock_movement_type, stock_movement_reason, building_id, provider_id, stock_list } = req.body;
 
-            let addedStock = await stockService.addStock({ stock_id, stock_ammount, building_id });
+            let movedStock = await stockService.moveStock({ stock_movement_type, stock_movement_reason, building_id, provider_id, stock_list });
 
             return res.status(200).json({
-                message: "Cantidad de ingrediente/stock agregada correctamente",
-                addedStock
+                message: "Movimiento de stock cargado correctamente.",
+                stock_movement_id: Number(movedStock)
             });
         } catch (error) {
-            console.error("Error al intentar agregar nueva cantidad de ingredientes/stock: ", error.message);
+            console.error("Error al cargar nuevo movimiento de stock: ", error.message);
 
             return res.status(500).json({
-                error: "Error interno al intentar agregar nueva cantidad de ingredientes/stock."
+                error: "Error interno al intentar cargar nuevo movimiento de stock."
             });
         }
     }

@@ -35,7 +35,7 @@ class StockModel {
         }
     }
 
-    async getStock() {
+    async getStockTemplate() {
         let dbConnection;
         let result = [];
 
@@ -57,6 +57,42 @@ class StockModel {
                 await dbConnection.release();
             }
             console.log(result);
+            return result;
+        }
+    }
+
+    async getStockAmount({ stock_id, building_id }) {
+        let dbConnection;
+        let result = [];
+
+        try {
+            dbConnection = await dbPool.getConnection();
+
+            let dbQuery = "SELECT * FROM ingredientes_cantidad WHERE 1=1";
+            let dbParams = [];
+
+            if (stock_id) {
+                dbQuery += " AND id_ing_mod = (?)";
+                dbParams.push(stock_id);
+            }
+            
+            if (building_id) {
+                dbQuery += " AND id_local = (?)";
+                dbParams.push(building_id);
+            }
+
+            result = await dbConnection.query(dbQuery, dbParams);
+
+        } catch (error) {
+            if (dbConnection) {
+                await dbConnection.release();
+            }
+            console.error(error);
+            
+        } finally {
+            if (dbConnection) {
+                await dbConnection.release();
+            }
             return result;
         }
     }
@@ -103,6 +139,93 @@ class StockModel {
             }
             console.log(result);
             return result;
+        }
+    }
+
+    async moveStock({ stock_movement_date, stock_movement_type, stock_movement_reason, building_id, provider_id, stock_list }) {
+        let dbConnection;
+        let stock_movement_id;
+
+        try {
+            dbConnection = await dbPool.getConnection();
+            await dbConnection.beginTransaction();
+
+            // Primero armamos el comprobante general
+            let dbMovementQuery;
+            
+            let dbMovementParams = [
+                building_id,
+                provider_id,
+                stock_movement_reason,
+                stock_movement_type
+            ];
+
+            if (stock_movement_date) {
+                dbMovementQuery = `INSERT INTO comprobante_compra (fecha_comprobante, id_local, id_proveedor, motivo_comprobante, tipo_comprobante) VALUES (?, ?, ?, ?, ?);`
+
+                dbMovementParams.unshift(stock_movement_date);
+
+            } else {
+                dbMovementQuery = "INSERT INTO comprobante_compra (id_local, id_proveedor, motivo_comprobante, tipo_comprobante) VALUES (?, ?, ?, ?);"
+            }
+
+            let movementResult = await dbConnection.query(dbMovementQuery, dbMovementParams);
+
+            stock_movement_id = movementResult.insertId;
+
+            // Con el comprobante general ya armado, cargamos cada item del movimiento de stock
+            let dbDetailsQuery = `INSERT INTO detalle_compra (id_comprobante, id_ing_mod, cantidad_ingrediente) VALUES (?, ?, ?);`;
+            
+            // Si nunca se ingresó stock de este item
+            let dbStockQueryInsert = `INSERT INTO ingredientes_cantidad (cantidad_ingrediente, id_local, id_ing_mod) VALUES (?, ?, ?);`;
+
+            // Si ya hay stock previo de este item
+            let dbStockQueryUpdate = `UPDATE ingredientes_cantidad SET cantidad_ingrediente = cantidad_ingrediente + (?) WHERE id_local = (?) AND id_ing_mod = (?);`;
+
+
+            for (let item of stock_list) {
+                
+                await dbConnection.query(dbDetailsQuery, [
+                    stock_movement_id,
+                    item.stock_id,
+                    item.stock_quantity
+                ]);
+
+                let existentStock = await this.getStockAmount({ stock_id: item.stock_id, building_id });
+
+                if (existentStock.length > 0) {
+                    await dbConnection.query(dbStockQueryUpdate, [
+                        item.stock_quantity,
+                        building_id,
+                        item.stock_id
+                    ]);
+
+                } else {
+                    await dbConnection.query(dbStockQueryInsert, [
+                        item.stock_quantity,
+                        building_id,
+                        item.stock_id
+                    ]);
+                }
+            }
+
+            await dbConnection.commit();
+
+            return { stock_movement_id };
+
+        } catch (error) {
+            console.error("No se pudo realizar el nuevo movimiento de stock: ", error.message);
+
+            if (dbConnection) {
+                dbConnection.rollback();
+            }
+
+        } finally {
+            if (dbConnection) {
+                dbConnection.release();
+            }
+
+            return stock_movement_id;
         }
     }
 }
