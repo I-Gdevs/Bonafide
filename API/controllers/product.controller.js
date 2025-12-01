@@ -10,7 +10,7 @@ class ProductController {
 
             let newProduct = await productService.createProduct({ product_name, product_price, is_combo_bool, product_category });
 
-            return res.status(200).json({
+            return res.status(201).json({
                 message: "Nuevo producto creado correctamente.",
                 newProduct
             });
