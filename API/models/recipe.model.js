@@ -1,50 +1,60 @@
 import dbPool from "../database/db.js";
 
-class ProductModel {
+class RecipeModel {
 
-    async createProduct({ product_name, product_price, is_combo_bool, product_category }) {
+    async createRecipe({ product_id, recipe_description, recipe_preparation_time, recipe_stock_list }) {
         let dbConnection;
-        let result = [];
+        let recipe_id;
 
         try {
             dbConnection = await dbPool.getConnection();
-
-            let dbQuery = "INSERT INTO producto_para_venta (nombre_producto, precio_producto, es_combo_bool, categoria_producto) VALUES (?, ?, ?, ?);";
-
             await dbConnection.beginTransaction();
 
-            result[0] = await dbConnection.query(dbQuery, [
-                product_name,
-                product_price,
-                is_combo_bool,
-                product_category
-            ]);
+            let dbRecipeQuery = "INSERT INTO recetas (id_producto, descripcion_receta, tiempo_preparacion_receta) VALUES (?, ?, ?);";
 
+            let newRecipe = await dbConnection.query(dbRecipeQuery, [
+                product_id,
+                recipe_description,
+                recipe_preparation_time
+            ]);
+            
+            recipe_id = newRecipe.insertId;
+
+            let dbIngredientsQuery = "INSERT INTO ingredientes_para_receta (id_receta, cantidad_para_receta, id_ing_mod) VALUES (?, ?, ?);";
+
+            for (let item of recipe_stock_list) {
+                
+                await dbConnection.query(dbIngredientsQuery, [
+                    recipe_id,
+                    item.stock_quantity,
+                    item.stock_id
+                ]);
+            }
+            
             await dbConnection.commit();
 
         } catch (error) {
-            console.error(error);
+            console.error("No se pudo crear nueva receta: ", error.message);
 
             if (dbConnection) {
-                await dbConnection.rollback();
+                dbConnection.rollback();
             }
-
         } finally {
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result[0];
+            return recipe_id;
         }
     }
 
-    async getProducts() {
+    async getRecipe() {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM producto_para_venta;";
+            let dbQuery = "SELECT * FROM recetas;";
 
             result = await dbConnection.query(dbQuery);
 
@@ -61,9 +71,10 @@ class ProductModel {
             console.log(result);
             return result;
         }
+
     }
 
-    async updateProduct({ product_id, new_product_name, new_product_price, new_product_category }) {
+    async updateRecipe({ recipe_id, new_recipe_description, new_recipe_preparation_time, new_recipe_stock }) {
         let dbConnection;
         let result = [];
 
@@ -73,24 +84,19 @@ class ProductModel {
             let dbUpdates = [];
             let dbParams = [];
 
-            if (new_product_name) {
-                dbUpdates.push("nombre_producto = (?)");
-                dbParams.push(new_product_name);
+            if (new_recipe_description) {
+                dbUpdates.push("descripcion_receta = (?)");
+                dbParams.push(new_recipe_description);
             }
 
-            if (new_product_price) {
-                dbUpdates.push("precio_producto = (?)");
-                dbParams.push(new_product_price);
+            if (new_recipe_preparation_time) {
+                dbUpdates.push("tiempo_preparacion_receta = (?)");
+                dbParams.push(new_recipe_preparation_time);
             }
 
-            if (new_product_category) {
-                dbUpdates.push("categoria_producto = (?)");
-                dbParams.push(new_product_category);
-            }
+            dbParams.push(recipe_id);
 
-            dbParams.push(product_id);
-
-            let dbQuery = `UPDATE producto_para_venta SET ${dbUpdates.join(", ")} WHERE id_producto = (?);`
+            let dbQuery = `UPDATE recetas SET ${dbUpdates.join(", ")} WHERE id_receta = (?);`;
 
             await dbConnection.beginTransaction();
 
@@ -100,7 +106,7 @@ class ProductModel {
 
         } catch (error) {
             console.error(error);
-
+            
             if (dbConnection) {
                 dbConnection.rollback();
             }
@@ -112,7 +118,7 @@ class ProductModel {
         }
     }
 
-    async deleteProduct({ product_id }) {
+    async deleteRecipe({ recipe_id }) {
         let dbConnection;
         let result = [];
 
@@ -121,9 +127,9 @@ class ProductModel {
 
             dbConnection.beginTransaction();
 
-            let dbQuery = "UPDATE producto_para_venta SET producto_desactivado_bool = 1 WHERE id_producto = (?);"
+            let dbQuery = "DELETE FROM recetas WHERE id_receta = (?);"
 
-            result = await dbConnection.query(dbQuery, product_id);
+            result = await dbConnection.query(dbQuery, recipe_id);
 
             dbConnection.commit();
 
@@ -140,6 +146,7 @@ class ProductModel {
             return result;
         }
     }
+
 }
 
-export default ProductModel;
+export default RecipeModel;
