@@ -1,147 +1,107 @@
 <?php include __DIR__ . '/partials/head.php'; ?>
 <?php include __DIR__ . '/partials/header.php'; ?>
 
-
-<!-- Contenido específico de la página -->
-<div class="text-center">
-  <!-- Dividir todo lo de abajo con esto de arriba -->
-
-<!DOCTYPE html>
-<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bonafide</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Estilos personalizados -->
-  <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    .navbar-brand {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: #e53935 !important;
-    }
-    .nav-link.active {
-      font-weight: 600;
-      color: #e53935 !important;
-    }
-    main {
-      flex: 1;
-    }
-    .login-container {
-      max-width: 1000px;
-      margin: 3rem auto;
-    }
-    .login-card {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.08);
-    }
-    .footer {
-      background-color: #f9f9f9;
-      padding: 2rem 0;
-      margin-top: auto;
-    }
-    .footer h5 {
-      font-weight: 700;
-      color: #e53935;
-    }
-    .footer a {
-      text-decoration: none;
-      color: #333;
-    }
-    .footer a:hover {
-      text-decoration: underline;
-    }
-    .footer small {
-      display: block;
-      text-align: center;
-      margin-top: 1rem;
-      color: #777;
-    }
-    .btn-red {
-      background-color: #e53935;
-      color: #fff;
-    }
-    .btn-red:hover {
-      background-color: #c62828;
-      color: #fff;
-    }
-  </style>
+    <title>Bonafide</title>
 </head>
-<body>
 
-  
+    <main>
 
-  <!-- MAIN -->
-  <main>
-    <div class="container login-container">
-      <div class="row g-4 align-items-center">
-        <!-- Imagen -->
-        <div class="col-md-6 text-center">
-          <h2 class="mb-3 fw-bold">Iniciar sesión</h2>
-          <p>¿No tienes cuenta?... 
-            <a href="#" class="btn btn-red btn-sm ms-2">Registrarse</a>
-          </p>
-          <img src="https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg" 
-               alt="Café y medialunas" class="img-fluid rounded shadow-sm">
-        </div>
 
-        <!-- Formulario -->
-        <div class="col-md-6">
-          <div class="login-card">
-            <h4 class="mb-3 fw-bold">Iniciar sesión</h4>
-            <form>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email o D.N.I.</label>
-                <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com">
-              </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <div class="input-group">
-                  <input type="password" class="form-control" id="password" placeholder="********">
-                  <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                      <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
-                      <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
-                    </svg>
-                  </button>
+
+
+
+    <div class="container my-5">
+
+        
+        <div class="row g-4 align-items-top">
+            
+            <div class="col-md-6">
+                <div id="productCarousel" class="carousel slide rounded shadow-sm" data-bs-ride="carousel">
+                    
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+
+                    <div class="carousel-inner carrusel-home">
+                        <div class="carousel-item active">
+                            <img src="https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg" 
+                                 class="d-block w-100" alt="Café y medialunas">
+                        </div>
+                        <div class="carousel-item carrusel-home">
+                            <img src="https://http2.mlstatic.com/D_NQ_NP_918944-MLA83901995898_042025-O.webp" 
+                                 class="d-block w-100" alt="Cafe Premium">
+                        </div>
+                        <div class="carousel-item carrusel-home">
+                            <img src="https://scontent.fsty1-1.fna.fbcdn.net/v/t1.6435-9/46501517_2284071045163079_2038077181564813312_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHkC1_rSA5O52pFr5jl9MUBjptvEcQxrn6Om28RxDGuftCdU-kcKWJ_fkIe-gV-3YaBiB20SOoMXvJ2kqz2gp-S&_nc_ohc=Tz1RUj0M8ZoQ7kNvwH9ZdGk&_nc_oc=AdmXO2HmqfvgG6JHL4cyNgHh52N73i0NP_BGDHtIgrx9T15pG7XGiS-65upJ39EQM2k&_nc_zt=23&_nc_ht=scontent.fsty1-1.fna&_nc_gid=8EojJKs_JXKzS65zBKTS1g&oh=00_AfhbXLqUWQVa1-C7Wbye1xCZ1b9t9agMNwHcFK_xd3b5Pw&oe=6952CFB6" 
+                                 class="d-block w-100" alt="Canasta">
+                        </div>
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-              </div>
-              <button type="submit" class="btn btn-red w-100 mt-2">Iniciar sesión</button>
-            </form>
-          </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card p-4 border-0 shadow">
+                    <h2 class="card-title fw-bold text-dark">Café Tostado Premium</h2>
+                    
+                    <p class="card-text text-muted">
+                        Nuestro café más vendido, mezcla especial de granos arábicos tostados a la perfección. 
+                        Ideal para empezar el día.
+                    </p>
+                    
+                    <hr>
+
+                    <button class="btn btn-red w-100 py-2 fs-5">
+                        Pedir Ahora
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-fill ms-2" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5.485 14.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0m7 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0"/>
+                        </svg>
+                    </button>
+
+                </div>
+
+                    <div class="text-center">
+                        <p class="mt-5">Inicia sesión para pedir
+                            <a href="login.php" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
+                        </p>
+
+                        
+
+                        <p class="mt-2">¿No estás registrado?
+                            <a href="register.php" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                        </p>
+                    </div>
+            </div>
         </div>
-      </div>
     </div>
-  </main>
+</main>
 
-  
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .carrusel-home, 
+    .carrusel-home .carousel-inner,
+    .carrusel-home .carousel-item {
+        height: 500px; /* ALTURA MÁXIMA DESEADA */
+        overflow: hidden; 
+    }
 
-  <!-- Script para mostrar/ocultar contraseña -->
-  <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const passwordField = document.querySelector('#password');
+    .carrusel-home .carousel-item img {
+        height: 100%; 
+        width: 100%;  
+        object-fit: cover; 
+    }
+</style>
 
-    togglePassword.addEventListener('click', function () {
-      const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordField.setAttribute('type', type);
-      this.classList.toggle('active');
-    });
-  </script>
-</body>
-</html>
 
-</div>
 
-<?php include __DIR__ . '/partials/footer.php'; ?>
+  <?php include __DIR__ . '/partials/footer.php'; ?>
