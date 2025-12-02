@@ -37,15 +37,19 @@ class ProductModel {
         }
     }
 
-    async getProducts() {
+    async getProducts({ product_id }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM producto_para_venta;";
+            let dbQuery = "SELECT * FROM producto_para_venta WHERE 1=1";
 
+            if (product_id) {
+                dbQuery += ` AND id_producto = ${product_id};`;
+            }
+            
             result = await dbConnection.query(dbQuery);
 
         } catch (error) {
@@ -58,7 +62,6 @@ class ProductModel {
             if (dbConnection) {
                 await dbConnection.release();
             }
-            console.log(result);
             return result;
         }
     }
