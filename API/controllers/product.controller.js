@@ -25,7 +25,9 @@ class ProductController {
 
     async getProducts(req, res) {
         try {
-            let productList = await productService.getProducts();
+            let { product_id } = req.body;
+
+            let productList = await productService.getProducts({ product_id });
 
             return res.status(200).json({
                 product_list: productList

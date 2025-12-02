@@ -20,7 +20,7 @@ class ShoppingCartModel {
             
             cart_id = newCart.insertId;
 
-            let dbCartProductsQuery = "INSERT INTO producto_en_cdc (id_carrito, id_producto, cantidad_producto) VALUES (?, ?, ?)";
+            let dbCartProductsQuery = "INSERT INTO producto_en_cdc (id_carrito, id_producto, cantidad_producto) VALUES (?, ?, ?);";
 
             for (let item of product_list) {
 
@@ -40,7 +40,7 @@ class ShoppingCartModel {
                 dbConnection.rollback();
             }
 
-            cart_id = 0
+            cart_id = 0;
 
         } finally {
             if (dbConnection) {
