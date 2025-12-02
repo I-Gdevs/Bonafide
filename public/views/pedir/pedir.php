@@ -18,22 +18,22 @@
                         <a href="#" class="text-decoration-none">Clásicos</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none">Bebidas Calientes</a>
+                        <a href="#" class="text-decoration-none text-dark">Bebidas Calientes</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none">Cafetería</a>
+                        <a href="#" class="text-decoration-none text-dark">Cafetería</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none">Bebidas Frías</a>
+                        <a href="#" class="text-decoration-none text-dark">Bebidas Frías</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none">Postres</a>
+                        <a href="#" class="text-decoration-none text-dark">Postres</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none">Mediodías</a>
+                        <a href="#" class="text-decoration-none text-dark">Mediodías</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none">Sandwiches</a>
+                        <a href="#" class="text-decoration-none text-dark">Sandwiches</a>
                     </li>
                 </ul>
             </div>

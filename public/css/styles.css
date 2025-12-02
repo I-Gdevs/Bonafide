@@ -1,27 +1,23 @@
-/* * ----------------------------------------
- * ESTILOS PERSONALIZADOS BONAFIDE (GLOBALES)
- * ----------------------------------------
- */
 
-/* 1. Estructura General y Layout (Asegura que el footer esté abajo) */
+/* 1. Estructura General y Layout */
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 main {
-    flex: 1; /* Permite que el contenido principal ocupe todo el espacio disponible */
+    flex: 1; 
 }
 
 /* 2. Estilos de Marca y Navegación */
 .navbar-brand {
     font-weight: 700;
     font-size: 1.5rem;
-    color: #e53935 !important; /* Rojo corporativo para el logo */
+    color: #e53935 !important; 
 }
 .nav-link.active {
     font-weight: 600;
-    color: #e53935 !important; /* Rojo corporativo para el enlace activo */
+    color: #e53935 !important; 
 }
 
 /* 3. Botones y Elementos Rojos de Marca */
@@ -30,27 +26,27 @@ main {
     color: #fff;
 }
 .btn-red:hover {
-    background-color: #c62828; /* Rojo más oscuro al pasar el mouse */
+    background-color: #c62828; 
     color: #fff;
 }
 
 /* 4. Estilos de Login y Formulario (Usado en la vista de Login) */
 .login-container {
     max-width: 1000px;
-    margin: 3rem auto; /* Centrado horizontal */
+    margin: 3rem auto; 
 }
 .login-card {
     background: #fff;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.08); /* Sombra suave */
+    box-shadow: 0 0 15px rgba(0,0,0,0.08); 
 }
 
 /* 5. Estilos del Footer */
 .footer {
     background-color: #f9f9f9;
     padding: 2rem 0;
-    margin-top: auto; /* Empuja el footer hacia abajo */
+    margin-top: auto; 
 }
 .footer h5 {
     font-weight: 700;
@@ -70,44 +66,37 @@ main {
     color: #777;
 }
 
-/* * ----------------------------------------
- * ESTILOS ESPECÍFICOS DE VISTAS
- * (Movidos de <style> internos a styles.css)
- * ----------------------------------------
- */
-
 /* 6. Estilos del Menú Lateral (Stock y Pedir) */
 .list-group-item {
     border: none;
     border-radius: 0;
-    padding-left: 0; /* Asegura la alineación en la vista Pedir */
+    padding-left: 1.25rem; 
+    font-size: 1rem; 
 }
 .list-group-item:not(.active) a {
     font-weight: normal;
-    color: #333; /* Color de texto para el inactivo */
-}
-.list-group-item:not(.active) a:hover {
-    color: #da3544; /* Efecto hover rojo en inactivos (vista Pedir) */
+    color: #333;
 }
 
 /* 7. Estado Activo de Menú (Stock y Pedir) */
-/* Nota: La vista Stock usaba un fondo rojo opaco, Pedir usaba transparente y texto rojo */
-/* Usaremos el estilo de Pedir (transparente con texto rojo grande) que es más limpio. */
 .list-group-item.active {
-    background-color: transparent; 
+    background-color: #da3544; 
     border: none;
-}
-.list-group-item.active a {
-    color: #da3544; /* Texto Rojo para el activo */
-    font-weight: bold;
-    font-size: 1.2rem; /* Fuente más grande para destacar */
+    border-radius: 5px; 
+    border-color: #da3544 !important; 
 }
 
-/* 8. Estilos del Carrusel de Producto Destacado (Vista Home) */
+.list-group-item.active a {
+    color: white !important; 
+    font-weight: bold;
+    font-size: 1.2rem; 
+}
+
+/* 8. Estilos del Carrusel de Producto Destacado (Home) */
 .carrusel-home, 
 .carrusel-home .carousel-inner,
 .carrusel-home .carousel-item {
-    height: 500px; /* ALTO UNIFICADO */
+    height: 500px; 
     overflow: hidden; 
 }
 .carrusel-home .carousel-item img {
@@ -116,7 +105,7 @@ main {
     object-fit: cover; 
 }
 
-/* 9. Estilos del Carrito de Pedido (Vista Pedir) */
+/* 9. Estilos del Carrito de Pedido (Pedir) */
 .cart-container {
     background-color: #f8f9fa; 
     border-radius: 8px;
@@ -141,7 +130,7 @@ main {
     color: white;
 }
 
-/* 10. Estilos de Tarjeta de Producto (Vista Pedir) */
+/* 10. Estilos de Tarjeta de Producto (Pedir) */
 .product-card {
     transition: transform 0.2s;
     border: none;
@@ -150,4 +139,13 @@ main {
 .product-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/*11. Efecto hover sobre navbar */
+.navbar-nav .nav-link:hover {
+    color: #e53935 !important; 
+}
+
+.navbar-nav .nav-link:hover svg {
+    fill: #e53935 !important;
 }
