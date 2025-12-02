@@ -4,70 +4,7 @@
     <title>Pedir</title>
 </head>
 
-<style>
-    /* Estilos heredados de tu stock.php para el menú lateral */
-    .list-group-item {
-        border: none;
-        border-radius: 0;
-        padding-left: 0; /* Alineamos un poco más a la izquierda */
-    }
 
-    .list-group-item:not(.active) a {
-        font-weight: normal;
-        color: #333;
-    }
-
-    .list-group-item:not(.active) a:hover {
-        color: #da3544; /* Efecto hover rojo */
-    }
-
-    /* Estilo Activo (Categoría seleccionada) */
-    .list-group-item.active {
-        background-color: transparent; /* Quitamos fondo para que parezca solo texto */
-        border: none;
-    }
-    .list-group-item.active a {
-        color: #da3544; /* Texto Rojo */
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-
-    /* Estilos para el Carrito */
-    .cart-container {
-        background-color: #f8f9fa; /* Fondo gris claro */
-        border-radius: 8px;
-        overflow: hidden;
-        border: 1px solid #e9ecef;
-    }
-    .cart-header {
-        background-color: #da3544; /* Tu rojo corporativo */
-        color: white;
-        padding: 15px;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-    .btn-pagar {
-        background-color: #da3544;
-        color: white;
-        font-weight: bold;
-        border: none;
-    }
-    .btn-pagar:hover {
-        background-color: #b92b3a;
-        color: white;
-    }
-    
-    /* Ajuste para las tarjetas de producto */
-    .product-card {
-        transition: transform 0.2s;
-        border: none;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-    .product-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-</style>
 
 <main>
     <div class="container my-5">

@@ -84,11 +84,11 @@
                 <i class="bi bi-facebook"></i>
             </a>
             
-            <a href="https://www.instagram.com/bonafideconcordia" class="social-icon-btn">
+            <a target="blank" href="https://www.instagram.com/bonafideconcordia" class="social-icon-btn">
                 <i class="bi bi-instagram"></i>
             </a>
             
-            <a href="https://api.whatsapp.com/send/?phone=5493455023747&text&type=phone_number&app_absent=0" class="social-icon-btn">
+            <a target="blank" href="https://api.whatsapp.com/send/?phone=5493455023747&text&type=phone_number&app_absent=0" class="social-icon-btn">
                 <i class="bi bi-whatsapp"></i>
             </a>
             

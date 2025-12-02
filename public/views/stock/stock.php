@@ -6,24 +6,7 @@
     <title>Stock</title>
 </head>
 
-<style>
-.list-group-item {
-    border: none;
-    border-radius: 0;
-}
 
-/* Ajustar el padding y el color del texto para el estado inactivo */
-.list-group-item:not(.active) a {
-    font-weight: normal; 
-}
-
-/* 3. Asegurar el color de fondo azul para el activo (esto sobrescribe el fondo blanco) */
-.list-group-item.active {
-    background-color: #da3544; /* Color azul de Bootstrap (puedes ajustarlo si usas otro tono) */
-    border-color: #007bff;
-    color: white; /* Asegura el texto blanco para el activo */
-}
-</style>
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
