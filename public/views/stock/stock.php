@@ -2,6 +2,9 @@
 <?php include __DIR__ . '/../partials/head.php'; ?>
 <?php include __DIR__ . '/../partials/header.php'; ?>
 
+<head>
+    <title>Stock</title>
+</head>
 
 <style>
 .list-group-item {
