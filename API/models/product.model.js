@@ -49,7 +49,7 @@ class ProductModel {
             if (product_id) {
                 dbQuery += ` AND id_producto = ${product_id};`;
             }
-
+            
             result = await dbConnection.query(dbQuery);
 
         } catch (error) {
@@ -62,7 +62,6 @@ class ProductModel {
             if (dbConnection) {
                 await dbConnection.release();
             }
-            console.log(result);
             return result;
         }
     }

@@ -10,7 +10,7 @@ class ShoppingCartService {
 
         let cart_total_price = 0;
 
-        if (!building_id || !user_id || !product_list) {
+        if (!building_id && !user_id && !product_list) {
             throw new Error("No se puede crear el carrito. Datos faltantes. No se proporcionó alguno de los parámetros { building_id, user_id, product_list }");
         }
 
@@ -18,7 +18,7 @@ class ShoppingCartService {
             for (let item of product_list) {
                 let product = await productModel.getProducts({ product_id: item.product_id });
                 
-                cart_total_price += product.precio_producto * item.product_quantity;
+                cart_total_price += product[0].precio_producto * item.product_quantity;
             }
         }
 

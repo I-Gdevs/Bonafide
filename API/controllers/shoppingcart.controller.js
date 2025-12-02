@@ -18,12 +18,12 @@ class ShoppingCartController {
             console.log("Error al intentar crear un nuevo carrito de compras: ", error.message);
 
             if (error.message.includes("faltantes")) {
-                return res.status(404).json({
+                return res.status(400).json({
                     error: error.message
                 });
             }
             
-            return res.status(400).json({
+            return res.status(500).json({
                 error: "Error interno al intentar crear un nuevo carrito de compras."
             });
         }

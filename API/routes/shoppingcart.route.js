@@ -6,3 +6,5 @@ const shoppingcartRouter = Router();
 const shoppingcartController = new ShoppingCartController();
 
 shoppingcartRouter.post("/create", verifyToken, (req, res) => shoppingcartController.createCart(req, res));
+
+export default shoppingcartRouter;
