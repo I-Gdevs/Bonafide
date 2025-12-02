@@ -54,3 +54,5 @@ if (file_exists($view_file)) {
     // O cargar una vista de error genérico
     echo "Error interno: La vista no existe.";
 }
+
+/*prueba*/
