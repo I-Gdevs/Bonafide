@@ -25,7 +25,7 @@
             text-align: center;
         }
         .container-maintenance {
-            max-width: 500px; /* Reducimos el ancho para que el contenido se centre mejor */
+            max-width: 500px;
             padding: 30px;
         }
         .maintenance-heading {
@@ -52,12 +52,11 @@
             background-color: #dc3545; 
         }
 
-        /* ⭐ CSS para la imagen cuadrada centrada ⭐ */
         .image-placeholder {
             margin-bottom: 2rem;
         }
         .image-placeholder img {
-            object-fit: contain; /* Asegura que la imagen se vea completa dentro del cuadrado */
+            object-fit: contain;
         }
     </style>
 </head>
