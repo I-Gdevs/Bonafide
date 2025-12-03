@@ -7,6 +7,7 @@ import stockRouter from "./stock.router.js";
 import productRouter from "./product.route.js";
 import recipeRouter from "./recipe.route.js";
 import shoppingcartRouter from "./shoppingcart.route.js";
+import salesRouter from "./sales.route.js";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use("/stock", stockRouter);
 router.use("/product", productRouter);
 router.use("/recipe", recipeRouter);
 router.use("/shopping-cart", shoppingcartRouter);
+router.use("/sales", salesRouter);
 
 export default router;
