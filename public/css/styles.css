@@ -32,7 +32,7 @@ main {
 
 /* 4. Estilos de Login y Formulario (Usado en la vista de Login) */
 .login-container {
-    max-width: 1000px;
+    max-width: 1320px;
     margin: 3rem auto; 
 }
 .login-card {
