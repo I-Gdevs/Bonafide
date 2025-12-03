@@ -19,15 +19,24 @@
             <div class="col-md-6">
                 <div class="login-card">
                     <h4 class="mb-3 fw-bold">Iniciar sesión</h4>
-                    <form>
+
+                    <?php if ($success_msg): ?>
+                        <div class="alert alert-success text-center"><?= $success_msg ?></div>
+                    <?php endif; ?>
+
+                    <?php if ($error): ?>
+                        <div class="alert alert-danger text-center"><?= $error ?></div>
+                    <?php endif; ?>
+
+                    <form method="POST">
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="ejemplo@correo.com">
+                            <input type="email" class="form-control" name="user_email" id="email" placeholder="ejemplo@correo.com">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" id="password" placeholder="********">
+                                <input type="password" class="form-control" name="user_password" id="password" placeholder="********">
                                 <button class="input-group-text" type="button" id="togglePassword">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye text-secondary" viewBox="0 0 16 16">
                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
