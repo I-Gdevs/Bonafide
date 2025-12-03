@@ -1,12 +1,9 @@
-
-<?php include __DIR__ . '/../partials/head.php'; ?>
-<?php include __DIR__ . '/../partials/header.php'; ?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <head>
     <title>Stock</title>
 </head>
-
-
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
@@ -88,4 +85,4 @@
     </div>
 </main>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

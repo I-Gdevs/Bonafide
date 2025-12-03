@@ -1,5 +1,5 @@
-<?php include __DIR__ . '/../partials/head.php'; ?>
-<?php include __DIR__ . '/../partials/header.php'; ?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 <head>
     <title>Pedir</title>
 </head>

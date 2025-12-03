@@ -1,8 +1,5 @@
-<?php 
-// Incluimos el head (con estilos y enlaces) y el header (navegación)
-include __DIR__ . '/../partials/head.php'; 
-include __DIR__ . '/../partials/header.php'; 
-?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <style>
     .error-container {
@@ -39,7 +36,7 @@ include __DIR__ . '/../partials/header.php';
                 Parece que has seguido un enlace incorrecto o que la página ha sido eliminada.
             </p>
 
-            <a href="../home.php" class="btn btn-red btn-lg shadow">
+            <a href="<?= BASE_URL ?>/home" class="btn btn-red btn-lg shadow">
                 Ir a la Página Principal
             </a>
             
@@ -47,4 +44,4 @@ include __DIR__ . '/../partials/header.php';
     </div>
 </main>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

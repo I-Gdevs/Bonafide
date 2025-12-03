@@ -1,7 +1,6 @@
 <?php include __DIR__ . '/partials/head.php'; ?>
 <?php include __DIR__ . '/partials/header.php'; ?>
 
-
 <!-- Contenido específico de la página -->
 <div class="text-center">
   <!-- Dividir todo lo de abajo con esto de arriba -->
@@ -79,8 +78,6 @@
 </head>
 <body>
 
-  
-
   <!-- MAIN -->
   <main>
     <div class="container login-container">
@@ -124,7 +121,6 @@
     </div>
   </main>
 
-  
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
