@@ -43,7 +43,6 @@
 
             if ($httpInfo === 201) {
                 $success = true;
-                exit;
             } else {
                 $error = isset($json_response['error']) ? $json_response['error'] : 'Error al intentar registrar nuevo usuario.';
             }
@@ -51,12 +50,12 @@
     }
 ?>
 
-<?php include BASE_PATH . '/views/partials/head.php'; ?>
-<?php include BASE_PATH . '/views/partials/header.php'; ?>
-
 <head>
     <title>Registrarse</title>
 </head>
+
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <main>
     <div class="container login-container">
@@ -79,28 +78,28 @@
                             <?= $error ?>
                         </div>
                     <?php endif; ?>
-                    <form method="POST" action="">
+                    <form method="POST" action="<?= BASE_PATH ?>/controllers/register.controller.php">
                         <div class="mb-3">
                             <label for="username" class="form-label fw-bold">Nombre de usuario</label>
-                            <input type="text" class="form-control" name="user_name" id="username" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_name'] ?? '') ?>">
+                            <input type="text" class="form-control" name="user_name" id="username" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_name'] ?? '') ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="dni" class="form-label fw-bold">DNI</label>
-                            <input type="text" class="form-control" name="user_dni" id="dni" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_dni'] ?? '') ?>">
+                            <input type="text" class="form-control" name="user_dni" id="dni" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_dni'] ?? '') ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label fw-bold">Email</label>
-                            <input type="email" class="form-control" name="user_email" id="email" placeholder="ejemplo@correo.com" value="<?= htmlspecialchars($old_data['user_email'] ?? '') ?>">
+                            <input type="email" class="form-control" name="user_email" id="email" placeholder="ejemplo@correo.com" value="<?= htmlspecialchars($old_data['user_email'] ?? '') ?>" required>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" name="repeat_user_email" id="repeatEmail" placeholder="repetir correo" autocomplete="off" value="<?= htmlspecialchars($old_data['repeat_user_email'] ?? '') ?>">
+                            <input type="email" class="form-control" name="repeat_user_email" id="repeatEmail" placeholder="Repetir correo" autocomplete="off" value="<?= htmlspecialchars($old_data['repeat_user_email'] ?? '') ?>" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label fw-bold">Contraseña</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" name="user_password" id="password" placeholder="********" value="<?= htmlspecialchars($old_data['user_password'] ?? '') ?>">
+                                <input type="password" class="form-control" name="user_password" id="password" placeholder="********" value="<?= htmlspecialchars($old_data['user_password'] ?? '') ?>" required>
                                 <button class="input-group-text" type="button" id="togglePassword">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye text-secondary" viewBox="0 0 16 16">
                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
@@ -111,7 +110,7 @@
                         </div>
                         <div class="mb-3">
                             <div class="input-group">
-                                <input type="password" class="form-control" name="repeat_user_password" id="repeatPassword" placeholder="Repetir contraseña" autocomplete="off" value="<?= htmlspecialchars($old_data['repeat_user_password'] ?? '') ?>">
+                                <input type="password" class="form-control" name="repeat_user_password" id="repeatPassword" placeholder="Repetir contraseña" autocomplete="off" value="<?= htmlspecialchars($old_data['repeat_user_password'] ?? '') ?>" required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-red w-100 mt-2">Registrarse</button>

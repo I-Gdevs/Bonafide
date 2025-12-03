@@ -4,6 +4,8 @@
 
     require_once BASE_PATH . '/config/config.php';
 
+    require_once BASE_PATH . '/helpers/api.helper.php';
+
     $route = isset($_GET['route']) ? $_GET['route'] : 'home';
 
     $route = rtrim($route, '/') ;

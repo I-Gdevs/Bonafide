@@ -74,7 +74,7 @@
                         </p>
 
                         <p class="mt-2">¿No estás registrado?
-                            <a href="<?= BASE_PATH ?>/img/logo/LogoRedondo.png" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                            <a href="<?= BASE_URL ?>/signup" class="btn btn-red btn-sm ms-2">Registrarse</a>
                         </p>
                     </div>
             </div>
