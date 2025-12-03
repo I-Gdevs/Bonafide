@@ -1,5 +1,8 @@
+<head>
+    <title>Nosotros</title>
+</head>
+
 <?php 
-// Asegúrate de que la ruta sea correcta
 include __DIR__ . '/../partials/head.php'; 
 include __DIR__ . '/../partials/header.php'; 
 ?>

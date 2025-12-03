@@ -41,9 +41,15 @@
         case 'pedir':
             $view_file = BASE_PATH . '/views/pedir/pedir.php';
             break;
-        // Pedir
+
+        // Nosotros
         case 'nosotros':
             $view_file = BASE_PATH . '/views/nosotros/nosotros.php';
+            break;
+
+        // Comandas
+        case 'comandas':
+            $view_file = BASE_PATH . '/views/comandas/comandas.php';
             break;
 
 

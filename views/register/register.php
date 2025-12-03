@@ -3,12 +3,12 @@
 //$registro_exitoso = true; 
 ?>
 
-<?php include BASE_PATH . '/views/partials/head.php'; ?>
-<?php include BASE_PATH . '/views/partials/header.php'; ?>
-
 <head>
     <title>Registrarse</title>
 </head>
+
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <main>
     <div class="container login-container">
