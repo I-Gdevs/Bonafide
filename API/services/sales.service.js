@@ -6,7 +6,7 @@ const productModel = new ProductModel();
 
 class SalesService {
 
-    async createSale({ building_id, user_id, product_list }) {
+    async createSale({ building_id, user_id, product_list}) {
 
         let sale_total_price = 0;
         let parsed_product_list = [];
@@ -19,7 +19,11 @@ class SalesService {
             for (let item of product_list) {
                 let product = await productModel.getProducts({ product_id: item.product_id });
                 
-                parsed_product_list.push(product[0]);
+                parsed_product_list.push({
+                    "product_id": product[0].id_producto,
+                    "product_price": product[0].precio_producto,
+                    "product_quantity": item.product_quantity
+                });
 
                 sale_total_price += product[0].precio_producto * item.product_quantity;
             }
@@ -33,11 +37,24 @@ class SalesService {
 
         return {
             newSaleId: Number(newSale),
+            sale_sate: 'pendiente',
             sale_total_price,
             building_id,
             user_id,
             product_list
         };
+    } 
+
+    async getSales({ sale_id, user_id, building_id }) {
+
+        let sales_list = [];
+
+        sales_list = await salesModel.getSales({ sale_id, user_id, building_id });
+
+        if (sales_list.length === 0) {
+            throw new Error("No hay ningún registro de venta cargado.");
+        }
+        return sales_list;
     }
 
     async updateSale({ new_sale_state, sale_id }) {

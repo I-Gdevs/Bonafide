@@ -52,7 +52,52 @@ class SalesModel {
         }
     }
 
-    async updateSale({ sale_state, sale_id }) {
+    async getSales({ sale_id, user_id, building_id }) {
+        let dbConnection;
+        let result = [];
+
+        try {
+            dbConnection = await dbPool.getConnection();
+
+            let dbQuery = "SELECT * FROM ventas WHERE 1=1";
+            let dbParams = [];
+
+            if (sale_id) {
+                dbQuery += " AND id_venta = (?)";
+                dbParams.push(sale_id);
+            }
+
+            if (user_id) {
+                dbQuery += " AND id_usuario = (?)";
+                dbParams.push(user_id);
+            }
+
+            if (building_id) {
+                dbQuery += " AND id_local = (?)";
+                dbParams.push(building_id);
+            }
+
+            result = await dbConnection.query(dbQuery, dbParams);
+
+        } catch (error) {
+            if (dbConnection) {
+                await dbConnection.release();
+            }
+
+            console.error(error);
+
+        } finally {
+            if (dbConnection) {
+                dbConnection.release();
+            }
+            return result;
+        }
+
+
+
+    }
+
+    async updateSale({ new_sale_state, sale_id }) {
         let dbConnection;
         let result;
 
@@ -63,7 +108,7 @@ class SalesModel {
             let dbQuery = "UPDATE ventas SET estado_venta = (?) WHERE id_venta = (?);"
 
             result = await dbConnection.query(dbQuery, [
-                sale_state,
+                new_sale_state,
                 sale_id
             ]);
 

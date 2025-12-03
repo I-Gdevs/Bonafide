@@ -10,7 +10,7 @@ class SalesController {
 
             let newSale = await salesService.createSale({ building_id, user_id, product_list });
 
-            return resizeTo.status(201).json({
+            return res.status(201).json({
                 message: "Nuevo registro de venta creado correctamente.",
                 newSale
             });
@@ -29,13 +29,38 @@ class SalesController {
         }
     }
 
+    async getSales(req, res) {
+        try {
+            let { sale_id, user_id, building_id } = req.body;
+
+            let sales_list = await salesService.getSales({ sale_id, user_id, building_id });
+
+            return res.status(200).json({
+                message: "Se pudo buscar correctamente los registros de ventas.",
+                sales_list
+            });
+        } catch (error) {
+            console.log("Error al intentar buscar los registros de ventas: ", error.message);
+
+            if (error.message.includes("No hay")) {
+                return res.status(404).json({
+                    error: error.message
+                });
+            }
+            
+            return res.status(500).json({
+                error: "Error interno al intentar buscar la lista de ventas."
+            })
+        }
+    }
+
     async updateSale(req, res) {
         try {
             let { new_sale_state, sale_id } = req.body;
 
             let updatedSale = await salesService.updateSale({ new_sale_state, sale_id });
             
-            return resizeTo.status(200).json({
+            return res.status(200).json({
                 message: "Registro de venta actualizado correctamente.",
                 updatedSale
             });
