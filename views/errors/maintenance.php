@@ -80,19 +80,19 @@
 
 
         <div>
-            <a href="https://web.facebook.com/bonafidetribunales/mentions/?_rdc=1&_rdr#" class="social-icon-btn">
+            <a target="_blank" href="https://web.facebook.com/bonafidetribunales/mentions/?_rdc=1&_rdr#" class="social-icon-btn">
                 <i class="bi bi-facebook"></i>
             </a>
             
-            <a target="blank" href="https://www.instagram.com/bonafideconcordia" class="social-icon-btn">
+            <a target="_blank" href="https://www.instagram.com/bonafideconcordia" class="social-icon-btn">
                 <i class="bi bi-instagram"></i>
             </a>
             
-            <a target="blank" href="https://api.whatsapp.com/send/?phone=5493455023747&text&type=phone_number&app_absent=0" class="social-icon-btn">
+            <a target="_blank" href="https://api.whatsapp.com/send/?phone=5493455023747&text&type=phone_number&app_absent=0" class="social-icon-btn">
                 <i class="bi bi-whatsapp"></i>
             </a>
             
-            <a href="https://maps.app.goo.gl/km89GxTB5Gv3iGub7" class="social-icon-btn">
+            <a target="_blank" href="https://maps.app.goo.gl/km89GxTB5Gv3iGub7" class="social-icon-btn">
                 <i class="bi bi-geo-alt-fill"></i>
             </a>
         </div>

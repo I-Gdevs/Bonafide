@@ -1,22 +1,13 @@
-<?php include __DIR__ . '/partials/head.php'; ?>
-<?php include __DIR__ . '/partials/header.php'; ?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <head>
     <title>Bonafide</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="../../img/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./../../img/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./../../img/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="./../../img/favicon_io/site.webmanifest">
 </head>
 
     <main>
 
-
-
-
-
     <div class="container my-5">
-
         
         <div class="row g-4 align-items-top">
             
@@ -77,13 +68,11 @@
 
                     <div class="text-center">
                         <p class="mt-5">Inicia sesión para pedir
-                            <a href="login.php" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
+                            <a href="<?= BASE_URL ?>/login" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
                         </p>
 
-                        
-
                         <p class="mt-2">¿No estás registrado?
-                            <a href="register.php" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                            <a href="<?= BASE_URL ?>/signup" class="btn btn-red btn-sm ms-2">Registrarse</a>
                         </p>
                     </div>
             </div>
@@ -106,6 +95,4 @@
     }
 </style>
 
-
-
-  <?php include __DIR__ . '/partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>
