@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     define('BASE_PATH', dirname(__DIR__));
     define('BASE_URL', 'http://localhost/Bonafide/public');
 
@@ -19,6 +21,8 @@
 
         // Inicio de sesión y registro de usuario
         case 'login':
+            require BASE_PATH . '/controllers/login.controller.php';
+            
             $view_file = BASE_PATH . '/views/login/login.php';
             break;
 

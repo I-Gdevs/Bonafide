@@ -41,11 +41,11 @@
 
         // Seteamos todo lo preparado para curl
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_HEADER, $headers);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($curl, CURLOPT_SSL_VERIFPEER, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 
         $result = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -65,7 +65,7 @@
         return [
             "ok" => ($httpCode >= 200 && $httpCode < 300),
             "status" => $httpCode,
-            "data" => json_encode($result, true)
+            "data" => json_decode($result, true)
         ];
     }
 ?>

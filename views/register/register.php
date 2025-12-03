@@ -77,7 +77,7 @@
                             <?= $error ?>
                         </div>
                     <?php endif; ?>
-                    <form method="POST" action="<?= BASE_PATH ?>/controllers/register.controller.php">
+                    <form method="POST">
                         <div class="mb-3">
                             <label for="username" class="form-label fw-bold">Nombre de usuario</label>
                             <input type="text" class="form-control" name="user_name" id="username" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_name'] ?? '') ?>" required>
