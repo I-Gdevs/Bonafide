@@ -28,6 +28,11 @@
             $view_file = BASE_PATH . '/views/stock/stock.php';
             break;
 
+        // Presentacion
+        case 'presentacion':
+            $view_file = BASE_PATH . '/views/errors/presentacion.php';
+            break;
+
         
         // Caso por defecto - HTTP 404
         default:

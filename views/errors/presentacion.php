@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <?php include BASE_PATH . '/views/partials/head.php'; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Defensa de Tesis - Bonafide</title>
+    <title>Bonafide</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Estructura básica de la página */
+        
         body {
-            background-color: #f8f0f0; /* Fondo claro para contraste */
+            background-color: #fffefeff; 
             color: #343a40;
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -22,10 +23,9 @@
             }
         
         body::-webkit-scrollbar {
-            display: none; /* Oculta la barra pero permite el desplazamiento con el mouse o teclado */
+            display: none; 
         }
         
-        /* Contenedor principal para centrar el contenido */
         .presentation-stage {
             max-width: 1320px;
             width: 90%;
@@ -36,12 +36,11 @@
             position: relative;
         }
 
-        /* Contenedor del Logo (Cuadrado) */
         .logo-container {
             width: 150px;
             height: 150px;
             overflow: hidden;
-            flex-shrink: 0; /* Evita que el logo se encoja */
+            flex-shrink: 0; 
             transition: all 1s ease-in-out;
         }
         .logo-img {
@@ -50,25 +49,24 @@
             object-fit: contain;
         }
 
-        /* Contenedor del Texto (Efecto máquina de escribir) */
         .text-container {
             margin-left: 20px;
-            min-width: 400px; /* Ancho fijo para evitar saltos de línea */
+            min-width: 400px; 
             position: relative;
         }
+
         .text-line {
-            font-family: 'Poppins', sans-serif; /* Fuente de máquina de escribir */
+            font-family: 'Poppins', sans-serif; 
             font-size: 3rem;
             font-weight: 900;
-            color: #020202ff; /* Color rojo de Bonafide */
-            white-space: nowrap; /* Evita saltos de línea */
+            color: #020202ff; 
+            white-space: nowrap; 
             overflow: hidden;
             letter-spacing: .05em;
-            width: 0; /* Inicialmente ancho cero para el efecto de escritura */
+            width: 0; 
             display: inline-block;
         }
         
-        /* Estilos específicos para el paso 6 */
         .integrantes-container {
             position: absolute;
             top: 100%;
@@ -92,8 +90,7 @@
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #e53935;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
     </style>
@@ -103,7 +100,7 @@
     <div class="presentation-stage">
         
         <div id="logoContainer" class="logo-container">
-            <img id="logoImg" src="./../../img/logo/LogoRedondo.png" alt="Logo Bonafide" class="logo-img logo-giratorio">
+            <img id="logoImg" src="<?= BASE_URL ?>/img/logo/LogoRedondo.png" alt="Logo Bonafide" class="logo-img logo-giratorio">
         </div>
         
         <div class="text-container">
@@ -111,11 +108,11 @@
             
             <div id="integrantes" class="integrantes-container">
                 <div class="integrante">
-                    <img src="./../../img/logo/LogoRedondo.png" alt="Guido Asplanatti">
+                    <img src="<?= BASE_URL ?>/img/integrantes_proyecto/Guido.png" alt="Guido Asplanatti">
                     Guido Asplanatti
                 </div>
                 <div class="integrante">
-                    <img src="./../../img/logo/LogoRedondo.png" alt="Ignacio Imas">
+                    <img src="<?= BASE_URL ?>/img/integrantes_proyecto/Ignacio.png" alt="Ignacio Imas">
                     Ignacio Imas
                 </div>
             </div>

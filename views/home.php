@@ -8,6 +8,8 @@
     <main>
 
     <div class="container my-5">
+
+        <img src="<?= BASE_URL ?>/img/logo/LogoNombre.png" alt="Bonafide Logo" class="titulo Home">
         
         <div class="row g-4 align-items-top">
             
@@ -23,15 +25,15 @@
                     <div class="carousel-inner carrusel-home">
                         <div class="carousel-item active">
                             <img src="https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg" 
-                                 class="d-block w-100" alt="Café y medialunas">
+                                 class="d-block img-fluid rounded shadow-sm w-100" alt="Café y medialunas">
                         </div>
                         <div class="carousel-item carrusel-home">
                             <img src="https://http2.mlstatic.com/D_NQ_NP_918944-MLA83901995898_042025-O.webp" 
-                                 class="d-block w-100" alt="Cafe Premium">
+                                 class="d-block img-fluid rounded shadow-sm w-100" alt="Cafe Premium">
                         </div>
                         <div class="carousel-item carrusel-home">
                             <img src="https://scontent.fsty1-1.fna.fbcdn.net/v/t1.6435-9/46501517_2284071045163079_2038077181564813312_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHkC1_rSA5O52pFr5jl9MUBjptvEcQxrn6Om28RxDGuftCdU-kcKWJ_fkIe-gV-3YaBiB20SOoMXvJ2kqz2gp-S&_nc_ohc=Tz1RUj0M8ZoQ7kNvwH9ZdGk&_nc_oc=AdmXO2HmqfvgG6JHL4cyNgHh52N73i0NP_BGDHtIgrx9T15pG7XGiS-65upJ39EQM2k&_nc_zt=23&_nc_ht=scontent.fsty1-1.fna&_nc_gid=8EojJKs_JXKzS65zBKTS1g&oh=00_AfhbXLqUWQVa1-C7Wbye1xCZ1b9t9agMNwHcFK_xd3b5Pw&oe=6952CFB6" 
-                                 class="d-block w-100" alt="Canasta">
+                                 class="d-block img-fluid rounded shadow-sm w-100" alt="Canasta">
                         </div>
                     </div>
 
@@ -72,7 +74,7 @@
                         </p>
 
                         <p class="mt-2">¿No estás registrado?
-                            <a href="<?= BASE_URL ?>/signup" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                            <a href="<?= BASE_PATH ?>/img/logo/LogoRedondo.png" class="btn btn-red btn-sm ms-2">Registrarse</a>
                         </p>
                     </div>
             </div>
