@@ -1,6 +1,6 @@
 <?php 
 // para probar el modal
-$registro_exitoso = true; 
+//$registro_exitoso = true; 
 ?>
 
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
@@ -13,7 +13,6 @@ $registro_exitoso = true;
 <main>
     <div class="container login-container">
 
-        <img src="<?= BASE_URL ?>/img/logo/LogoNombre.png" alt="Bonafide Logo" class="titulo Home">
 
         <div class="row g-4 align-items-top">
             

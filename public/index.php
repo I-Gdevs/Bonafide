@@ -15,11 +15,15 @@
 
         // Inicio de sesión y registro de usuario
         case 'login':
-            $view_file = BASE_PATH . '/views/login.php';
+            $view_file = BASE_PATH . '/views/login/login.php';
             break;
 
         case 'signup':
-            $view_file = BASE_PATH . '/views/register.php';
+            $view_file = BASE_PATH . '/views/register/register.php';
+            break;
+
+        case 'forgottenPassword':
+            $view_file = BASE_PATH . '/views/forgottenPassword/forgottenPassword.php';
             break;
 
 
@@ -32,6 +36,16 @@
         case 'presentacion':
             $view_file = BASE_PATH . '/views/errors/presentacion.php';
             break;
+
+        // Pedir
+        case 'pedir':
+            $view_file = BASE_PATH . '/views/pedir/pedir.php';
+            break;
+        // Pedir
+        case 'nosotros':
+            $view_file = BASE_PATH . '/views/nosotros/nosotros.php';
+            break;
+
 
         
         // Caso por defecto - HTTP 404

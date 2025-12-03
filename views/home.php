@@ -8,8 +8,6 @@
     <main>
 
     <div class="container my-5">
-
-        <img src="<?= BASE_URL ?>/img/logo/LogoNombre.png" alt="Bonafide Logo" class="titulo Home">
         
         <div class="row g-4 align-items-top">
             

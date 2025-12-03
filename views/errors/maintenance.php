@@ -68,7 +68,7 @@
             
             <div class="ratio ratio-1x1 w-175 mx-auto"> 
                 
-                <img src="./../../img/logo/LogoRedondo.png" 
+                <img src="<?= BASE_URL ?>/img/logo/LogoRedondo.png" 
                      alt="En Mantenimiento" 
                      class="img-fluid w-100 h-100">
             </div>
