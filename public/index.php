@@ -2,6 +2,8 @@
     define('BASE_PATH', dirname(__DIR__));
     define('BASE_URL', 'http://localhost/Bonafide/public');
 
+    require_once BASE_PATH . '/config/config.php';
+
     $route = isset($_GET['route']) ? $_GET['route'] : 'home';
 
     $route = rtrim($route, '/') ;
