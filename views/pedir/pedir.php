@@ -1,8 +1,9 @@
-<?php include BASE_PATH . '/views/partials/head.php'; ?>
-<?php include BASE_PATH . '/views/partials/header.php'; ?>
 <head>
     <title>Pedir</title>
 </head>
+
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 
 

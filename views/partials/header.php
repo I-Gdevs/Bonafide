@@ -10,12 +10,12 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pedir</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/pedir">Pedir</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/nosotros">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/productos">Productos</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/stock">Stock</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pedidos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Estadística</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/comandas">Comandas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/estadisticas">Estadística</a></li>
                     
                     <li class="nav-item ms-2">
                         <a class="nav-link" href="#">
