@@ -2,15 +2,26 @@
 // 1. Definir la ruta base para mayor seguridad y claridad
 define('BASE_PATH', dirname(__DIR__)); // Apunta a la raíz del proyecto (fuera de public/)
 
-// 2. Obtener la URI solicitada por el usuario (ej: /stock, /login)
-// Usamos parse_url para limpiar la URI de parámetros como ?v=3
+// 2. Obtener la URI limpia, ignorando subcarpetas
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$script_name = $_SERVER['SCRIPT_NAME']; // /Bonafide/public/index.php
+$script_dir = dirname($script_name);    // /Bonafide/public
+
+// A. Normalizamos barras (Windows usa \ y Linux /)
+// Esto es vital para que funcione en tu XAMPP/Windows
+$script_dir = str_replace('\\', '/', $script_dir); 
+
+// B. Restamos la carpeta base de la URI solicitada
+// Si la URI es "/Bonafide/public/stock", le quitamos "/Bonafide/public"
+if (strpos($request_uri, $script_dir) === 0) {
+    $request_uri = substr($request_uri, strlen($script_dir));
+}
+
+// C. Ahora sí, $request_uri es solo "/stock" o "/"
 $uri_parts = explode('/', trim($request_uri, '/'));
+$page = array_shift($uri_parts);
 
-// La primera parte de la URI (el "controlador" o "página")
-$page = array_shift($uri_parts); 
-
-// Si la URI está vacía (solo /), cargamos la página de inicio
+// Si quedó vacío, es home
 if (empty($page)) {
     $page = 'home';
 }
