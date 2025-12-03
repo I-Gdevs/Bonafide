@@ -1,5 +1,5 @@
-<?php include __DIR__ . '/partials/head.php'; ?>
-<?php include __DIR__ . '/partials/header.php'; ?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <head>
     <title>Registrarse</title>
@@ -59,7 +59,7 @@
 
                         <div class="text-center">
                             <p class="mt-5">¿Ya estás registrado?
-                                <a href="login.php" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
+                                <a href="<?= BASE_URL ?>/login" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
                             </p>
                         </div>
                     </form>
@@ -70,16 +70,16 @@
 </main>
 
 
-  <!-- Script para mostrar/ocultar contraseña -->
-  <script>
-    const togglePassword = document.querySelector('#togglePassword');
-    const passwordField = document.querySelector('#password');
+<!-- Mostrar / Ocultar -->
+<script>
+const togglePassword = document.querySelector('#togglePassword');
+const passwordField = document.querySelector('#password');
 
-    togglePassword.addEventListener('click', function () {
-      const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordField.setAttribute('type', type);
-      this.classList.toggle('active');
-    });
-  </script>
+togglePassword.addEventListener('click', function () {
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    this.classList.toggle('active');
+});
+</script>
 
-  <?php include __DIR__ . '/partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

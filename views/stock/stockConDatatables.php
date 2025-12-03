@@ -1,7 +1,7 @@
 <?php 
 // Asegúrate de que la ruta sea correcta: subir un nivel (..) para acceder a partials
-include __DIR__ . '/../partials/head.php'; 
-include __DIR__ . '/../partials/header.php'; 
+include '../partials/head.php'; 
+include '../partials/header.php'; 
 ?>
 
 <style>
@@ -83,9 +83,6 @@ include __DIR__ . '/../partials/header.php';
                             <tr><td>Ingreso manual</td><td>Tribunales</td><td>11/02/2025</td><td>Azúcar</td><td class="text-danger fw-bold">-1 kg</td></tr>
                             <tr><td>Egreso asociado a venta</td><td>Peatonal</td><td>10/02/2025</td><td>Pan de miga</td><td class="text-danger fw-bold">-500 gr.</td></tr>
                             </tbody>
-
-
-                            
                     </table>
                 </div>
             </div>
@@ -115,4 +112,4 @@ include __DIR__ . '/../partials/header.php';
     });
 </script>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<?php include '../partials/footer.php'; ?>

@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="home.php">Bonafide</a>
+            <a class="navbar-brand" href="<?= BASE_URL ?>/home">Bonafide</a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -9,11 +9,11 @@
             
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Pedir</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Stock</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/stock">Stock</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Pedidos</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Estadística</a></li>
                     

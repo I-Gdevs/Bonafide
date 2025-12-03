@@ -1,5 +1,5 @@
-<?php include __DIR__ . '/partials/head.php'; ?>
-<?php include __DIR__ . '/partials/header.php'; ?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <head>
     <title>Login</title>
@@ -28,8 +28,8 @@
                             <label for="password" class="form-label">Contraseña</label>
                             <div class="input-group">
                                 <input type="password" class="form-control" id="password" placeholder="********">
-                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <button class="input-group-text" type="button" id="togglePassword">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye text-secondary" viewBox="0 0 16 16">
                                         <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
                                         <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
                                     </svg>
@@ -40,9 +40,9 @@
 
                         <div class="text-center">
                             <p class="mt-5">¿No tienes cuenta?
-                                <a href="register.php" class="btn btn-red btn-sm ms-2">Registrarse</a>
+                                <a href="<?= BASE_URL ?>/signup" class="btn btn-red btn-sm ms-2">Registrarse</a>
                             </p>
-                            <a href="forgottenPassword.php" class="ms-2 text-dark text-decoration-none">Olvidé mi contraseña</a>
+                            <a href="<?= BASE_URL ?>/forgottenPassword" class="ms-2 text-dark text-decoration-none">Olvidé mi contraseña</a>
                         </div>
                     </form>
                 </div>
@@ -63,4 +63,4 @@
     });
   </script>
 
-<?php include __DIR__ . '/partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

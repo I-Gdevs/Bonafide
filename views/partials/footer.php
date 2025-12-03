@@ -19,13 +19,13 @@
         <div class="col-md-3">
           <h5>Páginas</h5>
           <ul class="list-unstyled">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Pedir</a></li>
-            <li><a href="#">Nosotros</a></li>
-            <li><a href="#">Productos</a></li>
-            <li><a href="#">Stock</a></li>
-            <li><a href="#">Pedidos</a></li>
-            <li><a href="#">Estadística</a></li>
+            <li><a href="<?= BASE_URL ?>/home">Home</a></li>
+            <li><a href="<?= BASE_URL ?>">Pedir</a></li>
+            <li><a href="<?= BASE_URL ?>">Nosotros</a></li>
+            <li><a href="<?= BASE_URL ?>">Productos</a></li>
+            <li><a href="<?= BASE_URL ?>/stock">Stock</a></li>
+            <li><a href="<?= BASE_URL ?>/pedir">Pedidos</a></li>
+            <li><a href="<?= BASE_URL ?>/stats">Estadística</a></li>
           </ul>
         </div>
 
@@ -50,7 +50,7 @@
   </footer>
 
   <!-- Data Tables -->
-  <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.js"></script>
+  <!-- <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.js"></script> -->
 
   <!-- Boostrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
