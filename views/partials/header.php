@@ -14,7 +14,7 @@
             </button>
             
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav align-items-center">
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/pedir">Pedir</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/nosotros">Nosotros</a></li>

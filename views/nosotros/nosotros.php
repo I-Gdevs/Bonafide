@@ -1,5 +1,5 @@
 <head>
-    <title>Nosotros</title>
+    <title>Bonafide | Nosotros</title>
 </head>
 
 <?php 

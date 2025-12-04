@@ -1,3 +1,7 @@
+<head>
+    <title>Bonafide | Comandas</title>
+</head>
+
 <?php include __DIR__ . '/../partials/head.php'; ?>
 <?php include __DIR__ . '/../partials/header.php'; ?>
 

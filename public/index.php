@@ -59,6 +59,16 @@
         case 'comandas':
             $view_file = BASE_PATH . '/views/comandas/comandas.php';
             break;
+        
+        // Productos
+        case 'productos':
+            $view_file = BASE_PATH . '/views/productos/productos.php';
+            break;
+
+        // Estadisticas
+        case 'estadisticas':
+            $view_file = BASE_PATH . '/views/estadisticas/estadisticas.php';
+            break;
 
 
         
