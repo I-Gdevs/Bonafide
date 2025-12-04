@@ -59,8 +59,6 @@
 
 <main>
     <div class="container login-container">
-
-
         <div class="row g-4 align-items-top">
             
             <div class="col-md-6 text-center">

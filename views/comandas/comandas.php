@@ -2,8 +2,8 @@
     <title>Bonafide | Comandas</title>
 </head>
 
-<?php include __DIR__ . '/../partials/head.php'; ?>
-<?php include __DIR__ . '/../partials/header.php'; ?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <style>
     /* Asegurar ancho fijo de 1000px */
@@ -321,4 +321,4 @@
     </div>
 </main>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

@@ -129,6 +129,4 @@ $receta = [
     </div>
 </main>
 
-<?php 
-include __DIR__ . '/../partials/footer.php'; 
-?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>
