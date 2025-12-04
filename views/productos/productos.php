@@ -3,37 +3,13 @@
 </head>
 
 <?php 
-// Incluimos el head (con estilos) y el header (navegación)
 include __DIR__ . '/../partials/head.php'; 
 include __DIR__ . '/../partials/header.php'; 
 
-// ⭐ SIMULACIÓN DE PERMISOS: Solo el administrador verá el botón de gestión ⭐
-// En el proyecto final, esta variable vendría del Controlador/Sesión.
+
 $es_administrador = true; // Cambiar a false para simular un cliente
 ?>
 
-<style>
-    /* Asegurar ancho fijo de 1320px */
-    .fixed-width-container {
-        max-width: 1320px !important;
-    }
-    /* Estilo de la tarjeta de Receta */
-    .recipe-card {
-        transition: transform 0.2s, box-shadow 0.2s;
-        border: none;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-    .recipe-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-    }
-    .recipe-img {
-        height: 180px;
-        object-fit: cover;
-    }
-</style>
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">

@@ -219,3 +219,20 @@ html::-webkit-scrollbar,
     align-items: center;
 }
 
+/* 16. Tarjetas Recetas */
+.recipe-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+.recipe-img {
+    height: 180px;
+    object-fit: cover;
+}
+
