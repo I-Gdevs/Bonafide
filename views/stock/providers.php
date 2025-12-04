@@ -1,14 +1,12 @@
 <head>
     <title>Bonafide | Proveedores</title>
 </head>
+
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
-        
-        <!-- <h1 class="mb-4">Movimientos de Stock por Local</h1> -->
-
         <div class="row g-4">
             <div class="col-md-3">
                 <ul class="list-group list-unstyled-borders">
@@ -31,7 +29,6 @@
             </div>
             
             <div class="col-md-9">
-                
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <button class="btn btn-danger me-2">
@@ -54,12 +51,13 @@
                                 <th>Proveedor</th>
                                 <th>CUIT</th>
                                 <th>Detalle</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tablaStockBody">
                             <?php if (empty($providerList)): ?>
                                 <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">No hay ningún proveedor cargado.</td>
+                                    <td colspan="4" class="text-center py-4 text-muted">No hay ningún proveedor cargado.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($providerList as $item): ?>
@@ -67,6 +65,22 @@
                                         <td><?= $item['nombre_proveedor']?></td>
                                         <td><?= $item['cuit_proveedor']?></td>
                                         <td><?= $item['detalle_proveedor']?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEditarProveedor"
+                                                data-id="<?= $item['id_proveedor'] ?>"
+                                                data-nombre="<?= $item['nombre_proveedor'] ?>"
+                                                data-cuit="<?= $item['cuit_proveedor'] ?>"
+                                                data-detalle="<?= $item['detalle_proveedor'] ?>"
+                                            >
+                                                <i class="bi bi-pen"></i>
+                                            </button>
+                                            
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
