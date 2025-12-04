@@ -1,9 +1,9 @@
+<head>
+    <title>Bonafide | Stock</title>
+</head>
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
-<head>
-    <title>Stock</title>
-</head>
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">

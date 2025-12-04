@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <?php include BASE_PATH . '/views/partials/head.php'; ?>
+
+    <?php 
+
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    
+    define('BASE_PATH', dirname(__DIR__, 2)); 
+    define('BASE_URL', 'http://localhost/Bonafide/public'); 
+
+    
+    include __DIR__ . '/../partials/head.php'; 
+
+    ?>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bonafide</title>
+    <title>Bonafide | Presentación</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     

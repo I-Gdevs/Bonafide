@@ -51,7 +51,7 @@
 ?>
 
 <head>
-    <title>Registrarse</title>
+    <title>Bonafide | Registrarse</title>
 </head>
 
 <?php include BASE_PATH . '/views/partials/head.php'; ?>

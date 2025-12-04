@@ -1,5 +1,5 @@
 <head>
-    <title>Pedir</title>
+    <title>Bonafide | Pedir</title>
 </head>
 
 <?php include BASE_PATH . '/views/partials/head.php'; ?>

@@ -1,3 +1,9 @@
+<head>
+    <title>
+        Bonafide
+    </title>
+</head>
+
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
@@ -8,7 +14,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        min-height: 70vh; /* Asegura que ocupe una buena parte de la pantalla */
+        min-height: 60vh; /* Asegura que ocupe una buena parte de la pantalla */
     }
     .error-code {
         font-size: 8rem;

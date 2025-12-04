@@ -3,10 +3,18 @@
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 100vh;    
+    font-family: 'Poppins', sans-serif;
+    scrollbar-width: none;
 }
 main {
     flex: 1; 
+    scrollbar-width: none;
+}
+body::-webkit-scrollbar,
+html::-webkit-scrollbar,
+.presentation-stage::-webkit-scrollbar { /* Apuntamos al contenedor principal si se desborda */
+    display: none; 
 }
 
 /* 2. Estilos de Marca y Navegación */
@@ -149,3 +157,65 @@ main {
 .navbar-nav .nav-link:hover svg {
     fill: #e53935 !important;
 }
+
+/* 12. Estilos Globales de Utilidad */
+.fixed-width-container {
+    max-width: 1320px !important;
+}
+
+/* 13. Estilos específicos del Dashboard (Vistas Estadísticas) */
+.chart-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+/* 14. Estilo de Tarjetas KPI (Separadores Verticales - Estaditica) */
+.kpi-card-row {
+    border: 1px solid #dee2e6; 
+    border-radius: 8px;
+    overflow: hidden; 
+    background-color: white;
+}
+.kpi-item {
+    padding: 20px 30px;
+    text-align: center;
+    border-right: 1px solid #dee2e6; 
+}
+.kpi-item:last-child {
+    border-right: none; 
+}
+.kpi-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #343a40; 
+    line-height: 1.1;
+}
+.kpi-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-transform: lowercase; 
+    font-weight: 500;
+}    
+
+/* 15. Estilo de Gráficos y Listas Secundarias */
+.chart-container {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.chart-header {
+    font-weight: 700;
+    padding: 10px 15px;
+    border-bottom: 1px solid #dee2e6;
+}
+.chart-content {
+    padding: 15px;
+}
+.best-seller-list .list-group-item {
+    border: none;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+

@@ -1,5 +1,5 @@
 <head>
-    <title>Login</title>
+    <title>Bonafide | Login</title>
 </head>
 
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
