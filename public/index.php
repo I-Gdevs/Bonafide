@@ -35,31 +35,49 @@
             break;
 
 
-        // Módulos de stock
+        // Stock
         case 'stock':
             require BASE_PATH . '/controllers/stock/stock.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/stock.php';
             break;
-                
+        
+        
+        // Movimientos de stock
         case 'stock/movements':
             $view_file = BASE_PATH . '/views/stock/movements.php';
             break;
 
+
+        // Modelos de artículos
         case 'stock/item-models':
-            require BASE_PATH . '/controllers/stock/item_models.controller.php';
+            require BASE_PATH . '/controllers/stock/item_models/item_models.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/item_models.php';
             break;
-
-        case 'stock/item-models/edit':
-            require BASE_PATH . '/controllers/stock/edit_item_model.controller.php';
+        
+        case 'stock/item-models/create':
+            require BASE_PATH . '/controllers/stock/item_models/create_item_models.controller.php';
             break;
 
+        case 'stock/item-models/edit':
+            require BASE_PATH . '/controllers/stock/item_models/edit_item_models.controller.php';
+            break;
+
+
+        // Proveedores
         case 'stock/providers':
-            require BASE_PATH . '/controllers/stock/provider.controller.php';
+            require BASE_PATH . '/controllers/stock/providers/provider.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/providers.php';
+            break;
+        
+        case 'stock/providers/create':
+            require BASE_PATH . '/controllers/stock/providers/create_provider.controller.php';
+            break;
+        
+        case 'stock/providers/edit':
+            require BASE_PATH . '/controllers/stock/providers/edit_provider.controller.php';
             break;
         
         case 'stock/buildings':
@@ -74,9 +92,29 @@
             $view_file = BASE_PATH . '/views/errors/presentacion.php';
             break;
 
-        // Pedir
-        case 'pedir':
+        // SeleccionarLocal
+        case 'seleccionarLocal':
             $view_file = BASE_PATH . '/views/pedir/seleccionarLocal.php';
+            break;
+        
+        // Pedir_Pedir
+        case 'pedir':
+            $view_file = BASE_PATH . '/views/pedir/pedir.php';
+            break;
+
+        // Pagar
+        case 'pagar':
+            $view_file = BASE_PATH . '/views/pedir/pago/pagar.php';
+            break;
+
+        // Añadir Receta
+        case 'añadirReceta':
+            $view_file = BASE_PATH . '/views/productos/añadirReceta/añadirReceta.php';
+            break;
+
+        // Ver Receta
+        case 'receta':
+            $view_file = BASE_PATH . '/views/productos/receta.php';
             break;
 
         // Nosotros

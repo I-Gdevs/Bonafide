@@ -72,6 +72,7 @@ class StockModel {
                     im.id_ing_mod AS id,
                     im.nombre_ingrediente as nombre,
                     ic.cantidad_ingrediente as cantidad,
+                    ic.cantidad_minima as cantidad_minima,
                     im.unidad_medida_ingrediente as unidad_medida,
                     ic.id_local
                 FROM

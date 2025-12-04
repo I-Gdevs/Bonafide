@@ -2,10 +2,8 @@
     <title>Bonafide | Nosotros</title>
 </head>
 
-<?php 
-include __DIR__ . '/../partials/head.php';
-include __DIR__ . '/../partials/header.php';
-?>
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <style>
     /* Asegurar ancho fijo de 1320px */
@@ -99,4 +97,4 @@ include __DIR__ . '/../partials/header.php';
     </div>
 </main>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>
