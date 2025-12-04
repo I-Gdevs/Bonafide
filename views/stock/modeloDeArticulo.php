@@ -15,15 +15,15 @@
             <div class="col-md-3">
     <ul class="list-group list-unstyled-borders">
         
-        <li class="list-group-item active">
-            <a href="" class="text-decoration-none text-white fs-5 fw-bold">Mi stock</a>
+        <li class="list-group-item">
+            <a href="#" class="text-decoration-none text-dark">Mi stock</a>
         </li>
         
         <li class="list-group-item">
             <a href="#" class="text-decoration-none text-dark">Movimientos</a>
         </li>
-        <li class="list-group-item">
-            <a href="<?= BASE_URL ?>/stock_modeloDeArticulo" class="text-decoration-none text-dark">Modelos de Artículos</a>
+        <li class="list-group-item active">
+            <a href="#" class="text-decoration-none text-white fs-5 fw-bold">Modelos de Artículos</a>
         </li>
         <li class="list-group-item">
             <a href="#" class="text-decoration-none text-dark">Proveedores</a>
