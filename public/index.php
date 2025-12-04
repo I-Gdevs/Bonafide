@@ -68,9 +68,29 @@
             $view_file = BASE_PATH . '/views/errors/presentacion.php';
             break;
 
-        // Pedir
-        case 'pedir':
+        // SeleccionarLocal
+        case 'seleccionarLocal':
             $view_file = BASE_PATH . '/views/pedir/seleccionarLocal.php';
+            break;
+        
+        // Pedir_Pedir
+        case 'pedir':
+            $view_file = BASE_PATH . '/views/pedir/pedir.php';
+            break;
+
+        // Pagar
+        case 'pagar':
+            $view_file = BASE_PATH . '/views/pedir/pago/pagar.php';
+            break;
+
+        // Añadir Receta
+        case 'añadirReceta':
+            $view_file = BASE_PATH . '/views/productos/añadirReceta/añadirReceta.php';
+            break;
+
+        // Ver Receta
+        case 'receta':
+            $view_file = BASE_PATH . '/views/productos/receta.php';
             break;
 
         // Nosotros
