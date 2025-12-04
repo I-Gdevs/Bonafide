@@ -70,7 +70,7 @@
 
         // Pedir
         case 'pedir':
-            $view_file = BASE_PATH . '/views/pedir/pedir.php';
+            $view_file = BASE_PATH . '/views/pedir/seleccionarLocal.php';
             break;
 
         // Nosotros
