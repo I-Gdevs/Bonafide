@@ -83,6 +83,5 @@ $perfil_admin = true;
 </main>
 
 <?php 
-// Asegúrate de que la ruta sea correcta
 include __DIR__ . '/../partials/footer.php'; 
 ?>

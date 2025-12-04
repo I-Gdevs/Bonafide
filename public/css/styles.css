@@ -236,3 +236,27 @@ html::-webkit-scrollbar,
     object-fit: cover;
 }
 
+/* 17. Tarjetas de locales*/
+.local-card {
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.local-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: #e53935; /* Resalta con el color de marca */
+}
+.local-card img {
+    height: 400px;
+    object-fit: cover;
+}
+.card-footer-action {
+    background-color: #f8f9fa;
+    color: #e53935;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
