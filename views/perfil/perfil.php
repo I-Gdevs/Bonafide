@@ -1,6 +1,9 @@
-<?php 
-include __DIR__ . '/../partials/head.php'; 
-include __DIR__ . '/../partials/header.php'; 
+<head>
+    <title>Bonafide | Perfil</title>
+</head>
+
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 
 $nombre_usuario = "Guido Asplanatti";
@@ -82,6 +85,5 @@ $perfil_admin = true;
     </div>
 </main>
 
-<?php 
-include __DIR__ . '/../partials/footer.php'; 
-?>
+
+<?php include BASE_PATH . '/views/partials/footer.php'; ?> 

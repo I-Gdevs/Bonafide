@@ -1,10 +1,10 @@
-<?php 
-// Asegúrate de que las constantes BASE_PATH y BASE_URL estén definidas
-include __DIR__ . '/../partials/head.php'; 
-include __DIR__ . '/../partials/header.php'; 
+<head>
+    <title>Bonafide | Seleccionar Local</title>
+</head>
 
-// ⭐ SIMULACIÓN DE DATOS DE LOCALES ⭐
-// En el proyecto final, estos datos vendrían de un Modelo/Controlador.
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
+<?php
 $locales = [
     [
         'id' => 1, 
