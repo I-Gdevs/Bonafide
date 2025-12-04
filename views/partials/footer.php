@@ -25,7 +25,7 @@
             <li><a href="<?= BASE_URL ?>/productos">Productos</a></li>
             <li><a href="<?= BASE_URL ?>/stock">Stock</a></li>
             <li><a href="<?= BASE_URL ?>/comandas">Comandas</a></li>
-            <li><a href="<?= BASE_URL ?>/stats">Estadística</a></li>
+            <li><a href="<?= BASE_URL ?>/administracion">Administración</a></li>
           </ul>
         </div>
 

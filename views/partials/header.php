@@ -21,7 +21,7 @@
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/productos">Productos</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/stock">Stock</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/comandas">Comandas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/estadisticas">Estadística</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/administracion">Administración</a></li>
                     
                     <li class="nav-item ms-2">
                         <a class="nav-link" href="#">
