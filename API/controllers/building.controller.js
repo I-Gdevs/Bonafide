@@ -11,7 +11,7 @@ class BuildingController {
             let newBuilding = await buildingService.createBuilding({ building_address, building_employees, building_manager });
 
             return res.status(201).json({
-                message: "Nuevo local creado correctamente.",
+                success: "Nuevo local creado correctamente.",
                 newBuilding: newBuilding
             });
         } catch (error) {

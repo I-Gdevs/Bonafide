@@ -34,6 +34,7 @@ class ProviderController {
             let providersList = await providerService.getAllProviders();
 
             return res.status(200).json({
+                success: "Lista de proveedores buscada correctamente",
                 providers_list: providersList
             });
         } catch (error) {
@@ -58,7 +59,7 @@ class ProviderController {
             let updatedProvider = await providerService.updateProvider({ provider_id, new_provider_name, new_provider_detail });
 
             return res.status(200).json({
-                message: "Proveedor actualizado correctamente.",
+                success: "Proveedor actualizado correctamente.",
                 updatedProvider
             });
         } catch (error) {
