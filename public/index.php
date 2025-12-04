@@ -37,7 +37,13 @@
 
         // Módulos de stock
         case 'stock':
+            require BASE_PATH . '/controllers/stock/stock.controller.php';
+
             $view_file = BASE_PATH . '/views/stock/stock.php';
+            break;
+        
+        case 'stock/movements':
+            $view_file = BASE_PATH . '/views/stock/movements.php';
             break;
 
         // Módulos de stock

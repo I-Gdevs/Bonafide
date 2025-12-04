@@ -60,27 +60,33 @@ class StockModel {
         }
     }
 
-    async getStockAmount({ stock_id, building_id }) {
+    async getStockAmount({ building_id }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM ingredientes_cantidad WHERE 1=1";
-            let dbParams = [];
-
-            if (stock_id) {
-                dbQuery += " AND id_ing_mod = (?)";
-                dbParams.push(stock_id);
-            }
+            let dbQuery = `
+                SELECT
+                    im.id_ing_mod AS id,
+                    im.nombre_ingrediente as nombre,
+                    ic.cantidad_ingrediente as cantidad,
+                    im.unidad_medida_ingrediente as unidad_medida,
+                    ic.id_local
+                FROM
+                    ingredientes_cantidad ic
+                INNER JOIN
+                    ingredientes_modelo im ON ic.id_ing_mod = im.id_ing_mod
+                WHERE
+                    1=1
+            `;
             
             if (building_id) {
-                dbQuery += " AND id_local = (?)";
-                dbParams.push(building_id);
+                dbQuery += ` AND id_local = (${building_id});`;
             }
 
-            result = await dbConnection.query(dbQuery, dbParams);
+            result = await dbConnection.query(dbQuery);
 
         } catch (error) {
             if (dbConnection) {
