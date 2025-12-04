@@ -29,7 +29,7 @@
                 </ul>
             </div>
             
-            <div class="col-md-9">    
+            <div class="col-md-9">
                 <div class="d-flex justify-content-end align-items-center mb-3">
                     
                     <div class="col-sm-4">
@@ -59,9 +59,7 @@
                                         <td><?= $item['unidad_medida']?></td>
                                         <td>
                                             <button class="btn btn-sm btn-danger editar-articulo-btn" data-bs-toggle="modal" data-bs-target="#modalEditarArticulo">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil text-white" viewBox="0 0 16 16">
-                                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.10l-3 1a.5.5 0 0 1-.65-.65l1-3a.5.5 0 0 1 .1-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 2.12a.5.5 0 0 1 .282.284l.793 3.965a.5.5 0 0 1-.137.662l-4.204 4.203a.5.5 0 0 1-.676.046l-3.238-3.567a.5.5 0 0 1 .69-.737l3.238 3.567 4.204-4.203a.5.5 0 0 1 .282-.284z"/>
-                                                </svg>
+                                                <i class="bi bi-pen"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -84,12 +82,15 @@
             </div>
             <form id="formCrearArticulo" action="[URL_DEL_CONTROLADOR_PARA_CREAR]" method="POST">
                 <div class="modal-body">
+
                     <div class="mb-3">
                         <label for="nuevoNombre" class="form-label">Nombre / Descripción</label>
                         <input type="text" class="form-control" id="nuevoNombre" name="nombre" required placeholder="Ej: Café Bonafide bolsa 1kg">
                     </div>
+                    
                     <div class="mb-3">
                         <label for="nuevaUnidad" class="form-label">Unidad de Medida</label>
+
                         <select class="form-select" id="nuevaUnidad" name="unidad" required>
                             <option value="" disabled selected>Seleccione...</option>
                             <option value="kg">Kilogramo (kg)</option>
@@ -99,6 +100,7 @@
                             <option value="ml">Mililitro (ml)</option>
                         </select>
                     </div>
+
                     <div class="mb-3">
                         <label for="nuevoStockMinimo" class="form-label">Stock Mínimo de Alerta</label>
                         <input type="number" class="form-control" id="nuevoStockMinimo" name="stock_minimo" min="0" value="0">
@@ -195,8 +197,6 @@ document.addEventListener('DOMContentLoaded', function() {
             inputId.value = id;
             inputNombre.value = nombre;
             selectUnidad.value = unidad; // Esto selecciona la opción correcta
-            
-            
         }
     });
 });

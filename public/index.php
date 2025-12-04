@@ -47,7 +47,13 @@
             break;
 
         case 'stock/item-models':
+            require BASE_PATH . '/controllers/stock/item_models.controller.php';
+
             $view_file = BASE_PATH . '/views/stock/item_models.php';
+            break;
+
+        case 'stock/item-models/edit':
+            require BASE_PATH . '/controllers/stock/edit_item_model.controller.php';
             break;
 
         case 'stock/providers':

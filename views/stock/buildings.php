@@ -1,6 +1,7 @@
 <head>
     <title>Bonafide | Locales</title>
 </head>
+
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
