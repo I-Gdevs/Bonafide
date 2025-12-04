@@ -83,6 +83,16 @@
             $view_file = BASE_PATH . '/views/pedir/pago/pagar.php';
             break;
 
+        // Añadir Receta
+        case 'añadirReceta':
+            $view_file = BASE_PATH . '/views/productos/añadirReceta/añadirReceta.php';
+            break;
+
+        // Ver Receta
+        case 'receta':
+            $view_file = BASE_PATH . '/views/productos/receta.php';
+            break;
+
         // Nosotros
         case 'nosotros':
             $view_file = BASE_PATH . '/views/nosotros/nosotros.php';

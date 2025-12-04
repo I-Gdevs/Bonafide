@@ -18,7 +18,7 @@ $es_administrador = true; // Cambiar a false para simular un cliente
             <h1 class="fw-bold m-0">Recetas Disponibles</h1>
             
             <?php if ($es_administrador): ?>
-            <a href="/armado-recetas" class="btn btn-red action-btn">
+            <a href="<?= BASE_URL ?>/añadirReceta" class="btn btn-red action-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-gear-fill me-2" viewBox="0 0 16 16">
                     <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.13.44c-.2.63-.56.91-1.2.91h-2.12c-1.4 0-2.11 1.79-.71 3.19l.71.71c.3.3.4.7.4 1.1v2.12c0 1.4 1.79 2.11 3.19.71l.71-.71c.3-.3.7-.4 1.1-.4h2.12c1.4 0 2.11-1.79.71-3.19l-.71-.71c-.3-.3-.4-.7-.4-1.1v-2.12c0-1.4 1.79-2.11 3.19-.71l.71.71c.3.3.7.4 1.1.4h2.12c1.4 0 2.11-1.79.71-3.19l-.71-.71c-.3-.3-.4-.7-.4-1.1v-2.12c0-1.4-1.79-2.11-3.19-.71l-.71.71c-.3.3-.7.4-.4 1.1v2.12z"/>
                 </svg>
@@ -41,7 +41,7 @@ $es_administrador = true; // Cambiar a false para simular un cliente
                             Una breve descripción de los ingredientes clave y el sabor.
                         </p>
                         
-                        <a href="/receta-detalle/<?php echo $i; ?>" class="btn btn-outline-danger mt-auto">
+                        <a href="<?= BASE_URL ?>/receta<?php //echo $i; ?>" class="btn btn-outline-danger mt-auto">
                             Ver Receta
                         </a>
                     </div>
