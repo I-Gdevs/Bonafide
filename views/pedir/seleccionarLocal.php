@@ -2,10 +2,9 @@
     <title>Bonafide | Seleccionar Local</title>
 </head>
 
-
-
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
+
 <?php
 $locales = [
     [
@@ -25,13 +24,10 @@ $locales = [
 ];
 ?>
 
-
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
-        
         <h1 class="fw-bold mb-3">Seleccione su Local</h1>
-        
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
     
     <?php foreach ($locales as $local): ?>
     <div class="col">
@@ -56,6 +52,4 @@ $locales = [
     </div>
 </main>
 
-<?php 
-include __DIR__ . '/../partials/footer.php'; 
-?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

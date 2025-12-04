@@ -5,8 +5,6 @@
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
-
-
 <main>
     <div class="container my-5">
         
@@ -211,38 +209,27 @@
 
 
 <script>
-    // ⭐ 1. INICIALIZACIÓN DEL ESTADO GLOBAL DEL CARRITO ⭐
-    // Usamos localStorage para persistir el carrito si el usuario recarga la página
     let cart = JSON.parse(localStorage.getItem('bonafideCart')) || {};
     
-    // Referencias a los contenedores del carrito en el HTML
     const cartItemsContainer = document.getElementById('cart-items-list');
     const subtotalElement = document.getElementById('cart-subtotal');
     const totalElement = document.getElementById('cart-total');
     const totalPagarElement = document.getElementById('total-a-pagar');
-    const fixedShippingCost = 2100; // Costo de envío fijo (ajusta si es necesario)
+    const fixedShippingCost = 2100;
 
-    // --- Funciones de Formato ---
     function formatCurrency(amount) {
-        return '$' + amount.toLocaleString('es-AR'); // Formato de moneda Argentina
+        return '$' + amount.toLocaleString('es-AR');
     }
 
-    // --- Funciones de Lógica ---
-    
-    /**
-     * Dibuja los ítems y totales en el carrito (Columna derecha)
-     */
     function renderCart() {
-        cartItemsContainer.innerHTML = ''; // Limpiar el contenido actual
+        cartItemsContainer.innerHTML = '';
         let subtotal = 0;
 
-        // 1. ITERAR sobre los productos en el objeto 'cart'
         for (const id in cart) {
             const item = cart[id];
             const itemTotal = item.quantity * item.price;
             subtotal += itemTotal;
-            
-            // 2. Crear el elemento HTML para el ítem del carrito
+
             const itemHtml = `
                 <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-2" data-cart-id="${id}">
                     <div class="d-flex align-items-center">
@@ -266,18 +253,13 @@
 
         const totalFinal = subtotal + fixedShippingCost;
 
-        // 3. Actualizar los totales
         subtotalElement.textContent = formatCurrency(subtotal);
         totalElement.textContent = formatCurrency(totalFinal);
         totalPagarElement.textContent = formatCurrency(totalFinal);
         
-        // 4. Guardar estado en localStorage
         localStorage.setItem('bonafideCart', JSON.stringify(cart));
     }
     
-    /**
-     * Añade o incrementa la cantidad de un producto en el carrito.
-     */
     function addItem(id, name, price) {
         if (cart[id]) {
             cart[id].quantity += 1;
@@ -287,31 +269,22 @@
         renderCart();
     }
     
-    /**
-     * Elimina completamente un producto del carrito.
-     */
     function removeItem(id) {
         delete cart[id];
         renderCart();
     }
 
-    /**
-     * Aumenta o disminuye la cantidad de un ítem.
-     */
     function updateQuantity(id, change) {
         cart[id].quantity += change;
         if (cart[id].quantity <= 0) {
-            removeItem(id); // Eliminar si la cantidad llega a cero
+            removeItem(id); 
         } else {
             renderCart();
         }
     }
 
-
-    // ⭐ 2. MANEJO DE EVENTOS (CLIC EN BOTÓN +) ⭐
     
     document.addEventListener('DOMContentLoaded', function() {
-        // Cargar el carrito al inicio de la página
         renderCart(); 
 
         const productButtons = document.querySelectorAll('.add-to-cart-btn');
