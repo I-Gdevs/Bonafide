@@ -20,13 +20,13 @@
                         <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-dark">Movimientos</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none text-dark">Modelos de Artículos</a>
+                        <a href="<?= BASE_URL ?>/stock/item-models" class="text-decoration-none text-dark">Modelos de Artículos</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none text-dark">Proveedores</a>
+                        <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-dark">Proveedores</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#" class="text-decoration-none text-dark">Locales</a>
+                        <a href="<?= BASE_URL ?>/stock/buildings" class="text-decoration-none text-dark">Locales</a>
                     </li>
                 </ul>
             </div>
