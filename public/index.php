@@ -117,6 +117,11 @@
         case 'perfil':
             $view_file = BASE_PATH . '/views/perfil/perfil.php';
             break;
+        
+        // pdf
+        case 'pdf':
+            $view_file = BASE_PATH . '/docs/Bonafide - Proyecto Final - Asplanatti e Imas - Metodología de Sistemas I.pdf';
+            break;
 
 
         
