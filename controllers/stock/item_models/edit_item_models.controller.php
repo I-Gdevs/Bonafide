@@ -19,7 +19,7 @@
         } else {
             $error = urlencode($response['data']['error'] ?? "Error al actualizar modelo de artículo.");
 
-            header("Location: " . BASE_URL . "/stock/item-models/?error=" . $errorMsg);
+            header("Location: " . BASE_URL . "/stock/item-models?error=" . $errorMsg);
 
             exit;
         }

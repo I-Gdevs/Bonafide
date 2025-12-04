@@ -4,19 +4,7 @@
 
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
-<?php if (isset($_GET['success'])): ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        ¡Artículo actualizado correctamente!
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-<?php endif; ?>
 
-<?php if (isset($_GET['error'])): ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        Error: <?= htmlspecialchars($_GET['error']) ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-<?php endif; ?>
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
 
@@ -45,12 +33,12 @@
                 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
-                        <button class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalCrearArticulo">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/></svg>
+                        <button class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalCreaerModeloArticulo">
+                            <i class="bi bi-plus-lg"></i>
                         </button>
 
                         <button class="btn btn-outline-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-left" viewBox="0 0 16 16"><path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/></svg>
+                            <i class="bi bi-funnel"></i>
                         </button>
                     </div>
 
@@ -71,7 +59,7 @@
                         <tbody id="tablaStockBody">
                             <?php if (empty($itemModelsList)): ?>
                                 <tr>
-                                    <td colspan="4" class="text-center py-4 text-muted">No hay ningún modelo de artículo.</td>
+                                    <td colspan="3" class="text-center py-4 text-muted">No hay ningún modelo de artículo.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($itemModelsList as $item): ?>
@@ -79,7 +67,7 @@
                                         <td><?= $item['nombre_ingrediente']?></td>
                                         <td><?= $item['unidad_medida_ingrediente']?></td>
                                         <td>
-                                            <button class="btn btn-sm btn-danger"
+                                            <button class="btn btn-sm btn-secondary"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalEditarModeloArticulo"
                                                 data-id="<?= $item['id_ing_mod'] ?>"
@@ -88,7 +76,7 @@
                                             >
                                                 <i class="bi bi-pen"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-danger">
+                                            <button class="btn btn-sm btn-outline-danger">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
@@ -103,6 +91,46 @@
     </div>
 </main>
 
+<!-- Creación de modelos de artículos -->
+ <div class="modal fade" id="modalCreaerModeloArticulo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Crear nuevo Modelo de Artículo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <form method="POST" action="<?= BASE_URL ?>/stock/item-models/create">
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre de artículo</label>
+                        <input type="text" class="form-control" id="input_nombre" name="nombre" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Unidad de medida</label>
+                        <select class="form-select" id="input_unidad" name="unidad" required>
+                            <option selected disabled>Seleccione unidad</option>
+                            <option value="g">gramos (g)</option>
+                            <option value="kg">kilogramos (kg)</option>
+                            <option value="l">litros (l)</option>
+                            <option value="ml">mililitros (ml)</option>
+                            <option value="u">unidad (u)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edición de modelos de artículos -->
 <div class="modal fade" id="modalEditarModeloArticulo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -123,16 +151,16 @@
                     <div class="mb-3">
                         <label class="form-label">Unidad de Medida</label>
                         <select class="form-select" id="input_unidad" name="unidad" disabled>
-                            <option value="gr.">gr.</option>
-                            <option value="Kg.">Kg.</option>
-                            <option value="lts.">lts.</option>
-                            <option value="ml.">ml.</option>
-                            <option value="u.">u.</option>
+                            <option value="g">gramos (g)</option>
+                            <option value="kg">kilogramos (kg).</option>
+                            <option value="l">litros (l)</option>
+                            <option value="ml">mililitros (ml)</option>
+                            <option value="u">unidad (u)</option>
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger">Guardar Cambios</button>
                 </div>
             </form>
@@ -140,8 +168,23 @@
     </div>
 </div>
 
+<!-- TOAST ALERTA -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastAlert" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-<?= (!empty($response['data']['success'])) ? "success" : (!empty($response['data']['error']) ? "danger" : "info")?> text-white">
+            <strong class="me-auto">Modelo de artículo</strong>
+            <small>Justo ahora</small>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        
+        <div class="toast-body">
+            <?= !empty($response['data']['success']) ? $response['data']['success'] : "Procesado correctamente" ?>
+        </div>
+    </div>
+</div>
 
 <script>
+    // Buscador
     document.getElementById('buscadorStock').addEventListener('keyup', function() {
         let searchText = this.value.toLowerCase();
         let rows = document.querySelectorAll('#tablaStockBody tr');
@@ -156,6 +199,7 @@
         });
     });
 
+    // Modal para editar modelos de artículos
     const modalEditar = document.getElementById("modalEditarModeloArticulo");
 
     modalEditar.addEventListener('show.bs.modal', function (event) {
@@ -172,5 +216,12 @@
 
 </script>
 
-
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
+
+<?php if (isset($_GET['success'])): ?>
+    <script>
+        const toastAlert = document.getElementById('toastAlert');
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastAlert);
+        toastBootstrap.show();
+    </script>
+<?php endif; ?>
