@@ -93,7 +93,12 @@
             $view_file = BASE_PATH . '/views/administracion/administracion.php';
             break;
 
-            
+        // Perfil
+        case 'perfil':
+            $view_file = BASE_PATH . '/views/perfil/perfil.php';
+            break;
+
+
         
         // Caso por defecto - HTTP 404
         default:

@@ -5,7 +5,7 @@ include __DIR__ . '/../partials/header.php';
 
 $nombre_usuario = "Guido Asplanatti";
 $email_usuario = "guido.asplanatti@ejemplo.com";
-$perfil_admin = true;
+$perfil_admin = true; 
 ?>
 
 <main>
@@ -23,19 +23,9 @@ $perfil_admin = true;
                     
                     <a class="list-group-item list-group-item-action" id="list-pedidos-list" data-bs-toggle="list" href="#list-pedidos" role="tab" aria-controls="list-pedidos">
                         <i class="bi bi-box-seam me-2"></i> Historial de Pedidos
-                    </a>
-                    
-                    <a class="list-group-item list-group-item-action" id="list-recetas-list" data-bs-toggle="list" href="#list-recetas" role="tab" aria-controls="list-recetas">
-                        <i class="bi bi-journal-text me-2"></i> Mis Recetas
-                    </a>
+                    </a>                
 
-                    <?php if ($perfil_admin): ?>
-                    <a class="list-group-item list-group-item-action list-group-item-danger fw-bold" id="list-admin-list" href="/armado-recetas">
-                        <i class="bi bi-gear-fill me-2"></i> Armado de Recetas
-                    </a>
-                    <?php endif; ?>
-
-                    <a class="list-group-item list-group-item-action text-danger mt-3" href="/logout" onclick="deleteCookie('session_id')">
+                    <a class="list-group-item list-group-item-action mt-3" href="/logout" onclick="deleteCookie('session_id')">
                         <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
                     </a>
                 </div>
@@ -53,13 +43,16 @@ $perfil_admin = true;
                             </div>
                             <div class="mb-3">
                                 <label for="inputEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="inputEmail" value="<?= htmlspecialchars($email_usuario) ?>" disabled>
+                                <input type="email" class="form-control" id="inputEmail" value="<?= htmlspecialchars($email_usuario) ?>" required>
+                            </div>
+                            <div class="mb-2">
+                                <label for="inputPassword" class="form-label">Cambiar Contraseña</label>
+                                <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña actual">
                             </div>
                             <div class="mb-4">
-                                <label for="inputPassword" class="form-label">Cambiar Contraseña</label>
-                                <input type="password" class="form-control" id="inputPassword" placeholder="Dejar vacío para no cambiar">
+                                <input type="password" class="form-control" id="newPassword" placeholder="Nueva contraseña">
                             </div>
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-danger">Guardar Cambios</button>
                         </form>
                     </div>
                     
@@ -82,19 +75,6 @@ $perfil_admin = true;
                             <small class="mt-2 text-primary">Ver Detalles</small>
                         </div>
                     </div>
-
-                    <div class="tab-pane fade" id="list-recetas" role="tabpanel" aria-labelledby="list-recetas-list">
-                         <h4 class="fw-bold text-dark mb-4">Mis Recetas de Acceso</h4>
-                        <p class="text-muted">
-                            Aquí se listarían las recetas a las que el usuario tiene acceso (todas las recetas del sistema para usuarios comunes).
-                        </p>
-                        <ul class="list-group">
-                            <li class="list-group-item">Receta: Torta Cheesecake Clásica</li>
-                            <li class="list-group-item">Receta: Café de Origen Colombia</li>
-                            <li class="list-group-item">Receta: Tostados Especiales</li>
-                        </ul>
-                    </div>
-
                 </div>
             </div>
         </div>
