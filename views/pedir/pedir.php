@@ -44,6 +44,25 @@
                     
                     <div class="col">
                         <div class="card h-100 product-card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="text-danger fw-bold" data-price="2800">$2800</span>
+                                    
+                                    <button 
+                                        class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm add-to-cart-btn"
+                                        data-product-id="101" 
+                                        data-name="COMBO Café con 2 medialunas" 
+                                        data-price="2800"
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card h-100 product-card">
                             <img src="https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg" class="card-img-top" alt="Combo" style="height: 150px; object-fit: cover;">
                             <div class="card-body">
                                 <h6 class="card-title fw-bold">COMBO</h6>
@@ -149,20 +168,24 @@
                             </button>
                         </div>
 
-                        <div class="mt-4">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span class="fw-bold">Subtotal</span>
-                                <span>$6300</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-3">
-                                <span class="fw-bold">Costo de envío</span>
-                                <span>$2100</span>
-                            </div>
-                            
-                            <div class="bg-white p-2 rounded text-center mb-3 shadow-sm">
-                                <span class="fw-bold text-dark">Total a pagar</span>
-                                <h3 class="fw-bold text-dark mb-0">$8400</h3>
-                            </div>
+                        <div class="p-3 bg-light" id="cart-items-list">
+    </div>
+
+<div class="d-flex justify-content-between mb-1">
+    <span class="fw-bold">Subtotal</span>
+    <span id="cart-subtotal">$0</span> </div>
+<div class="d-flex justify-content-between mb-3">
+    <span class="fw-bold">Costo de envío</span>
+    <span>$2100</span>
+</div>
+    
+<div class="total-final-line d-flex justify-content-between fw-bold mt-3">
+    <span>TOTAL FINAL</span>
+    <span class="text-danger" id="cart-total">$2100</span> </div>
+
+<div class="bg-white p-2 rounded text-center mb-3 shadow-sm">
+    <span class="fw-bold text-dark">Total a pagar</span>
+    <h3 class="fw-bold text-dark mb-0" id="total-a-pagar">$2100</h3> </div>
 
                             <div class="d-flex justify-content-around mb-3 text-center small text-muted">
                                 <div class="bg-white p-2 rounded border w-50 me-1">
@@ -185,5 +208,125 @@
         </div>
     </div>
 </main>
+
+
+<script>
+    // ⭐ 1. INICIALIZACIÓN DEL ESTADO GLOBAL DEL CARRITO ⭐
+    // Usamos localStorage para persistir el carrito si el usuario recarga la página
+    let cart = JSON.parse(localStorage.getItem('bonafideCart')) || {};
+    
+    // Referencias a los contenedores del carrito en el HTML
+    const cartItemsContainer = document.getElementById('cart-items-list');
+    const subtotalElement = document.getElementById('cart-subtotal');
+    const totalElement = document.getElementById('cart-total');
+    const totalPagarElement = document.getElementById('total-a-pagar');
+    const fixedShippingCost = 2100; // Costo de envío fijo (ajusta si es necesario)
+
+    // --- Funciones de Formato ---
+    function formatCurrency(amount) {
+        return '$' + amount.toLocaleString('es-AR'); // Formato de moneda Argentina
+    }
+
+    // --- Funciones de Lógica ---
+    
+    /**
+     * Dibuja los ítems y totales en el carrito (Columna derecha)
+     */
+    function renderCart() {
+        cartItemsContainer.innerHTML = ''; // Limpiar el contenido actual
+        let subtotal = 0;
+
+        // 1. ITERAR sobre los productos en el objeto 'cart'
+        for (const id in cart) {
+            const item = cart[id];
+            const itemTotal = item.quantity * item.price;
+            subtotal += itemTotal;
+            
+            // 2. Crear el elemento HTML para el ítem del carrito
+            const itemHtml = `
+                <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-2" data-cart-id="${id}">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2 d-flex flex-column align-items-center">
+                            <small class="fw-bold text-muted cursor-pointer" onclick="updateQuantity('${id}', -1)">-</small>
+                            <span class="fw-bold">${item.quantity}x</span>
+                            <small class="fw-bold text-muted cursor-pointer" onclick="updateQuantity('${id}', 1)">+</small>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark">${formatCurrency(itemTotal)}</div>
+                            <small class="text-dark fw-bold">${item.name}</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm text-danger p-0 border-0" onclick="removeItem('${id}')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16"><path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/></svg>
+                    </button>
+                </div>
+            `;
+            cartItemsContainer.innerHTML += itemHtml;
+        }
+
+        const totalFinal = subtotal + fixedShippingCost;
+
+        // 3. Actualizar los totales
+        subtotalElement.textContent = formatCurrency(subtotal);
+        totalElement.textContent = formatCurrency(totalFinal);
+        totalPagarElement.textContent = formatCurrency(totalFinal);
+        
+        // 4. Guardar estado en localStorage
+        localStorage.setItem('bonafideCart', JSON.stringify(cart));
+    }
+    
+    /**
+     * Añade o incrementa la cantidad de un producto en el carrito.
+     */
+    function addItem(id, name, price) {
+        if (cart[id]) {
+            cart[id].quantity += 1;
+        } else {
+            cart[id] = { id, name, price: parseInt(price), quantity: 1 };
+        }
+        renderCart();
+    }
+    
+    /**
+     * Elimina completamente un producto del carrito.
+     */
+    function removeItem(id) {
+        delete cart[id];
+        renderCart();
+    }
+
+    /**
+     * Aumenta o disminuye la cantidad de un ítem.
+     */
+    function updateQuantity(id, change) {
+        cart[id].quantity += change;
+        if (cart[id].quantity <= 0) {
+            removeItem(id); // Eliminar si la cantidad llega a cero
+        } else {
+            renderCart();
+        }
+    }
+
+
+    // ⭐ 2. MANEJO DE EVENTOS (CLIC EN BOTÓN +) ⭐
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cargar el carrito al inicio de la página
+        renderCart(); 
+
+        const productButtons = document.querySelectorAll('.add-to-cart-btn');
+        productButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.dataset.productId;
+                const name = this.dataset.name;
+                const price = this.dataset.price;
+                
+                addItem(id, name, price);
+            });
+        });
+    });
+
+</script>
+
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
