@@ -7,8 +7,6 @@
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
         
-        <!-- <h1 class="mb-4">Movimientos de Stock por Local</h1> -->
-
         <div class="row g-4">
             <div class="col-md-3">
                 <ul class="list-group list-unstyled-borders">
@@ -31,14 +29,14 @@
             </div>
             
             <div class="col-md-9">
-                
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <button class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalCrearProveedor">
                             <i class="bi bi-plus-lg"></i>
                         </button>
-                        <button class="btn btn-outline-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-left" viewBox="0 0 16 16"><path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/></svg>
+
+                        <button class="btn btn-outline-secondary ">
+                            <i class="bi bi-funnel"></i>
                         </button>
                     </div>
 
@@ -179,13 +177,13 @@
         </div>
         
         <div class="toast-body">
-            Información del proveedor actualizada correctamente.
-            <?php echo (isset($response['ok'])) ? $response['ok'] : "Y bueno acá está el modal" ?>
+            <?= !empty($response['data']['success']) ? $response['data']['success'] : "Y bueno acá está el modal" ?>
         </div>
     </div>
 </div>
 
 <script>
+    // Buscador
     document.getElementById('buscadorStock').addEventListener('keyup', function() {
         let searchText = this.value.toLowerCase();
         let rows = document.querySelectorAll('#tablaStockBody tr');
@@ -200,6 +198,7 @@
         });
     });
 
+    // Modal para editar proveedores
     const modalEditar = document.getElementById("modalEditarProveedor");
 
     modalEditar.addEventListener('show.bs.modal', function (event) {
