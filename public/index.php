@@ -41,13 +41,7 @@
 
             $view_file = BASE_PATH . '/views/stock/stock.php';
             break;
-            
-        case 'stockOriginal':
-            require BASE_PATH . '/controllers/stock/stock.controller.php';
-
-            $view_file = BASE_PATH . '/views/stock/stock.php';
-            break;
-        
+                
         case 'stock/movements':
             $view_file = BASE_PATH . '/views/stock/movements.php';
             break;
@@ -99,7 +93,7 @@
             $view_file = BASE_PATH . '/views/administracion/administracion.php';
             break;
 
-
+            
         
         // Caso por defecto - HTTP 404
         default:
