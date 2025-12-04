@@ -1,14 +1,24 @@
 <head>
     <title>Bonafide | Modelos de Artículos</title>
 </head>
+
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
+<?php if (isset($_GET['success'])): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        ¡Artículo actualizado correctamente!
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
 
-
+<?php if (isset($_GET['error'])): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Error: <?= htmlspecialchars($_GET['error']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
-        
-        <!-- <h1 class="mb-4">Movimientos de Stock por Local</h1> -->
 
         <div class="row g-4">
             <div class="col-md-3">
@@ -44,7 +54,6 @@
                         </button>
                     </div>
 
-
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="buscadorStock" placeholder="Buscar...">
                     </div>
@@ -55,21 +64,34 @@
                         <thead>
                             <tr>
                                 <th>Artículo</th>
-                                <th>Cantidad</th>
                                 <th>Unidad</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tablaStockBody">
-                            <?php if (empty($stockList)): ?>
+                            <?php if (empty($itemModelsList)): ?>
                                 <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">No hay ningún movimiento cargado en este local.</td>
+                                    <td colspan="4" class="text-center py-4 text-muted">No hay ningún modelo de artículo.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($stockList as $item): ?>
+                                <?php foreach ($itemModelsList as $item): ?>
                                     <tr>
-                                        <td><?= $item['nombre']?></td>
-                                        <td><?= $item['cantidad']?></td>
-                                        <td><?= $item['unidad_medida']?></td>
+                                        <td><?= $item['nombre_ingrediente']?></td>
+                                        <td><?= $item['unidad_medida_ingrediente']?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEditarModeloArticulo"
+                                                data-id="<?= $item['id_ing_mod'] ?>"
+                                                data-nombre="<?= $item['nombre_ingrediente'] ?>"
+                                                data-unidad="<?= $item['unidad_medida_ingrediente'] ?>"
+                                            >
+                                                <i class="bi bi-pen"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -81,20 +103,74 @@
     </div>
 </main>
 
-<script>
-document.getElementById('buscadorStock').addEventListener('keyup', function() {
-    let searchText = this.value.toLowerCase();
-    let rows = document.querySelectorAll('#tablaStockBody tr');
+<div class="modal fade" id="modalEditarModeloArticulo" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="modalEditarArticuloLabel">Editar Modelo de Artículo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <form method="POST" action="<?= BASE_URL ?>/stock/item-models/edit">
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="input_id">
 
-    rows.forEach(row => {
-        let nombre = row.cells[0].innerText.toLowerCase();
-        if (nombre.includes(searchText)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del artículo</label>
+                        <input type="text" class="form-control" id="input_nombre" name="nombre" required>
+                    </div>
+    
+                    <div class="mb-3">
+                        <label class="form-label">Unidad de Medida</label>
+                        <select class="form-select" id="input_unidad" name="unidad" disabled>
+                            <option value="gr.">gr.</option>
+                            <option value="Kg.">Kg.</option>
+                            <option value="lts.">lts.</option>
+                            <option value="ml.">ml.</option>
+                            <option value="u.">u.</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('buscadorStock').addEventListener('keyup', function() {
+        let searchText = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#tablaStockBody tr');
+
+        rows.forEach(row => {
+            let nombre = row.cells[0].innerText.toLowerCase();
+            if (nombre.includes(searchText)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     });
-});
+
+    const modalEditar = document.getElementById("modalEditarModeloArticulo");
+
+    modalEditar.addEventListener('show.bs.modal', function (event) {
+        const boton = event.relatedTarget;
+
+        const id = boton.getAttribute('data-id');
+        const nombre = boton.getAttribute('data-nombre');
+        const unidad = boton.getAttribute('data-unidad');
+        
+        modalEditar.querySelector('#input_id').value = id;
+        modalEditar.querySelector('#input_nombre').value = nombre;
+        modalEditar.querySelector('#input_unidad').value = unidad;
+    });
+
 </script>
+
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
