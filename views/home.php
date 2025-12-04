@@ -1,3 +1,10 @@
+<?php
+    // Si una persona entra sin tener una sesión iniciada, se lo redirige a la página de login
+    if (!isset($_SESSION['token'])) {
+        header("Location: " . BASE_URL . "/login");
+    }
+?>
+
 <head>
     <title>Bonafide</title>
 </head>
@@ -54,7 +61,7 @@
                         Nuestro café más vendido, mezcla especial de granos arábicos tostados a la perfección. 
                         Ideal para empezar el día.
                     </p>
-                    
+
                     <hr>
 
                     <button class="btn btn-red w-100 py-2 fs-5">
@@ -63,9 +70,8 @@
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5.485 14.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0m7 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0"/>
                         </svg>
                     </button>
-
                 </div>
-
+                
                     <div class="text-center">
                         <p class="mt-5">Inicia sesión para pedir
                             <a href="<?= BASE_URL ?>/login" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
