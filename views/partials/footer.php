@@ -40,7 +40,7 @@
         <div class="col-md-3">
           <h5>Mi cuenta</h5>
           <ul class="list-unstyled">
-            <li><a href="#">Perfil</a></li>
+            <li><a href="<?= BASE_URL ?>/perfil">Perfil</a></li>
           </ul>
         </div>
       </div>

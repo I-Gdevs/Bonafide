@@ -41,12 +41,7 @@
 
             $view_file = BASE_PATH . '/views/stock/stock.php';
             break;
-            
-        case 'stockOriginal':
-            require BASE_PATH . '/controllers/stock/stock.controller.php';
-
-            $view_file = BASE_PATH . '/views/stock/stock.php';
-            break;
+        
         
         case 'stock/movements':
             $view_file = BASE_PATH . '/views/stock/movements.php';
@@ -85,6 +80,11 @@
         // Administracion
         case 'administracion':
             $view_file = BASE_PATH . '/views/administracion/administracion.php';
+            break;
+
+        // Perfil
+        case 'perfil':
+            $view_file = BASE_PATH . '/views/perfil/perfil.php';
             break;
 
 

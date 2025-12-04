@@ -24,7 +24,7 @@
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/administracion">Administración</a></li>
                     
                     <li class="nav-item ms-2">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="<?= BASE_URL ?>/perfil">
                             <!-- Nombre usuario -->
                             <?php if (isset($nombreUsuario)): ?>
                                 <?= $nombreUsuario ?>
