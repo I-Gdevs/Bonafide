@@ -46,6 +46,19 @@
             $view_file = BASE_PATH . '/views/stock/movements.php';
             break;
 
+        case 'stock/item-models':
+            $view_file = BASE_PATH . '/views/stock/item_models.php';
+            break;
+
+        case 'stock/providers':
+            $view_file = BASE_PATH . '/views/stock/providers.php';
+            break;
+        
+        case 'stock/buildings':
+            $view_file = BASE_PATH . '/views/stock/buildings.php';
+            break;
+
+            
         // Presentacion
         case 'presentacion':
             $view_file = BASE_PATH . '/views/errors/presentacion.php';
