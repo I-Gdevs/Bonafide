@@ -52,22 +52,22 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Artículo</th>
-                                <th>Cantidad</th>
-                                <th>Unidad</th>
+                                <th>Proveedor</th>
+                                <th>CUIT</th>
+                                <th>Detalle</th>
                             </tr>
                         </thead>
                         <tbody id="tablaStockBody">
-                            <?php if (empty($stockList)): ?>
+                            <?php if (empty($providerList)): ?>
                                 <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">No hay ningún movimiento cargado en este local.</td>
+                                    <td colspan="3" class="text-center py-4 text-muted">No hay ningún proveedor cargado.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($stockList as $item): ?>
+                                <?php foreach ($providerList as $item): ?>
                                     <tr>
-                                        <td><?= $item['nombre']?></td>
-                                        <td><?= $item['cantidad']?></td>
-                                        <td><?= $item['unidad_medida']?></td>
+                                        <td><?= $item['nombre_proveedor']?></td>
+                                        <td><?= $item['cuit_proveedor']?></td>
+                                        <td><?= $item['detalle_proveedor']?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>

@@ -1,9 +1,8 @@
 <head>
-    <title>Bonafide | Proveedores</title>
+    <title>Bonafide | Locales</title>
 </head>
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
-
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
@@ -52,22 +51,24 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Artículo</th>
-                                <th>Cantidad</th>
-                                <th>Unidad</th>
+                                <th>Local</th>
+                                <th>Dirección</th>
+                                <th>Empleados</th>
+                                <th>Encargado</th>
                             </tr>
                         </thead>
                         <tbody id="tablaStockBody">
-                            <?php if (empty($stockList)): ?>
+                            <?php if (empty($buildingList)): ?>
                                 <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">No hay ningún movimiento cargado en este local.</td>
+                                    <td colspan="4" class="text-center py-4 text-muted">No hay ningún local cargado</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($stockList as $item): ?>
+                                <?php foreach ($buildingList as $item): ?>
                                     <tr>
                                         <td><?= $item['nombre']?></td>
-                                        <td><?= $item['cantidad']?></td>
-                                        <td><?= $item['unidad_medida']?></td>
+                                        <td><?= $item['direccion']?></td>
+                                        <td><?= $item['cantidad_empleados']?></td>
+                                        <td><?= $item['encargado']?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
