@@ -1,5 +1,5 @@
 <head>
-    <title>Bonafide | Stock</title>
+    <title>Bonafide | Movimientos de Stock</title>
 </head>
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
@@ -13,11 +13,11 @@
         <div class="row g-4">
             <div class="col-md-3">
                 <ul class="list-group list-unstyled-borders">
-                    <li class="list-group-item active">
-                        <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-white fs-5 fw-bold">Mi stock</a>
-                    </li>
                     <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-dark">Movimientos</a>
+                        <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-dark">Mi stock</a>
+                    </li>
+                    <li class="list-group-item active">
+                        <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-white fs-5 fw-bold">Movimientos</a>
                     </li>
                     <li class="list-group-item">
                         <a href="#" class="text-decoration-none text-dark">Modelos de Artículos</a>
@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="buscadorStock" placeholder="Buscar...">
+                        <input type="text" class="form-control" placeholder="Buscar...">
                     </div>
                 </div>
 
@@ -52,47 +52,34 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
+                                <th>Movimiento</th>
+                                <th>Local</th>
+                                <th>Fecha</th>
                                 <th>Artículo</th>
                                 <th>Cantidad</th>
-                                <th>Unidad</th>
                             </tr>
                         </thead>
-                        <tbody id="tablaStockBody">
-                            <?php if (empty($stockList)): ?>
-                                <tr>
-                                    <td colspan="3" class="text-center py-4 text-muted">No hay nada de stock cargado en este local.</td>
-                                </tr>
-                            <?php else: ?>
-                                <?php foreach ($stockList as $item): ?>
-                                    <tr>
-                                        <td><?= $item['nombre']?></td>
-                                        <td><?= $item['cantidad']?></td>
-                                        <td><?= $item['unidad_medida']?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td>Egreso asociado a venta</td>
+                                <td>Tribunales</td>
+                                <td>11/02/2025</td>
+                                <td>Café en granos</td>
+                                <td class="text-danger fw-bold">-20 gr.</td>
+                            </tr>
+                            <tr>
+                                <td>Ingreso por compra a proveedor</td>
+                                <td>Peatonal</td>
+                                <td>11/02/2025</td>
+                                <td>Torta Cheesecake</td>
+                                <td class="text-success fw-bold">+3 u.</td>
+                            </tr>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </main>
-
-<script>
-document.getElementById('buscadorStock').addEventListener('keyup', function() {
-    let searchText = this.value.toLowerCase();
-    let rows = document.querySelectorAll('#tablaStockBody tr');
-
-    rows.forEach(row => {
-        let nombre = row.cells[0].innerText.toLowerCase();
-        if (nombre.includes(searchText)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-});
-</script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
