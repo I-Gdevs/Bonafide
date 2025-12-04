@@ -68,7 +68,6 @@ class BuildingModel {
             if (dbConnection) {
                 await dbConnection.release();
             }
-            console.log(result);
             return result;
         }
     }

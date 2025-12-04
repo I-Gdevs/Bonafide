@@ -2,13 +2,8 @@
     <title>Bonafide | Estadísticas</title>
 </head>
 
-<?php 
-// Incluimos el head (con estilos) y el header (navegación)
-include __DIR__ . '/../partials/head.php'; 
-include __DIR__ . '/../partials/header.php'; 
-?>
-
-
+<?php include BASE_PATH . '/views/partials/head.php'; ?>
+<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
@@ -98,4 +93,4 @@ include __DIR__ . '/../partials/header.php';
     </div>
 </main>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

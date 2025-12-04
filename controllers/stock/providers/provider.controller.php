@@ -12,6 +12,6 @@
     if ($response["ok"]) {
         $providerList = $response["data"]["providers_list"] ?? [];
     } else {
-        $error ="No se pudo buscar la lista de stock: " . ($response["data"]['error'] ?? 'Error de API');
+        $error ="No se pudo buscar la lista de proveedores: " . ($response["data"]['error'] ?? 'Error de API');
     }
 ?>

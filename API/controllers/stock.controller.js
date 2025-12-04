@@ -11,14 +11,14 @@ class StockController {
             let newStock = await stockService.createStock({ stock_name, stock_measurement_unit });
 
             return res.status(200).json({
-                message: "Nuevo ingrediente/stock creado correctamente.",
+                success: "Nuevo modelo de artículo creado correctamente.",
                 newStock
             });
         } catch (error) {
-            console.log("Error al crear un ingrediente/stock nuevo: ", error.message);
+            console.log("Error al crear un modelo de artículo nuevo: ", error.message);
             
             return res.status(500).json({
-                error: "Error interno al crear nuevo ingrediente."
+                error: "Error interno al crear nuevo modelo de artículo."
             });
         }
     }
