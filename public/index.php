@@ -51,10 +51,14 @@
             break;
 
         case 'stock/providers':
+            require BASE_PATH . '/controllers/stock/provider.controller.php';
+
             $view_file = BASE_PATH . '/views/stock/providers.php';
             break;
         
         case 'stock/buildings':
+            require BASE_PATH . '/controllers/stock/building.controller.php';
+
             $view_file = BASE_PATH . '/views/stock/buildings.php';
             break;
 
