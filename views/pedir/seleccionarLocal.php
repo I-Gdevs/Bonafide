@@ -2,6 +2,8 @@
     <title>Bonafide | Seleccionar Local</title>
 </head>
 
+
+
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 <?php
@@ -29,33 +31,27 @@ $locales = [
         
         <h1 class="fw-bold mb-3">Seleccione su Local</h1>
         
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
-            
-            <?php foreach ($locales as $local): ?>
-            <div class="col">
-                <a href="/pedir/<?= $local['id'] ?>" class="text-decoration-none text-dark">
-                    <div class="card local-card h-100">
-                        <img src="<?= htmlspecialchars($local['imagen']) ?>" class="card-img-top" alt="Fachada <?= $local['nombre'] ?>">
-                        
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold text-dark"><?= htmlspecialchars($local['nombre']) ?></h5>
-                            <p class="card-text small text-muted mb-2">
-                                <i class="bi bi-geo-alt-fill me-1 text-danger"></i> <?= htmlspecialchars($local['direccion']) ?>
-                            </p>
-                            <p class="card-text small text-dark">
-                                <i class="bi bi-clock me-1 text-danger"></i> Horario: <?= htmlspecialchars($local['horario']) ?>
-                            </p>
-                        </div>
-                        
-                        <div class="card-footer card-footer-action text-center">
-                            Seleccionar Local
-                        </div>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 g-4">
+    
+    <?php foreach ($locales as $local): ?>
+    <div class="col">
+        <a href="<?= BASE_URL ?>/pedir" class="text-decoration-none text-dark">
+            <div class="card local-card h-100">
+                <img src="<?= htmlspecialchars($local['imagen']) ?>" class="card-img-top" alt="Fachada <?= $local['nombre'] ?>">
+                
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-dark"><?= htmlspecialchars($local['nombre']) ?></h5>
                     </div>
-                </a>
+                
+                <div class="card-footer card-footer-action text-center">
+                    Seleccionar Local
+                </div>
             </div>
-            <?php endforeach; ?>
+        </a>
+    </div>
+    <?php endforeach; ?>
 
-        </div>
+</div>
         
     </div>
 </main>

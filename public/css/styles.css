@@ -260,3 +260,15 @@ html::-webkit-scrollbar,
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+/* 18. Boton + redondo de pedir */
+.btn-round-sm {
+    width: 30px; 
+    height: 30px; 
+    padding: 0 !important; 
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center; 
+    font-size: 1.2rem; 
+    line-height: 1; 
+}

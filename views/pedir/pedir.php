@@ -50,7 +50,7 @@
                                 <p class="card-text small text-muted">Café con 2 medialunas</p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <span class="text-danger fw-bold">$2800</span>
-                                    <button class="btn btn-sm btn-outline-danger rounded-circle">+</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm">+</button>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                 <p class="card-text small text-muted">Chocolate caliente</p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <span class="text-danger fw-bold">$3400</span>
-                                    <button class="btn btn-sm btn-outline-danger rounded-circle">+</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm">+</button>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                                 <p class="card-text small text-muted">Café + Tostado jamón y queso</p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <span class="text-danger fw-bold">$4800</span>
-                                    <button class="btn btn-sm btn-outline-danger rounded-circle">+</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm">+</button>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                 <p class="card-text small text-muted">Jamón y Queso</p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <span class="text-danger fw-bold">$2200</span>
-                                    <button class="btn btn-sm btn-outline-danger rounded-circle">+</button>
+                                    <button class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm">+</button>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +174,9 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-pagar w-100 py-2">Pagar</button>
+                        <a href="<?= BASE_URL ?>/pagar" class="btn btn-pagar w-100 py-2 text-decoration-none">
+                            Pagar
+                        </a>
 
                     </div>
                 </div>
@@ -184,4 +186,4 @@
     </div>
 </main>
 
-<?php include __DIR__ . '/../partials/footer.php'; ?>
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>

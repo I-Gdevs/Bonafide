@@ -32,7 +32,7 @@ $es_administrador = true; // Cambiar a false para simular un cliente
             <?php for ($i = 1; $i <= 8; $i++): ?>
             <div class="col">
                 <div class="card recipe-card h-100">
-                    <img src="https://via.placeholder.com/600x400?text=Receta+<?php echo $i; ?>" 
+                    <img src="https://img.freepik.com/foto-gratis/rebanada-pastel-queso-nueva-york_1232-2130.jpg?t=st=1764825793~exp=1764829393~hmac=191aaa7e627dff75f67e916a4512e928ffb85de0668de239ca4fc6d1e295bd18&w=1480" <?php //esto va dentro de src de la imagen echo $i; ?> 
                          class="card-img-top recipe-img" alt="Receta <?php echo $i; ?>">
                     
                     <div class="card-body d-flex flex-column">
