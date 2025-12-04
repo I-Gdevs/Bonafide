@@ -272,3 +272,25 @@ html::-webkit-scrollbar,
     font-size: 1.2rem; 
     line-height: 1; 
 }
+
+/* 19. Recetas */
+.ficha-tecnica-card {
+    border-left: 5px solid #e53935;
+}
+.ficha-seccion-header {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #e53935;
+    margin-bottom: 15px;
+}
+.sin-tacc-badge {
+    background-color: #fd7e14; 
+    color: white;
+    font-weight: bold;
+}
+.ingrediente-sintacc {
+    color: #fd7e14; 
+    font-weight: 600;
+}

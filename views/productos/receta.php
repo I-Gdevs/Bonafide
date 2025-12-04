@@ -24,7 +24,6 @@ $receta = [
 <style>
     .fixed-width-container { max-width: 1320px !important; }
     
-    /* Estilos de la ficha técnica */
     .ficha-tecnica-card {
         border-left: 5px solid #e53935;
     }
@@ -37,12 +36,12 @@ $receta = [
         margin-bottom: 15px;
     }
     .sin-tacc-badge {
-        background-color: #fd7e14; /* Naranja fuerte */
+        background-color: #fd7e14; 
         color: white;
         font-weight: bold;
     }
     .ingrediente-sintacc {
-        color: #fd7e14; /* Texto naranja para ítems sin TACC */
+        color: #fd7e14; 
         font-weight: 600;
     }
 </style>
