@@ -46,6 +46,11 @@
             $view_file = BASE_PATH . '/views/stock/movements.php';
             break;
 
+        // Módulos de stock
+        case 'stock_modeloDeArticulo':
+            $view_file = BASE_PATH . '/views/stock/modeloDeArticulo.php';
+            break;
+
         // Presentacion
         case 'presentacion':
             $view_file = BASE_PATH . '/views/errors/presentacion.php';
@@ -71,9 +76,9 @@
             $view_file = BASE_PATH . '/views/productos/productos.php';
             break;
 
-        // Estadisticas
-        case 'estadisticas':
-            $view_file = BASE_PATH . '/views/estadisticas/estadisticas.php';
+        // Administracion
+        case 'administracion':
+            $view_file = BASE_PATH . '/views/administracion/administracion.php';
             break;
 
 
