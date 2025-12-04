@@ -34,8 +34,8 @@
                 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
-                        <button class="btn btn-danger me-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/><path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/></svg>
+                        <button class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalCrearProveedor">
+                            <i class="bi bi-plus-lg"></i>
                         </button>
                         <button class="btn btn-outline-secondary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-left" viewBox="0 0 16 16"><path d="M2 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/></svg>
@@ -54,6 +54,7 @@
                                 <th>Proveedor</th>
                                 <th>CUIT</th>
                                 <th>Detalle</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tablaStockBody">
@@ -63,10 +64,25 @@
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($providerList as $item): ?>
-                                    <tr>
+                                    <tr class="align-middle">
                                         <td><?= $item['nombre_proveedor']?></td>
                                         <td><?= $item['cuit_proveedor']?></td>
                                         <td><?= $item['detalle_proveedor']?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-secondary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEditarProveedor"
+                                                data-id="<?= $item['id_proveedor'] ?>"
+                                                data-nombre="<?= $item['nombre_proveedor'] ?>"
+                                                data-cuit="<?= $item['cuit_proveedor'] ?>"
+                                                data-detalle="<?= $item['detalle_proveedor'] ?>"
+                                            >
+                                                <i class="bi bi-pen"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
@@ -78,20 +94,135 @@
     </div>
 </main>
 
-<script>
-document.getElementById('buscadorStock').addEventListener('keyup', function() {
-    let searchText = this.value.toLowerCase();
-    let rows = document.querySelectorAll('#tablaStockBody tr');
+<!-- Creación de proveedores -->
+<div class="modal fade" id="modalCrearProveedor" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Agregar nuevo proveedor</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <form method="POST" action="<?= BASE_URL ?>/stock/providers/create">
+                <div class="modal-body">
 
-    rows.forEach(row => {
-        let nombre = row.cells[0].innerText.toLowerCase();
-        if (nombre.includes(searchText)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+                    <div class="mb-3">
+                        <label class="form-label">Nombre/Razón social</label>
+                        <input type="text" class="form-control" id="input_nombre" name="nombre" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">CUIT/CUIL</label>
+                        <input type="text" class="form-control" id="input_cuit" name="cuit" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" rows=3 id="input_detalle" name="detalle" required></textarea>
+                    </div>
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edición de proveedores -->
+<div class="modal fade" id="modalEditarProveedor" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Editar Proveedor</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <form method="POST" action="<?= BASE_URL ?>/stock/providers/edit">
+                <div class="modal-body">
+                    <input type="hidden" id="input_id" name="id">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre/Razón social</label>
+                        <input type="text" class="form-control" id="input_nombre" name="nombre" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">CUIT/CUIL</label>
+                        <input type="text" class="form-control" id="input_cuit" name="cuit" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" rows=3 id="input_detalle" name="detalle" required></textarea>
+                    </div>
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST ALERTA -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto">Proveedor</strong>
+            <small>Justo ahora</small>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        
+        <div class="toast-body">
+            Información del proveedor actualizada correctamente.
+            <?php echo (isset($response['ok'])) ? $response['ok'] : "Y bueno acá está el modal" ?>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('buscadorStock').addEventListener('keyup', function() {
+        let searchText = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#tablaStockBody tr');
+
+        rows.forEach(row => {
+            let nombre = row.cells[0].innerText.toLowerCase();
+            if (nombre.includes(searchText)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     });
-});
+
+    const modalEditar = document.getElementById("modalEditarProveedor");
+
+    modalEditar.addEventListener('show.bs.modal', function (event) {
+        const boton = event.relatedTarget;
+
+        const id = boton.getAttribute('data-id');
+        const nombre = boton.getAttribute('data-nombre');
+        const cuit = boton.getAttribute('data-cuit');
+        const detalle = boton.getAttribute('data-detalle');
+        
+        modalEditar.querySelector('#input_id').value = id;
+        modalEditar.querySelector('#input_nombre').value = nombre;
+        modalEditar.querySelector('#input_cuit').value = cuit;
+        modalEditar.querySelector('#input_detalle').value = detalle;
+    });
 </script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
+
+<?php if (isset($_GET['success'])): ?>
+    <script>
+        const toastSuccess = document.getElementById('toastSuccess');
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastSuccess);
+        toastBootstrap.show();
+    </script>
+<?php endif; ?>

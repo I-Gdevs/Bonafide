@@ -57,9 +57,13 @@
             break;
 
         case 'stock/providers':
-            require BASE_PATH . '/controllers/stock/provider.controller.php';
+            require BASE_PATH . '/controllers/stock/providers/provider.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/providers.php';
+            break;
+
+        case 'stock/providers/edit':
+            require BASE_PATH . '/controllers/stock/providers/edit_provider.controller.php';
             break;
         
         case 'stock/buildings':
