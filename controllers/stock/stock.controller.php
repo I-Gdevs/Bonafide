@@ -6,7 +6,6 @@
 
     $error = null;
     $stockList = [];
-    $locales = [];
 
     $response = callApi("POST", "/stock/amount");
 
