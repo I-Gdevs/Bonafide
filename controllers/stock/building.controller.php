@@ -5,14 +5,13 @@
     }
 
     $error = null;
-    $stockList = [];
+    $buildingList = [];
 
-    $response = callApi("POST", "/stock/amount");
+    $response = callApi("POST", "/building/list");
 
     if ($response["ok"]) {
-        $stockList = $response["data"]["stock_list"] ?? [];
+        $buildingList = $response["data"]["buildings_list"] ?? [];
     } else {
         $error ="No se pudo buscar la lista de stock: " . ($response["data"]['error'] ?? 'Error de API');
     }
-
 ?>

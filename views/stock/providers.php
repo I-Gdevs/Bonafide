@@ -1,7 +1,6 @@
 <head>
-    <title>Bonafide | Movimientos de Stock</title>
+    <title>Bonafide | Proveedores</title>
 </head>
-
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
@@ -16,14 +15,14 @@
                     <li class="list-group-item">
                         <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-dark">Mi stock</a>
                     </li>
-                    <li class="list-group-item active">
-                        <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-white fs-5 fw-bold">Movimientos</a>
+                    <li class="list-group-item">
+                        <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-dark">Movimientos</a>
                     </li>
                     <li class="list-group-item">
                         <a href="<?= BASE_URL ?>/stock/item-models" class="text-decoration-none text-dark">Modelos de Artículos</a>
                     </li>
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-dark">Proveedores</a>
+                    <li class="list-group-item active">
+                        <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-white fs-5 fw-bold">Proveedores</a>
                     </li>
                     <li class="list-group-item">
                         <a href="<?= BASE_URL ?>/stock/buildings" class="text-decoration-none text-dark">Locales</a>
@@ -44,7 +43,7 @@
                     </div>
 
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="Buscar...">
+                        <input type="text" class="form-control" id="buscadorStock" placeholder="Buscar...">
                     </div>
                 </div>
 
@@ -52,34 +51,47 @@
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Movimiento</th>
-                                <th>Local</th>
-                                <th>Fecha</th>
-                                <th>Artículo</th>
-                                <th>Cantidad</th>
+                                <th>Proveedor</th>
+                                <th>CUIT</th>
+                                <th>Detalle</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Egreso asociado a venta</td>
-                                <td>Tribunales</td>
-                                <td>11/02/2025</td>
-                                <td>Café en granos</td>
-                                <td class="text-danger fw-bold">-20 gr.</td>
-                            </tr>
-                            <tr>
-                                <td>Ingreso por compra a proveedor</td>
-                                <td>Peatonal</td>
-                                <td>11/02/2025</td>
-                                <td>Torta Cheesecake</td>
-                                <td class="text-success fw-bold">+3 u.</td>
-                            </tr>
-                            </tbody>
+                        <tbody id="tablaStockBody">
+                            <?php if (empty($providerList)): ?>
+                                <tr>
+                                    <td colspan="3" class="text-center py-4 text-muted">No hay ningún proveedor cargado.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($providerList as $item): ?>
+                                    <tr>
+                                        <td><?= $item['nombre_proveedor']?></td>
+                                        <td><?= $item['cuit_proveedor']?></td>
+                                        <td><?= $item['detalle_proveedor']?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </main>
+
+<script>
+document.getElementById('buscadorStock').addEventListener('keyup', function() {
+    let searchText = this.value.toLowerCase();
+    let rows = document.querySelectorAll('#tablaStockBody tr');
+
+    rows.forEach(row => {
+        let nombre = row.cells[0].innerText.toLowerCase();
+        if (nombre.includes(searchText)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+</script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>

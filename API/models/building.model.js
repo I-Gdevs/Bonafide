@@ -43,7 +43,18 @@ class BuildingModel {
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM locales;";
+            let dbQuery = `
+                SELECT
+                    l.id_usuario AS id,
+                    l.nombre_local AS nombre,
+                    l.direccion_local AS direccion,
+                    l.empleados_local AS cantidad_empleados,
+                    u.nombre_usuario AS encargado
+                FROM
+                    locales l
+                INNER JOIN
+	                usuarios u ON u.id_usuario = l.id_usuario;
+            `;
 
             result = await dbConnection.query(dbQuery);
 

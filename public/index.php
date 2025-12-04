@@ -41,17 +41,28 @@
 
             $view_file = BASE_PATH . '/views/stock/stock.php';
             break;
-        
-        
+                
         case 'stock/movements':
             $view_file = BASE_PATH . '/views/stock/movements.php';
             break;
 
-        // Módulos de stock
-        case 'stock_modeloDeArticulo':
-            $view_file = BASE_PATH . '/views/stock/modeloDeArticulo.php';
+        case 'stock/item-models':
+            $view_file = BASE_PATH . '/views/stock/item_models.php';
             break;
 
+        case 'stock/providers':
+            require BASE_PATH . '/controllers/stock/provider.controller.php';
+
+            $view_file = BASE_PATH . '/views/stock/providers.php';
+            break;
+        
+        case 'stock/buildings':
+            require BASE_PATH . '/controllers/stock/building.controller.php';
+
+            $view_file = BASE_PATH . '/views/stock/buildings.php';
+            break;
+
+            
         // Presentacion
         case 'presentacion':
             $view_file = BASE_PATH . '/views/errors/presentacion.php';
