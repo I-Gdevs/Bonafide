@@ -24,7 +24,7 @@ $categorias = [
 $etiquetas_disponibles = ['Sin TACC', 'Gluten', 'Vegan Friendly', 'Frío', 'Lácteo', 'Invierno', 'Vegetariano', 'Combo', 'Picante', 'Dietético'];
 $etiquetas_disponibles_json = json_encode($etiquetas_disponibles);
 
-// ⭐ PRODUCTOS ACTUALIZADOS (Usaremos 'imagen' para 'fondo' si 'fondo' no está definido) ⭐
+
 $productos_raw = [
     [
         'id' => 101, 'nombre' => 'Café con Leche Clásico', 'descripcion' => 'Receta base de café con leche.',
@@ -100,9 +100,9 @@ $productos_raw = [
     ],
 ];
 
-// ⭐ Mapear productos para asegurar que 'fondo' exista (Punto 1) ⭐
+
 $productos = array_map(function($p) {
-    // Si 'fondo' no existe o está vacío, usa la 'imagen' de la tarjeta como fallback.
+
     if (empty($p['fondo'])) {
         $p['fondo'] = $p['imagen'];
     }
@@ -110,7 +110,7 @@ $productos = array_map(function($p) {
 }, $productos_raw);
 
 
-// LÓGICA DE SELECCIÓN PHP (Detectar Receta)
+
 $receta_seleccionada = null;
 $producto_id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
@@ -404,12 +404,12 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
   </div>
 </div>
 <script>
-    // ⭐ BASE DE DATOS DE ETIQUETAS PARA JS ⭐
+
     const ETIQUETAS_DISPONIBLES = <?= $etiquetas_disponibles_json ?>;
 
     let activeIngredients = [];
     
-    // ⭐ LÓGICA DE INGREDIENTES DINÁMICOS ⭐
+
     function renderIngredientsTable() {
         const tableBody = document.getElementById('ingredientes-table-body');
         tableBody.innerHTML = '';
@@ -454,7 +454,7 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
 
         let formattedIngredient = newIngredient;
 
-        // Aseguramos que solo se añada la cantidad si no está vacía
+
         if (newQuantity !== '') {
             formattedIngredient = `${newIngredient} (${newQuantity})`;
         }
@@ -472,7 +472,7 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
         renderIngredientsTable();
     }
 
-    // ⭐ LÓGICA DE ETIQUETAS (Checkboxes) ⭐
+
     function renderTagsCheckboxes(selectedTags = []) {
         const container = document.getElementById('edit-etiquetas-container');
         container.innerHTML = '';
@@ -491,43 +491,41 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
     }
 
 
-    // ⭐ Helper para pre-cargar los datos en el modal ⭐
+
     function prepareModal(button, receta) {
-        // Inicializar activeIngredients con los datos de la receta
+
         activeIngredients = [...receta.ingredientes];
         renderIngredientsTable(); 
         renderTagsCheckboxes(receta.etiquetas); 
         
-        // Asignar IDs
+
         document.getElementById('receta-id-modal').value = receta.id;
         document.getElementById('receta-name-modal').textContent = receta.nombre;
         
-        // Cargar Imagenes
+
         document.getElementById('modal-receta-img').src = receta.imagen;
         document.getElementById('edit-imagen').value = receta.imagen;
         document.getElementById('edit-fondo').value = receta.fondo || ''; // Usar fallback si es necesario
         
-        // Poblar campos de formulario
+
         document.getElementById('edit-nombre').value = receta.nombre;
         document.getElementById('edit-descripcion').value = receta.descripcion;
         
-        // Pasos
+
         document.getElementById('edit-pasos').value = receta.pasos.join('\n');
     }
 
-    // Función para simular el Guardado
-    function saveChanges() {
-        // Aquí se simularía la recolección final de datos antes de enviar al servidor
-        // const ingredientesFinales = activeIngredients; 
-        // const etiquetasSeleccionadas = Array.from(document.querySelectorAll('#edit-etiquetas-container input:checked')).map(cb => cb.value);
 
-        // Simulación:
+    function saveChanges() {
+
+
+
         const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
         modal.hide(); 
         showNotification('Cambios guardados exitosamente en la receta.');
     }
     
-    // Función de Notificación Push (Se mantiene)
+
     function showNotification(message) {
         const notification = document.createElement('div');
         notification.className = 'alert alert-success alert-dismissible fade show fixed-top-right';
@@ -545,7 +543,7 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
         }, 4000);
     }
 
-    // Lógica de Filtrado (Se mantiene)
+
     window.filterProducts = function(categoryKey, clickedElement) {
         const productItems = document.querySelectorAll('.product-item');
         const categoryItems = document.querySelectorAll('#category-list li');
