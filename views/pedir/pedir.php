@@ -6,8 +6,8 @@
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
 <?php
-
 $categorias = [
+    'combos' => 'Combos', 
     'clasicos' => 'Clásicos',
     'bebidas_calientes' => 'Bebidas Calientes',
     'cafeteria' => 'Cafetería',
@@ -17,43 +17,120 @@ $categorias = [
     'sandwiches' => 'Sandwiches',
 ];
 
-
 $productos = [
     [
-        'id' => 101, 'nombre' => 'COMBO Café con 2 medialunas', 'descripcion' => 'Café con 2 medialunas',
-        'precio' => 2800, 'imagen' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg',
-        'categoria' => 'clasicos'
+        'id' => 101, 
+        'nombre' => 'COMBO Café con 2 medialunas', 
+        'descripcion' => 'Café con 2 medialunas',
+        'precio' => 2800, 
+        'imagen' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg',
+        'categoria' => 'clasicos', 
+        'es_combo' => true, // Es combo
     ],
     [
-        'id' => 102, 'nombre' => 'Submarino', 'descripcion' => 'Taza de chocolate caliente con crema',
-        'precio' => 3400, 'imagen' => 'https://img.freepik.com/premium-photo/una-taza-de-chocolate-calientito-colombiano-con_948265-279876.jpg?ga=GA1.1.1758273452.1764627825&semt=ais_hybrid&w=740&q=80',
-        'categoria' => 'bebidas_calientes'
+        'id' => 102, 'nombre' => 'Submarino', 'descripcion' => 'Chocolate caliente',
+        'precio' => 3400, 'imagen' => 'https://img.freepik.com/premium-photo/closeup-tasty-coffee-espresso-with-tasty-foam-small-ceramic-cup-male-hands-holding-warm-hot-drink_1220-1563.jpg',
+        'categoria' => 'bebidas_calientes', 'es_combo' => false,
     ],
     [
         'id' => 103, 'nombre' => 'COMBO Tostado', 'descripcion' => 'Café + Tostado jamón y queso',
         'precio' => 4800, 'imagen' => 'https://img.freepik.com/free-photo/closeup-shot-baked-sandwiches-made-with-sausage-served-wooden-board_181624-61300.jpg',
-        'categoria' => 'mediodias'
+        'categoria' => 'mediodias', 'es_combo' => true, // Es combo
     ],
     [
         'id' => 104, 'nombre' => 'Sandwich Miga', 'descripcion' => 'Jamón y Queso',
         'precio' => 2200, 'imagen' => 'https://img.freepik.com/premium-photo/close-up-bread-table_1048944-27736273.jpg',
-        'categoria' => 'sandwiches'
+        'categoria' => 'sandwiches', 'es_combo' => false,
     ],
     [
         'id' => 105, 'nombre' => 'Torta Cheesecake', 'descripcion' => 'Postre cremoso de frutos rojos',
         'precio' => 5500, 'imagen' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg?ga=GA1.1.1758273452.1764627825&semt=ais_hybrid&w=740&q=80',
-        'categoria' => 'postres'
+        'categoria' => 'postres', 'es_combo' => false,
+    ],
+    [
+        'id' => 101, 'nombre' => 'Café con Leche Clásico', 'descripcion' => 'Receta base de café con leche.',
+        'precio' => 2800, 
+        'imagen' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg',
+        'categoria' => 'clasicos', 'es_combo' => false,
+        'ingredientes' => ['Expresso (50ml)', 'Leche Texturizada (150ml)', 'Azúcar (1 cucharadita)'],
+        'pasos' => ['1. Preparar el Expresso.', '2. Texturizar la leche a 65°C.', '3. Verter la leche sobre el Expresso.'],
+        'etiquetas' => ['Sin TACC', 'Vegan Friendly'],
+    ],
+    [
+        'id' => 105, 'nombre' => 'Torta Cheesecake New York', 'descripcion' => 'Postre cremoso con base de galleta.',
+        'precio' => 5500, 
+        'imagen' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg?ga=GA1.1.1758273452.1764627825&semt=ais_hybrid&w=740&q=80',
+        'categoria' => 'postres', 'es_combo' => false,
+        'ingredientes' => ['Queso Crema (200g)', 'Galletas Graham (150g)', 'Mantequilla (50g)', 'Vainilla'],
+        'pasos' => ['1. Triturar galletas y mezclar con mantequilla (base).', '2. Mezclar queso crema, azúcar y vainilla.', '3. Hornear a 160°C por 45 minutos.'],
+        'etiquetas' => ['Gluten'],
+    ],
+    [
+        'id' => 103, 'nombre' => 'COMBO Tostado con Café', 'descripcion' => 'Café + Tostado jamón y queso',
+        'precio' => 4800, 
+        'imagen' => 'https://img.freepik.com/free-photo/closeup-shot-baked-sandwiches-made-with-sausage-served-wooden-board_181624-61300.jpg',
+        'categoria' => 'mediodias', 'es_combo' => true,
+        'ingredientes' => ['1 Tostado J/Q', '1 Expresso Doble'],
+        'pasos' => ['1. Tostar el pan con jamón y queso.', '2. Preparar el café.', '3. Servir inmediatamente.'],
+        'etiquetas' => ['Gluten', 'Combo'],
+    ],
+    [
+        'id' => 106, 'nombre' => 'Latte Vainilla Helado', 'descripcion' => 'Bebida fría y refrescante con toque de vainilla.',
+        'precio' => 4200, 
+        'imagen' => 'https://i.pinimg.com/1200x/4e/f0/31/4ef031186eb0275a4f9635b7553031f2.jpg',
+        'categoria' => 'bebidas_frias', 'es_combo' => false,
+        'ingredientes' => ['100ml Leche Fría', '50ml Expresso', 'Jarabe de Vainilla', 'Hielo'],
+        'pasos' => ['1. Llenar el vaso con hielo.', '2. Verter leche y jarabe.', '3. Añadir el Expresso.', '4. Mezclar suavemente.'],
+        'etiquetas' => ['Frío'],
+    ],
+    [
+        'id' => 108, 'nombre' => 'Muffin de Arándanos', 'descripcion' => 'Muffin esponjoso con arándanos frescos.',
+        'precio' => 3200, 
+        'imagen' => 'https://i.pinimg.com/736x/d3/8d/ec/d38decbae9815ad2855408752ff01b0c.jpg',
+        'categoria' => 'postres', 'es_combo' => false,
+        'ingredientes' => ['Harina', 'Huevo', 'Azúcar', 'Arándanos'],
+        'pasos' => ['1. Preparar la mezcla.', '2. Rellenar moldes.', '3. Hornear a 180°C.'],
+        'etiquetas' => ['Gluten'],
+    ],
+    [
+        'id' => 109, 'nombre' => 'Café Americano', 'descripcion' => 'Café expresso diluido con agua caliente.',
+        'precio' => 2000, 
+        'imagen' => 'https://i.pinimg.com/1200x/c3/2c/ff/c32cff96adfec244037e741ad9bd1c6e.jpg',
+        'categoria' => 'cafeteria', 'es_combo' => false,
+        'ingredientes' => ['1 Expresso', 'Agua Caliente'],
+        'pasos' => ['1. Servir el agua caliente.', '2. Agregar el expresso.'],
+        'etiquetas' => ['Sin Lácteos', 'Sin TACC'],
+    ],
+    [
+        'id' => 110, 'nombre' => 'Sándwich de Palta y Huevo', 'descripcion' => 'Tostada con palta y huevo escalfado.',
+        'precio' => 4500, 
+        'imagen' => 'https://i.pinimg.com/736x/53/ce/49/53ce49c785343c391ea36eb8c76e2864.jpg',
+        'categoria' => 'sandwiches', 'es_combo' => false,
+        'ingredientes' => ['Pan de masa madre', 'Palta', '1 Huevo', 'Sal y Pimienta'],
+        'pasos' => ['1. Tostar el pan.', '2. Untar palta.', '3. Escalfar el huevo y colocar encima.'],
+        'etiquetas' => ['Vegetariano'],
+    ],
+    [
+        'id' => 111, 'nombre' => 'Chocolate Caliente Clásico', 'descripcion' => 'El clásico con un toque de canela.',
+        'precio' => 3800, 
+        'imagen' => 'https://i.pinimg.com/1200x/f2/6d/ce/f26dcee0b1546fbbe86c290889751226.jpg',
+        'categoria' => 'bebidas_calientes', 'es_combo' => false,
+        'ingredientes' => ['200ml Leche', '30g Chocolate semiamargo', 'Pizca de Canela'],
+        'pasos' => ['1. Calentar leche.', '2. Derretir el chocolate.', '3. Mezclar con la canela.'],
+        'etiquetas' => ['Lácteo', 'Invierno'],
     ],
 ];
 ?>
 
+
 <main>
     <div class="container my-5">
         <div class="row g-4">
+            
             <div class="col-md-2">
                 <h4 class="fw-bold mb-3">CATEGORIAS</h4>
                 <ul class="list-group" id="category-list">
-                    <li class="list-group-item active" data-category="todos" onclick="filterProducts('todos')">
+                    <li class="list-group-item active" data-category="todos" onclick="filterProducts('todos', this)">
                         <a href="#" class="text-decoration-none">Todos</a>
                     </li>
                     
@@ -68,8 +145,11 @@ $productos = [
             <div class="col-md-7">
                 <div class="row row-cols-1 row-cols-md-3 g-3" id="product-grid">
                     
-                    <?php foreach ($productos as $producto): ?>
-                    <div class="col product-item" data-category="<?= $producto['categoria'] ?>">
+                    <?php foreach ($productos as $producto): 
+
+                        $filter_categories = $producto['categoria'] . ($producto['es_combo'] ? ' combos' : '');
+                    ?>
+                    <div class="col product-item" data-categories="<?= $filter_categories ?>">
                         <div class="card h-100 product-card">
                             <img src="<?= htmlspecialchars($producto['imagen']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['nombre']) ?>" style="height: 150px; object-fit: cover;">
                             <div class="card-body">
@@ -77,6 +157,7 @@ $productos = [
                                 <p class="card-text small text-muted"><?= htmlspecialchars($producto['descripcion']) ?></p>
                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                     <span class="text-danger fw-bold">$<?= number_format($producto['precio'], 0, ',', '.') ?></span>
+                                    
                                     <button 
                                         class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm"
                                         onclick="window.addItem('<?= $producto['id'] ?>', '<?= htmlspecialchars($producto['nombre']) ?>', '<?= $producto['precio'] ?>')"
@@ -140,9 +221,11 @@ $productos = [
 
 
 <script>
+
     window.cart = JSON.parse(localStorage.getItem('bonafideCart')) || {};
-    window.deliveryType = localStorage.getItem('bonafideDeliveryType') || 'local';
+    window.deliveryType = localStorage.getItem('bonafideDeliveryType') || 'local'; 
     const fixedShippingCost = 2100;
+
     const cartItemsContainer = document.getElementById('cart-items-list');
     const subtotalElement = document.getElementById('cart-subtotal');
     const totalElement = document.getElementById('cart-total');
@@ -150,7 +233,6 @@ $productos = [
     const shippingCostElement = document.getElementById('shipping-cost');
     const deliveryOption = document.getElementById('delivery-option');
     const localOption = document.getElementById('local-option');
-    const productGrid = document.getElementById('product-grid');
 
     function formatCurrency(amount) {
         return '$' + amount.toLocaleString('es-AR', { minimumFractionDigits: 0 }); 
@@ -160,6 +242,7 @@ $productos = [
         return (window.deliveryType === 'delivery') ? fixedShippingCost : 0;
     }
 
+    
     window.renderCart = function() {
         cartItemsContainer.innerHTML = ''; 
         let subtotal = 0;
@@ -175,11 +258,13 @@ $productos = [
                 const itemHtml = `
                     <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-2" data-cart-id="${id}">
                         <div class="d-flex align-items-center">
+                            
                             <div class="me-2 d-flex flex-column align-items-center">
                                 <button class="btn btn-outline-danger btn-round-sm-cart" onclick="window.updateQuantity('${id}', -1)">-</button>
                                 <span class="fw-bold">${item.quantity}x</span>
                                 <button class="btn btn-outline-danger btn-round-sm-cart" onclick="window.updateQuantity('${id}', 1)">+</button>
                             </div>
+
                             <div>
                                 <div class="fw-bold text-dark">${formatCurrency(item.quantity * item.price)}</div>
                                 <small class="text-dark fw-bold">${item.name}</small>
@@ -237,29 +322,31 @@ $productos = [
         }
     }
 
-    
+
     window.filterProducts = function(categoryKey, clickedElement) {
         const productItems = document.querySelectorAll('.product-item');
         const categoryItems = document.querySelectorAll('#category-list li');
         
+        
         productItems.forEach(item => {
-            const itemCategory = item.dataset.category;
+        
+            const itemCategories = item.dataset.categories; 
             
-            if (categoryKey === 'todos' || itemCategory === categoryKey) {
+            if (categoryKey === 'todos' || itemCategories.includes(categoryKey)) {
                 item.style.display = 'block';
             } else {
                 item.style.display = 'none';
             }
         });
         
+        
         categoryItems.forEach(item => {
             item.classList.remove('active');
         });
-
+        
         if (clickedElement) {
              clickedElement.classList.add('active');
         } else if (categoryKey === 'todos') {
-            
             document.querySelector('#category-list li[data-category="todos"]').classList.add('active');
         }
     }

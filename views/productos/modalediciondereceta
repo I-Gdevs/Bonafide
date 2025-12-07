@@ -1,0 +1,92 @@
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="editModalLabel">Editar Receta: <span id="receta-name-modal"></span></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="receta-id-modal">
+        
+        <form id="receta-edit-form">
+            <div class="row">
+                
+                <div class="col-md-4">
+                    <h6 class="text-danger fw-bold mb-3">URLs e Imagen</h6>
+                    <img id="modal-receta-img" src="" alt="Imagen del Producto">
+                    <div class="mb-3">
+                        <label for="edit-imagen" class="form-label small">URL Imagen (Tarjeta)</label>
+                        <input type="text" class="form-control" id="edit-imagen">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-fondo" class="form-label small">URL Fondo (Receta)</label>
+                        <input type="text" class="form-control" id="edit-fondo">
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <h6 class="text-danger fw-bold mb-3">Gestión de Ingredientes</h6>
+                    
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="input-ingrediente" placeholder="Nombre del ingrediente">
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="input-cantidad" 
+                            placeholder="Cantidad (ej: 150)" 
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                            maxlength="10"
+                        >
+                        <button class="btn btn-outline-success" type="button" onclick="addIngredient()">
+                            <i class="bi bi-plus-circle"></i> Añadir
+                        </button>
+                    </div>
+
+                    <table class="table table-sm table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ingrediente</th>
+                                <th>Cantidad</th>
+                                <th style="width: 10px;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingredientes-table-body">
+                            </tbody>
+                    </table>
+
+                    <div class="mb-3">
+                        <label for="edit-pasos" class="form-label small">Pasos (Separados por línea)</label>
+                        <textarea class="form-control" id="edit-pasos" rows="4"></textarea>
+                    </div>
+                </div>
+                
+                <div class="col-12 mt-4 border-top pt-3">
+                    <h6 class="text-danger fw-bold mb-3">Información Principal y Etiquetas</h6>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit-nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="edit-nombre">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit-descripcion" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="edit-descripcion" rows="2"></textarea>
+                        </div>
+                        
+                        <div class="col-12 mt-3">
+                            <label class="form-label d-block">Etiquetas Disponibles:</label>
+                            <div id="edit-etiquetas-container" class="border p-2 rounded">
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" onclick="saveChanges()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
