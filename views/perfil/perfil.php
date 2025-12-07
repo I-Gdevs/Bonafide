@@ -5,9 +5,9 @@
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
-
+<?php
 $nombre_usuario = "Guido Asplanatti";
-$email_usuario = "guido.asplanatti@ejemplo.com";
+$email_usuario = "guidoasplanatti@ejemplo.com";
 $perfil_admin = true; 
 ?>
 

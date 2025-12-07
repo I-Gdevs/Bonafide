@@ -33,7 +33,7 @@
                                  class="d-block img-fluid rounded shadow-sm w-100" alt="Café y medialunas">
                         </div>
                         <div class="carousel-item carrusel-home">
-                            <img src="https://http2.mlstatic.com/D_NQ_NP_918944-MLA83901995898_042025-O.webp" 
+                            <img src="https://i.pinimg.com/736x/d3/8d/ec/d38decbae9815ad2855408752ff01b0c.jpg" 
                                  class="d-block img-fluid rounded shadow-sm w-100" alt="Cafe Premium">
                         </div>
                         <div class="carousel-item carrusel-home">
@@ -71,16 +71,6 @@
                         </svg>
                     </button>
                 </div>
-                
-                    <div class="text-center">
-                        <p class="mt-5">Inicia sesión para pedir
-                            <a href="<?= BASE_URL ?>/login" class="btn btn-red btn-sm ms-2">Iniciar sesión</a>
-                        </p>
-
-                        <p class="mt-2">¿No estás registrado?
-                            <a href="<?= BASE_URL ?>/signup" class="btn btn-red btn-sm ms-2">Registrarse</a>
-                        </p>
-                    </div>
             </div>
         </div>
     </div>
@@ -90,7 +80,7 @@
     .carrusel-home, 
     .carrusel-home .carousel-inner,
     .carrusel-home .carousel-item {
-        height: 500px; /* ALTURA MÁXIMA DESEADA */
+        height: 500px; 
         overflow: hidden; 
     }
 
