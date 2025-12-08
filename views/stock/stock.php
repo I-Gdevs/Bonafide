@@ -1,3 +1,7 @@
+<head>
+    <title>Bonafide | Stock</title>
+</head>
+
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
@@ -5,37 +9,59 @@
     <div class="container my-5 fixed-width-container mx-auto">
         <div class="row g-4">
             <div class="col-md-3">
-                <ul class="list-group list-unstyled-borders">
+                <div class="list-group">
+                    <a href="<?= BASE_URL ?>/stock" 
+                    class="list-group-item list-group-item-action active fs-5 fw-bold">
+                        <i class="bi bi-box-seam me-2"></i>
+                        Mi stock
+                    </a>
                     
-                    <li class="list-group-item active">
-                        <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-white fs-5 fw-bold">Mi stock</a>
-                    </li>
+                    <a href="<?= BASE_URL ?>/stock/movements" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-arrow-left-right me-2"></i>
+                        Movimientos
+                    </a>
+
+                    <a href="<?= BASE_URL ?>/stock/item-models" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-file-earmark-text me-2"></i>
+                        Modelos de Artículos
+                    </a>
                     
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-dark">Movimientos</a>
-                    </li>
+                    <a href="<?= BASE_URL ?>/stock/providers" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-truck me-2"></i>
+                        Proveedores
+                    </a>
                     
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/item-models" class="text-decoration-none text-dark">Modelos de Artículos</a>
-                    </li>
-                    
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-dark">Proveedores</a>
-                    </li>
-                    
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/buildings" class="text-decoration-none text-dark">Locales</a>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="col-md-9">
-                <div class="d-flex justify-content-end align-items-center mb-3">
-                    
-                    <div class="col-sm-4">
-                        <input type="text" class="form-control" id="buscadorStock" placeholder="Buscar...">
-                    </div>
+                    <a href="<?= BASE_URL ?>/stock/buildings" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-shop me-2"></i>
+                        Locales
+                    </a>
                 </div>
+            </div>            
+            <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        
+                        <div class="d-flex align-items-center">
+                            
+                            <a class="btn btn-light me-2">
+                                <i class="bi bi-filetype-pdf"></i>
+                            </a>
+
+                            <select name="local_elegido" id="localElegido" class="form-select form-select-sm">
+                                <option value="peatonal">Todo</option>
+                                <option value="tribunales" selected>Sucursal Tribunales</option>
+                                <option value="sinlocal">Sucursal Peatonal</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="buscadorStock" placeholder="Buscar...">
+                        </div>
+
+                    </div>
 
                 <div class="table-responsive">
                     <table class="table table-striped table-hover">
@@ -44,22 +70,30 @@
                                 <th>Artículo</th>
                                 <th>Cantidad</th>
                                 <th>Unidad</th>
-                                <th>Acciones</th> </tr>
+                                <th>Acciones</th>
+                            </tr>
                         </thead>
-                        <tbody id="tablaStockBody">
+                        <tbody id="tablaStockBody" class="align-middle">
                             <?php if (empty($stockList)): ?>
                                 <tr>
                                     <td colspan="4" class="text-center py-4 text-muted">No hay artículos cargados.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($stockList as $item): ?>
-                                    <tr data-id="<?= $item['id'] ?>" data-nombre="<?= $item['nombre'] ?>" data-unidad="<?= $item['unidad_medida'] ?>">
+                                    <tr>
                                         <td><?= $item['nombre']?></td>
-                                        <td class="<?= $item['cantidad'] < 20 ? 'text-danger fw-bold' : '' ?>"><?= $item['cantidad']?></td>
+                                        <td class="<?= $item['cantidad'] < $item['cantidad_minima'] ? 'text-danger fw-bold' : '' ?>"><?= $item['cantidad']?></td>
                                         <td><?= $item['unidad_medida']?></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-danger editar-articulo-btn" data-bs-toggle="modal" data-bs-target="#modalEditarArticulo">
-                                                <i class="bi bi-pen"></i>
+                                        <td class="text-end">
+                                            <button class="btn btn-sm btn-danger editar-articulo-btn"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEditarArticulo"
+                                                data-id="<?= $item['id'] ?>"
+                                                data-nombre="<?= $item['nombre'] ?>"
+                                                data-unidad="<?= $item['unidad_medida'] ?>"
+                                                data-cantidad-minima="<?= $item['cantidad_minima'] ?>"
+                                            >
+                                                <i class="bi bi-pencil-square"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -73,79 +107,43 @@
     </div>
 </main>
 
-<div class="modal fade" id="modalCrearArticulo" tabindex="-1" aria-labelledby="modalCrearArticuloLabel" aria-hidden="true">
+<!-- Modal para editar la cantidad mínima de los artículos -->
+<div class="modal fade" id="modalEditarArticulo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="modalCrearArticuloLabel">Crear Nuevo Artículo</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <h5 class="modal-title" id="modalEditarArticuloLabel">Editar artículo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form id="formCrearArticulo" action="[URL_DEL_CONTROLADOR_PARA_CREAR]" method="POST">
+            
+            <form method="POST" action="<?= BASE_URL ?>/stock/edit">
                 <div class="modal-body">
+                    <input type="hidden" name="id" id="input_id">
 
                     <div class="mb-3">
-                        <label for="nuevoNombre" class="form-label">Nombre / Descripción</label>
-                        <input type="text" class="form-control" id="nuevoNombre" name="nombre" required placeholder="Ej: Café Bonafide bolsa 1kg">
+                        <label class="form-label">Nombre del artículo</label>
+                        <input type="text" class="form-control" id="input_nombre" name="nombre" disabled>
                     </div>
                     
                     <div class="mb-3">
-                        <label for="nuevaUnidad" class="form-label">Unidad de Medida</label>
-
-                        <select class="form-select" id="nuevaUnidad" name="unidad" required>
-                            <option value="" disabled selected>Seleccione...</option>
-                            <option value="kg">Kilogramo (kg)</option>
-                            <option value="gr">Gramo (gr)</option>
-                            <option value="unid">Unidad (unid)</option>
-                            <option value="lt">Litro (lt)</option>
-                            <option value="ml">Mililitro (ml)</option>
+                        <label class="form-label">Unidad de Medida</label>
+                        <select class="form-select" id="input_unidad" name="unidad" disabled>
+                            <option value="g">gramos (g)</option>
+                            <option value="kg">kilogramos (kg).</option>
+                            <option value="l">litros (l)</option>
+                            <option value="ml">mililitros (ml)</option>
+                            <option value="u">unidad (u)</option>
                         </select>
                     </div>
-
+                    
                     <div class="mb-3">
-                        <label for="nuevoStockMinimo" class="form-label">Stock Mínimo de Alerta</label>
-                        <input type="number" class="form-control" id="nuevoStockMinimo" name="stock_minimo" min="0" value="0">
+                        <label class="form-label">Cantidad mínima</label>
+                        <input type="number" class="form-control" id="input_cantidad_minima" name="cantidadMinima">
                     </div>
                 </div>
-                <div class="modal-footer">
+                
+                <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="modalEditarArticulo" tabindex="-1" aria-labelledby="modalEditarArticuloLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="modalEditarArticuloLabel">Editar Artículo: <span id="editarNombreArticulo"></span></h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <form id="formEditarArticulo" action="[URL_DEL_CONTROLADOR_PARA_EDITAR]" method="POST">
-                <input type="hidden" id="editarArticuloId" name="id">
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="editarNombre" class="form-label">Nombre / Descripción</label>
-                        <input type="text" class="form-control" id="editarNombre" name="nombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editarUnidad" class="form-label">Unidad de Medida</label>
-                        <select class="form-select" id="editarUnidad" name="unidad" required>
-                            <option value="kg">Kilogramo (kg)</option>
-                            <option value="gr">Gramo (gr)</option>
-                            <option value="unid">Unidad (unid)</option>
-                            <option value="lt">Litro (lt)</option>
-                            <option value="ml">Mililitro (ml)</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editarStockMinimo" class="form-label">Stock Mínimo de Alerta</label>
-                        <input type="number" class="form-control" id="editarStockMinimo" name="stock_minimo" min="0">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-danger">Guardar Cambios</button>
                 </div>
             </form>
@@ -153,53 +151,60 @@
     </div>
 </div>
 
+<!-- TOAST ALERTA -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="toastAlert" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-<?= (!empty($response['data']['success'])) ? "success" : (!empty($response['data']['error']) ? "danger" : "info")?> text-white">
+            <strong class="me-auto">Modelo de artículo</strong>
+            <small>Justo ahora</small>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        
+        <div class="toast-body">
+            <?= !empty($response['data']['success']) ? $response['data']['success'] : "Procesado correctamente" ?>
+        </div>
+    </div>
+</div>
+
 <script>
-document.getElementById('buscadorStock').addEventListener('keyup', function() {
-    let searchText = this.value.toLowerCase();
-    let rows = document.querySelectorAll('#tablaStockBody tr');
+    document.getElementById('buscadorStock').addEventListener('keyup', function() {
+        let searchText = this.value.toLowerCase();
+        let rows = document.querySelectorAll('#tablaStockBody tr');
 
-    rows.forEach(row => {
-        let nombre = row.cells[0].innerText.toLowerCase();
-        if (nombre.includes(searchText)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
+        rows.forEach(row => {
+            let nombre = row.cells[0].innerText.toLowerCase();
+            if (nombre.includes(searchText)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     });
-});
 
-// Modal Edicion
-document.addEventListener('DOMContentLoaded', function() {
-    const tablaBody = document.getElementById('tablaStockBody');
-    const modalEditar = document.getElementById('modalEditarArticulo');
-    const editarNombreArticulo = document.getElementById('editarNombreArticulo');
-    
-    // Obtenemos los campos del formulario de edición
-    const inputId = document.getElementById('editarArticuloId');
-    const inputNombre = document.getElementById('editarNombre');
-    const selectUnidad = document.getElementById('editarUnidad');
+// Rellenar modal para editar artículos
+    const modalEditar = document.getElementById("modalEditarArticulo");
 
-    tablaBody.addEventListener('click', function(e) {
-        // Verificamos si el clic fue en el botón de edición
-        if (e.target.closest('.editar-articulo-btn')) {
-            const button = e.target.closest('.editar-articulo-btn');
-            const row = button.closest('tr');
-            
-            // 1. Extraer los datos de la fila (Usando data-* attributes es más seguro que leer celdas)
-            const id = row.getAttribute('data-id');
-            const nombre = row.getAttribute('data-nombre');
-            const unidad = row.getAttribute('data-unidad');
-                        
-            // 2. Rellenar el título del modal
-            editarNombreArticulo.textContent = nombre;
-            
-            // 3. Rellenar el formulario
-            inputId.value = id;
-            inputNombre.value = nombre;
-            selectUnidad.value = unidad; // Esto selecciona la opción correcta
-        }
+    modalEditar.addEventListener('show.bs.modal', function (event) {
+        const boton = event.relatedTarget;
+
+        const id = boton.getAttribute('data-id');
+        const nombre = boton.getAttribute('data-nombre');
+        const unidad = boton.getAttribute('data-unidad');
+        const cantidadMinima = boton.getAttribute('data-cantidad-minima');
+        
+        modalEditar.querySelector('#input_id').value = id;
+        modalEditar.querySelector('#input_nombre').value = nombre;
+        modalEditar.querySelector('#input_unidad').value = unidad;
+        modalEditar.querySelector('#input_cantidad_minima').value = cantidadMinima;
     });
-});
 </script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
+
+<?php if (isset($_GET['success'])): ?>
+    <script>
+        const toastAlert = document.getElementById('toastAlert');
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastAlert);
+        toastBootstrap.show();
+    </script>
+<?php endif; ?>
