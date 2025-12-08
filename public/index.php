@@ -147,7 +147,17 @@
         
         // pdf
         case 'pdf':
-            $view_file = BASE_PATH . '/docs/Bonafide - Proyecto Final - Asplanatti e Imas - Metodología de Sistemas I.pdf';
+            $view_file = BASE_PATH . '/views/pdfviewer.php';
+            break;
+
+        // cartel1
+        case 'cartel1':
+            $view_file = BASE_PATH . '/views/publicidad/cartel1.php';
+            break;
+
+        // ticket
+        case 'ticket':
+            $view_file = BASE_PATH . '/views/emails/email_Ticket.html';
             break;
 
 
