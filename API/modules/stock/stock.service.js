@@ -4,9 +4,9 @@ const stockModel = new StockModel();
 
 class StockService {
     
-    async createStock({ stock_name, stock_measurement_unit}) {
+    async createStockTemplate({ stock_name, stock_measurement_unit}) {
 
-        let newStock = await stockModel.createStock({ stock_name, stock_measurement_unit });
+        let newStock = await stockModel.createStockTemplate({ stock_name, stock_measurement_unit });
 
         return {
             newStockId: Number(newStock.insertId),

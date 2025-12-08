@@ -42,6 +42,9 @@
             $view_file = BASE_PATH . '/views/stock/stock.php';
             break;
         
+        case 'stock/edit':
+            require BASE_PATH . '/controllers/stock/edit_stock.controller.php';
+            break;
         
         // Movimientos de stock
         case 'stock/movements':
