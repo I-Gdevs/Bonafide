@@ -11,7 +11,7 @@
         <div class="row g-4 align-items-top">
             
             <div class="col-md-6 text-center">
-                <img src="https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg" 
+                <img src="<?= BASE_URL . '/img/views/login/cafe-taza-sobre-fondo-antiguo.jpg' ?>" 
                     alt="Café y medialunas" 
                     class="img-fluid rounded shadow-sm">
             </div>
@@ -38,10 +38,7 @@
                             <div class="input-group">
                                 <input type="password" class="form-control" name="user_password" id="password" placeholder="********">
                                 <button class="input-group-text" type="button" id="togglePassword">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye text-secondary" viewBox="0 0 16 16">
-                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
-                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
-                                    </svg>
+                                    <i class="bi bi-eye text-secondary"></i>
                                 </button>
                             </div>
                         </div>

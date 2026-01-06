@@ -12,8 +12,7 @@
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
-    <main>
-
+<main>
     <div class="container my-5">
         
         <div class="row g-4 align-items-top">
@@ -66,9 +65,7 @@
 
                     <button class="btn btn-red w-100 py-2 fs-5">
                         Pedir Ahora
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-fill ms-2" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5.485 14.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0m7 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0"/>
-                        </svg>
+                        <i class="bi bi-cart2 ms-1"></i>
                     </button>
                 </div>
             </div>

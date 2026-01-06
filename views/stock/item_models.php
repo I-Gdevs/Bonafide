@@ -7,26 +7,39 @@
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
-
         <div class="row g-4">
             <div class="col-md-3">
-                <ul class="list-group list-unstyled-borders">
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-dark">Mi stock</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-dark">Movimientos</a>
-                    </li>
-                    <li class="list-group-item active">
-                        <a href="<?= BASE_URL ?>/stock/item-models" class="text-decoration-none text-white fs-5 fw-bold">Modelos de Artículos</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-dark">Proveedores</a>
-                    </li>
-                    <li class="list-group-item">
-                        <a href="<?= BASE_URL ?>/stock/buildings" class="text-decoration-none text-dark">Locales</a>
-                    </li>
-                </ul>
+                <div class="list-group">
+                    <a href="<?= BASE_URL ?>/stock" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-box-seam me-2"></i>
+                        Mi stock
+                    </a>
+                    
+                    <a href="<?= BASE_URL ?>/stock/movements" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-arrow-left-right me-2"></i>
+                        Movimientos
+                    </a>
+
+                    <a href="<?= BASE_URL ?>/stock/item-models" 
+                    class="list-group-item list-group-item-action active fs-5 fw-bold">
+                        <i class="bi bi-file-earmark-text me-2"></i>
+                        Modelos de Artículos
+                    </a>
+                    
+                    <a href="<?= BASE_URL ?>/stock/providers" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-truck me-2"></i>
+                        Proveedores
+                    </a>
+                    
+                    <a href="<?= BASE_URL ?>/stock/buildings" 
+                    class="list-group-item list-group-item-action text-dark">
+                        <i class="bi bi-shop me-2"></i>
+                        Locales
+                    </a>
+                </div>
             </div>
             
             <div class="col-md-9">

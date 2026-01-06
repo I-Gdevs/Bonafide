@@ -2,7 +2,7 @@ import dbPool from "../database/db.js";
 
 class StockModel {
 
-    async createStock({ stock_name, stock_measurement_unit}) {
+    async createStockTemplate({ stock_name, stock_measurement_unit}) {
         let dbConnection;
         let result = [];
 

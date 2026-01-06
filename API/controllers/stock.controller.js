@@ -4,11 +4,11 @@ const stockService = new StockService();
 
 class StockController {
     
-    async createStock(req, res) {
+    async createStockTemplate(req, res) {
         try {
             let { stock_name, stock_measurement_unit } = req.body
             
-            let newStock = await stockService.createStock({ stock_name, stock_measurement_unit });
+            let newStock = await stockService.createStockTemplate({ stock_name, stock_measurement_unit });
 
             return res.status(200).json({
                 success: "Nuevo modelo de artículo creado correctamente.",
@@ -72,9 +72,9 @@ class StockController {
 
     async updateStock(req, res) {
         try {
-            let { stock_id, new_stock_name, new_stock_measurement_unit } = req.body;
+            let { stock_id, new_stock_name, new_stock_measurement_unit, new_stock_minum_amount } = req.body;
 
-            let updatedStock = await stockService.updateStock({ stock_id, new_stock_name, new_stock_measurement_unit });
+            let updatedStock = await stockService.updateStock({ stock_id, new_stock_name, new_stock_measurement_unit, new_stock_minum_amount });
 
             return res.status(200).json({
                 message: "Ingrediente/stock actualizado correctamente",
