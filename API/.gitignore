@@ -1,2 +1,4 @@
+.vscode
+.htaccess
 .env
 node_modules/
