@@ -1,13 +1,13 @@
 import { Router } from "express";
 
-import userRouter from "./user.route.js";
-import providerRouter from "./provider.route.js";
-import buildingRouter from "./building.route.js";
-import stockRouter from "./stock.router.js";
-import productRouter from "./product.route.js";
-import recipeRouter from "./recipe.route.js";
-import shoppingcartRouter from "./shoppingcart.route.js";
-import salesRouter from "./sales.route.js";
+import userRouter from "../modules/user/user.route.js";
+import providerRouter from "../modules/provider/provider.route.js";
+import buildingRouter from "../modules/building/building.route.js";
+import stockRouter from "../modules/stock/stock.router.js";
+import productRouter from "../modules/product/product.route.js";
+import recipeRouter from "../modules/recipe/recipe.route.js";
+import shoppingcartRouter from "../modules/shoppincart/shoppingcart.route.js";
+import salesRouter from "../modules/sales/sales.route.js";
 
 const router = Router();
 
