@@ -6,7 +6,7 @@ import buildingRouter from "../modules/building/building.route.js";
 import stockRouter from "../modules/stock/stock.router.js";
 import productRouter from "../modules/product/product.route.js";
 import recipeRouter from "../modules/recipe/recipe.route.js";
-import shoppingcartRouter from "../modules/shoppincart/shoppingcart.route.js";
+import shoppingcartRouter from "../modules/shoppingcart/shoppingcart.route.js";
 import salesRouter from "../modules/sales/sales.route.js";
 
 const router = Router();
