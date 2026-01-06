@@ -2,7 +2,7 @@
     session_start();
 
     define('BASE_PATH', dirname(__DIR__));
-    define('BASE_URL', 'http://localhost/Bonafide/public');
+    define('BASE_URL', 'http://172.16.10.197/');
 
     require_once BASE_PATH . '/config/config.php';
 
