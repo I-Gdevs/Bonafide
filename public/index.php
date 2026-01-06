@@ -137,6 +137,10 @@
             $view_file = BASE_PATH . '/views/administracion/administracion.php';
             break;
 
+        case 'estadisticas':
+            $view_file = BASE_PATH . '/views/administracion/estadisticas.php';
+            break;
+
         // Perfil
         case 'perfil':
             $view_file = BASE_PATH . '/views/perfil/perfil.php';
