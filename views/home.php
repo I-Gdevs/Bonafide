@@ -6,7 +6,7 @@
 ?>
 
 <head>
-    <title>CAFETERIA ROJA</title>
+    <title>Bonafide</title>
 </head>
 
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
