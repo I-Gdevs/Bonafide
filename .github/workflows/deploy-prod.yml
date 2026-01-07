@@ -16,10 +16,9 @@ jobs:
 
   - name: Actualizar forzosamente a la main
     run: |
-      # Asegurate que la ruta sea la correcta en tu PROD
       cd /var/www/Bonafide 
       git fetch --all
-      git reset --hard origin/main # Fuerza a que sea idéntico a main
+      git reset --hard origin/main 
 
   - name: Actualizar librerías de npm
     run: |
@@ -28,6 +27,5 @@ jobs:
 
   - name: Reiniciar Node.js
     run: |
-      # Asumo que usas PM2 como vimos antes
       pm2 restart bonafide-api || pm2 start index.js --name "bonafide-api"
       pm2 save
