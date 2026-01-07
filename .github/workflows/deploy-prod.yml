@@ -21,13 +21,11 @@ jobs:
       git fetch --all
       git reset --hard origin/main # Fuerza a que sea idéntico a main
 
-  # 3. Instalar dependencias nuevas del Backend (Si agregaste librerías)
   - name: Actualizar librerías de npm
     run: |
       cd /var/www/Bonafide/API
       npm install --production
 
-  # 4. Reiniciar el servicio de Node para que tome los cambios
   - name: Reiniciar Node.js
     run: |
       # Asumo que usas PM2 como vimos antes
