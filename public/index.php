@@ -12,7 +12,7 @@
         $protocol = 'http';
     }
     $host = $_SERVER['HTTP_HOST'];
-    define('BASE_URL', $protocol . "://" . $host . "/");
+    define('BASE_URL', $protocol . "://" . $host);
 
 
     require_once BASE_PATH . '/config/config.php';
