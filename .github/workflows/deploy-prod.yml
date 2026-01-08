@@ -6,26 +6,26 @@ on:
 
 jobs:
   deploy:
-  runs-on: self-hosted
+    runs-on: self-hosted
 
-  steps:
-  - name: Revisar cambios en la main
-    uses: actions/checkout@v4
-    with:
-    clean: false
+    steps:
+      - name: Revisar cambios en la main
+        uses: actions/checkout@v4
+        with:
+          clean: false
 
-  - name: Actualizar forzosamente a la main
-    run: |
-      cd /var/www/Bonafide 
-      git fetch --all
-      git reset --hard origin/main 
+      - name: Actualizar forzosamente a la main
+        run: |
+          cd /var/www/Bonafide
+          git fetch --all
+          git reset --hard origin/main
 
-  - name: Actualizar librerías de npm
-    run: |
-      cd /var/www/Bonafide/API
-      npm install --production
+      - name: Actualizar librerias de npm
+        run: |
+          cd /var/www/Bonafide/API
+          npm install --production
 
-  - name: Reiniciar Node.js
-    run: |
-      pm2 restart bonafide-api || pm2 start index.js --name "bonafide-api"
-      pm2 save
+      - name: Reiniciar Node.js
+        run: |
+          /usr/bin/pm2 restart bonafide-api || /usr/bin/pm2 start index.js --name "bonafide-api"
+          /usr/bin/pm2 save
