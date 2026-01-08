@@ -2,7 +2,18 @@
     session_start();
 
     define('BASE_PATH', dirname(__DIR__));
-    define('BASE_URL', 'https://bonafide.ignacioimas.com.ar');
+
+    // Define automaticamente la URL por defecto teniendo en cuenta si estamos en DEV o PROD
+    if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+        $protocol = 'https';
+    } elseif (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+        $protocol = 'http';
+    } else {
+        $protocol = 'http';
+    }
+    $host = $_SERVER['HTTP_HOST'];
+    define('BASE_URL', $protocol . "://" . $host . "/");
+
 
     require_once BASE_PATH . '/config/config.php';
 
