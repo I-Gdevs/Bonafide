@@ -6,30 +6,26 @@ on:
 
 jobs:
   deploy:
-  runs-on: self-hosted
+    runs-on: self-hosted
 
-  steps:
-  - name: Revisar cambios en la main
-    uses: actions/checkout@v4
-    with:
-    clean: false
+    steps:
+      - name: Revisar cambios en la main
+        uses: actions/checkout@v4
+        with:
+          clean: false
 
-  - name: Actualizar forzosamente a la main
-    run: |
-      # Asegurate que la ruta sea la correcta en tu PROD
-      cd /var/www/Bonafide 
-      git fetch --all
-      git reset --hard origin/main # Fuerza a que sea idéntico a main
+      - name: Actualizar forzosamente a la main
+        run: |
+          cd /var/www/Bonafide
+          git fetch --all
+          git reset --hard origin/main
 
-  # 3. Instalar dependencias nuevas del Backend (Si agregaste librerías)
-  - name: Actualizar librerías de npm
-    run: |
-      cd /var/www/Bonafide/API
-      npm install --production
+      - name: Actualizar librerias de npm
+        run: |
+          cd /var/www/Bonafide/API
+          npm install --production
 
-  # 4. Reiniciar el servicio de Node para que tome los cambios
-  - name: Reiniciar Node.js
-    run: |
-      # Asumo que usas PM2 como vimos antes
-      pm2 restart bonafide-api || pm2 start index.js --name "bonafide-api"
-      pm2 save
+      - name: Reiniciar Node.js
+        run: |
+          /usr/bin/pm2 restart bonafide-api || /usr/bin/pm2 start index.js --name "bonafide-api"
+          /usr/bin/pm2 save
