@@ -17,15 +17,15 @@
         ]);
 
         if ($response['ok']) {
-            $_SESSION['token'] = $response['data']['token'];
-            $_SESSION['user'] = $response['data']['user'];
+            $_SESSION['token'] = $response['res']['token'];
+            $_SESSION['user'] = $response['res']['user'];
             $_SESSION['user_logged'] = true;
 
             header("Location: " . BASE_URL . "/home");
             exit;
 
         } else {
-            $error = $response['data']['error'] ?? "Usuario o contraseña incorrectos";
+            $error = $response['res']['error'] ?? "Usuario o contraseña incorrectos";
         }
     }
 ?>
