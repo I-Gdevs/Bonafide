@@ -94,8 +94,9 @@
             require BASE_PATH . '/controllers/stock/providers/edit_provider.controller.php';
             break;
         
+        // Locales
         case 'stock/buildings':
-            require BASE_PATH . '/controllers/stock/building.controller.php';
+            require BASE_PATH . '/controllers/stock/buildings.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/buildings.php';
             break;

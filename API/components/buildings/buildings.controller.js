@@ -1,14 +1,15 @@
-import BuildingService from "./building.service.js";
+import BuildingService from "./buildings.service.js";
+import * as responseBuilder from "../../helpers/response.helper.js";
 
 const buildingService = new BuildingService();
 
 class BuildingController {
 
-    async createBuilding(req, res) {
+    async postBuilding(req, res) {
         try {
             let { building_address, building_employees, building_manager } = req.body;
 
-            let newBuilding = await buildingService.createBuilding({ building_address, building_employees, building_manager });
+            let newBuilding = await buildingService.postBuilding({ building_address, building_employees, building_manager });
 
             return res.status(201).json({
                 success: "Nuevo local creado correctamente.",
@@ -25,23 +26,21 @@ class BuildingController {
 
     async getBuildings(req, res) {
         try {
-            let buildingsList = await buildingService.getBuildings();
+            let filters = req.query;
 
-            return res.status(200).json({
-                buildings_list: buildingsList
-            });
+            let buildingsList = await buildingService.getBuildings(filters);
+
+            responseBuilder.success(req, res, 200, buildingsList);
+
         } catch (error) {
             console.error("Error al buscar la lista de locales: ", error.message);
 
             if (error.message.includes("No hay")) {
-                return res.status(404).json({
-                    error: error.message
-                });
+                responseBuilder.error(req, res, 404, "No se encontró ningún local.");
+            } else {
+                responseBuilder.error(req, res)
             }
 
-            return res.status(500).json({
-                error: "Error interno al buscar la lista de locales."
-            });
         }
     }
 

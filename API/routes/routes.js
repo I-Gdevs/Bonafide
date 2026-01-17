@@ -1,19 +1,19 @@
 import { Router } from "express";
 
-import userRouter from "../modules/user/user.route.js";
-import providerRouter from "../modules/provider/provider.route.js";
-import buildingRouter from "../modules/building/building.route.js";
-import stockRouter from "../modules/stock/stock.router.js";
-import productRouter from "../modules/product/product.route.js";
-import recipeRouter from "../modules/recipe/recipe.route.js";
-import shoppingcartRouter from "../modules/shoppingcart/shoppingcart.route.js";
-import salesRouter from "../modules/sales/sales.route.js";
+import userRouter from "../components/user/user.route.js";
+import providerRouter from "../components/provider/provider.route.js";
+import buildingRouter from "../components/buildings/buildings.route.js";
+import stockRouter from "../components/stock/stock.router.js";
+import productRouter from "../components/product/product.route.js";
+import recipeRouter from "../components/recipe/recipe.route.js";
+import shoppingcartRouter from "../components/shoppingcart/shoppingcart.route.js";
+import salesRouter from "../components/sales/sales.route.js";
 
 const router = Router();
 
 router.use("/user", userRouter);
 router.use("/provider", providerRouter);
-router.use("/building", buildingRouter);
+router.use("/buildings", buildingRouter);
 router.use("/stock", stockRouter);
 router.use("/product", productRouter);
 router.use("/recipe", recipeRouter);
