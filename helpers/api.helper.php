@@ -16,6 +16,12 @@
 
         // Nos fijamos qué método vamos a ejecutar contra la API
         switch ($method) {
+            case "GET":
+                if ($data) {
+                    $separator = (strpos($url, "?") === false) ? '?' : '&';
+                    $url .= $separator . http_build_query($data);
+                }
+                break;
             
             case "POST":
                 curl_setopt($curl, CURLOPT_POST, 1);
@@ -56,7 +62,7 @@
             return [
                 "ok" => false,
                 "status" => 0,
-                "data" => ["error" => "Error de conexión con la API: " . $error_msg]
+                "res" => ["error" => "Error de conexión con la API: " . $error_msg]
             ];
         }
 
@@ -65,7 +71,7 @@
         return [
             "ok" => ($httpCode >= 200 && $httpCode < 300),
             "status" => $httpCode,
-            "data" => json_decode($result, true)
+            "res" => json_decode($result, true)
         ];
     }
 ?>

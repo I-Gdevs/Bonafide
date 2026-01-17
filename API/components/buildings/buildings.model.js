@@ -2,7 +2,7 @@ import dbPool from "../../database/db.js";
 
 class BuildingModel {
 
-    async createBuilding({ building_address, building_employees, building_manager }) {
+    async postBuilding({ building_address, building_employees, building_manager }) {
         let dbConnection;
         let result = [];
 
@@ -36,7 +36,7 @@ class BuildingModel {
         }
     }
 
-    async getBuildings() {
+    async getBuildings(filters) {
         let dbConnection;
         let result = [];
 
@@ -53,10 +53,21 @@ class BuildingModel {
                 FROM
                     locales l
                 INNER JOIN
-	                usuarios u ON u.id_usuario = l.id_usuario;
+	                usuarios u ON u.id_usuario = l.id_usuario
+                WHERE l.local_desactivado_bool = 0
             `;
 
-            result = await dbConnection.query(dbQuery);
+            let dbParams = [];
+
+            if (filters.manager_id) {
+                dbQuery += " AND l.id_usuario = ?;";
+                
+                dbParams.push(filters.manager_id);
+            } else {
+                dbQuery += ";";
+            }
+
+            result = await dbConnection.query(dbQuery, dbParams);
 
         } catch (error) {
             if (dbConnection) {

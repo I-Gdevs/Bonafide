@@ -7,7 +7,7 @@ const api = express();
 const apiPort = process.env.API_PORT;
 
 if (process.env.NODE_ENV === 'development') {
-    api.use(morgan('dev'));
+    api.use(morgan('combined'));
 } else {
     api.use(morgan('combined'));
 }

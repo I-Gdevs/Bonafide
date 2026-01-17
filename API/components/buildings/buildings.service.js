@@ -1,26 +1,26 @@
-import BuildingModel from "./building.model.js";
+import BuildingModel from "./buildings.model.js";
 
 const buildingModel = new BuildingModel();
 
 class BuildingService {
 
-    async createBuilding({ building_address, building_employees, building_manager }) {
+    async postBuilding({ building_address, building_employees, building_manager }) {
         
-        let newBuilding = await buildingModel.createBuilding({ building_address, building_employees, building_manager });
+        let newBuilding = await buildingModel.postBuilding({ building_address, building_employees, building_manager });
 
         return { newBuildingId: Number(newBuilding.insertId), building_address, building_address, building_manager };
     }
 
-    async getBuildings() {
+    async getBuildings(filters) {
 
         let buildings = [];
 
-        buildings = await buildingModel.getBuildings();
+        buildings = await buildingModel.getBuildings(filters);
 
         if (buildings.length === 0) {
             throw new Error("No hay ningún local cargado.");
         }
-        return buildings;
+        return buildings || [];
     }
 
     async updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager }) {
