@@ -5,11 +5,11 @@ const buildingService = new BuildingService();
 
 class BuildingController {
 
-    async postBuilding(req, res) {
+    async createBuilding(req, res) {
         try {
-            let { building_address, building_employees, building_manager } = req.body;
+            let { building_name, building_address, building_employees, building_manager } = req.body;
 
-            let newBuilding = await buildingService.postBuilding({ building_address, building_employees, building_manager });
+            let newBuilding = await buildingService.createBuilding({ building_name, building_address, building_employees, building_manager });
 
             return res.status(201).json({
                 success: "Nuevo local creado correctamente.",
@@ -46,9 +46,11 @@ class BuildingController {
 
     async updateBuilding(req, res) {
         try {
-            let { building_id, new_building_address, new_building_employees, new_building_manager } = req.body;
+            let building_id = req.params.building_id;
 
-            let updatedBuilding = await buildingService.updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager });
+            let { new_building_name, new_building_address, new_building_employees, new_building_manager } = req.body;
+
+            let updatedBuilding = await buildingService.updateBuilding({ building_id, new_building_name, new_building_address, new_building_employees, new_building_manager });
 
             return res.status(200).json({
                 message: "Local actualizado correctamente.",
@@ -71,7 +73,7 @@ class BuildingController {
 
     async deleteBuilding(req, res) {
         try {
-            let { building_id } = req.body;
+            let building_id = req.params.building_id;
 
             let deletedBuilding = await buildingService.deleteBuilding({ building_id });
 

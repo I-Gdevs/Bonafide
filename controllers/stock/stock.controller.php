@@ -10,7 +10,7 @@
     $response = callApi("POST", "/stock/amount");
 
     if ($response["ok"]) {
-        $stockList = $response["data"]["stock_list"] ?? [];
+        $stockList = $response["res"]["stock_list"] ?? [];
     } else {
         $error ="No se pudo buscar la lista de stock: " . ($response["data"]['error'] ?? 'Error de API');
     }

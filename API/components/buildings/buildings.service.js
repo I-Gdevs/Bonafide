@@ -4,11 +4,11 @@ const buildingModel = new BuildingModel();
 
 class BuildingService {
 
-    async postBuilding({ building_address, building_employees, building_manager }) {
+    async createBuilding({ building_name, building_address, building_employees, building_manager }) {
         
-        let newBuilding = await buildingModel.postBuilding({ building_address, building_employees, building_manager });
+        let newBuilding = await buildingModel.createBuilding({ building_name, building_address, building_employees, building_manager });
 
-        return { newBuildingId: Number(newBuilding.insertId), building_address, building_address, building_manager };
+        return { newBuildingId: Number(newBuilding.insertId), building_name, building_address, building_manager };
     }
 
     async getBuildings(filters) {
@@ -23,23 +23,23 @@ class BuildingService {
         return buildings || [];
     }
 
-    async updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager }) {
+    async updateBuilding({ building_id, new_building_name, new_building_address, new_building_employees, new_building_manager }) {
         
         if (!building_id) {
             throw new Error("No se puede actualizar local. Datos faltantes. No se proporcionó ningún ID de local.");
         }
 
-        if (!new_building_address && !new_building_employees && !new_building_manager) {
+        if (!new_building_name && !new_building_address && !new_building_employees && !new_building_manager) {
             throw new Error("No se puede actualizar local. Datos faltantes. No se envió ningún cambio { new_building_address, new_building_employees, new_building_manager }.");
         }
 
-        let updatedBuilding = await buildingModel.updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager });
+        let updatedBuilding = await buildingModel.updateBuilding({ building_id, new_building_name, new_building_address, new_building_employees, new_building_manager });
 
         if (updatedBuilding.affectedRows != 1) {
             throw new Error("No se puede actualizar local.");
         }
         
-        return updatedBuilding = { building_id, new_building_address, new_building_employees, new_building_manager };
+        return updatedBuilding = { building_id, new_building_name, new_building_address, new_building_employees, new_building_manager };
     }
 
     async deleteBuilding({ building_id }) {

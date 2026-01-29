@@ -165,7 +165,7 @@
                         <label class="form-label">Unidad de Medida</label>
                         <select class="form-select" id="input_unidad" name="unidad" disabled>
                             <option value="g">gramos (g)</option>
-                            <option value="kg">kilogramos (kg).</option>
+                            <option value="kg">kilogramos (kg)</option>
                             <option value="l">litros (l)</option>
                             <option value="ml">mililitros (ml)</option>
                             <option value="u">unidad (u)</option>
@@ -204,6 +204,7 @@
 
         rows.forEach(row => {
             let nombre = row.cells[0].innerText.toLowerCase();
+            
             if (nombre.includes(searchText)) {
                 row.style.display = '';
             } else {
