@@ -2,18 +2,19 @@ import dbPool from "../../database/db.js";
 
 class BuildingModel {
 
-    async createBuilding({ building_address, building_employees, building_manager }) {
+    async createBuilding({ building_name, building_address, building_employees, building_manager }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "INSERT INTO locales (direccion_local, empleados_local, id_usuario) VALUES (?, ?, ?);";
+            let dbQuery = "INSERT INTO locales (nombre_local, direccion_local, empleados_local, id_usuario) VALUES (?, ?, ?, ?);";
 
             dbConnection.beginTransaction();
 
             result[0] = await dbConnection.query(dbQuery, [
+                building_name,
                 building_address,
                 building_employees,
                 building_manager
@@ -36,7 +37,7 @@ class BuildingModel {
         }
     }
 
-    async getBuildings() {
+    async getBuildings(filters) {
         let dbConnection;
         let result = [];
 
@@ -45,18 +46,30 @@ class BuildingModel {
 
             let dbQuery = `
                 SELECT
-                    l.id_usuario AS id,
+                    l.id_local AS id,
                     l.nombre_local AS nombre,
                     l.direccion_local AS direccion,
                     l.empleados_local AS cantidad_empleados,
-                    u.nombre_usuario AS encargado
+                    l.id_usuario AS id_encargado,
+                    u.nombre_usuario AS nombre_encargado
                 FROM
                     locales l
                 INNER JOIN
-	                usuarios u ON u.id_usuario = l.id_usuario;
+	                usuarios u ON u.id_usuario = l.id_usuario
+                WHERE l.local_desactivado_bool = 0
             `;
 
-            result = await dbConnection.query(dbQuery);
+            let dbParams = [];
+
+            if (filters.manager_id) {
+                dbQuery += " AND l.id_usuario = ?;";
+                
+                dbParams.push(filters.manager_id);
+            } else {
+                dbQuery += ";";
+            }
+
+            result = await dbConnection.query(dbQuery, dbParams);
 
         } catch (error) {
             if (dbConnection) {
@@ -72,7 +85,7 @@ class BuildingModel {
         }
     }
 
-    async updateBuilding({ building_id, new_building_address, new_building_employees, new_building_manager }) {
+    async updateBuilding({ building_id, new_building_name, new_building_address, new_building_employees, new_building_manager }) {
         let dbConnection;
         let result = [];
 
@@ -81,6 +94,11 @@ class BuildingModel {
 
             let dbUpdates = [];
             let dbParams = [];
+
+            if (new_building_name) {
+                dbUpdates.push("nombre_local = (?)");
+                dbParams.push(new_building_name);
+            }
 
             if (new_building_address) {
                 dbUpdates.push("direccion_local = (?)");
@@ -100,6 +118,8 @@ class BuildingModel {
             dbParams.push(building_id);
 
             let dbQuery = `UPDATE locales SET ${dbUpdates.join(", ")} WHERE id_local = (?)`
+
+            console.log(dbQuery);
 
             await dbConnection.beginTransaction();
 

@@ -1,4 +1,6 @@
+import { response } from "express";
 import UserService from "./user.service.js";
+import * as responseBuilder from "../../helpers/response.helper.js";
 
 const userService = new UserService();
 
@@ -65,6 +67,18 @@ class UserController {
                 // Otro error
                 error: "Error interno del servidor."
             });
+        }
+    }
+
+    async getUsers(req, res) {
+        try {
+            let filters = req.query;
+
+            let users = await userService.getUsers(filters);
+
+            return responseBuilder.success(req, res, 200, users)
+        } catch (error) {
+            return responseBuilder.error(req, res, error.message);
         }
     }
 }
