@@ -77,6 +77,48 @@ class UserModel {
             return result[0];
         }
     }
+
+    async getUsers(filters) {
+        let dbConnection;
+        let result = [];
+
+        try {
+            dbConnection = await dbPool.getConnection();
+
+            let dbQuery = `
+                SELECT
+                    id_usuario AS id,
+                    nombre_usuario AS name,
+                    correo_usuario AS email,
+                    id_rol AS role
+                FROM usuarios
+                WHERE 1=1
+            `;
+
+            let dbParams = [];
+
+            if (filters.role) {
+                dbQuery += " AND id_rol = (?)";
+                dbParams.push(filters.role);
+            }
+
+            if (filters.name) {
+                dbQuery += " AND nombre_usuario LIKE (?)";
+                dbParams.push(`%${filters.name}`);
+            }
+
+            result = await dbConnection.query(dbQuery, dbParams);
+
+        } catch (error) {
+            console.error("Error en getUsers:", error);
+
+        } finally {
+            if (dbConnection) {
+                dbConnection.release();
+            }
+            return result;
+        }
+    }
 }
 
 export default UserModel;

@@ -49,6 +49,10 @@ class UserService {
 
         return { token, user: payload };
     }
+
+    async getUsers(filters) {
+        return await userModel.getUsers(filters);
+    }
 }
 
 export default UserService;

@@ -96,9 +96,18 @@
         
         // Locales
         case 'stock/buildings':
-            require BASE_PATH . '/controllers/stock/buildings.controller.php';
+            require BASE_PATH . '/controllers/stock/buildings/buildings.controller.php';
+            require BASE_PATH . '/controllers/stock/buildings/create_building.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/buildings.php';
+            break;
+        
+        case 'stock/buildings/edit':
+            require BASE_PATH . '/controllers/stock/buildings/edit_building.controller.php';
+            break;
+        
+        case 'stock/buildings/delete':
+            require BASE_PATH . '/controllers/stock/buildings/delete_building.controller.php';
             break;
 
             
