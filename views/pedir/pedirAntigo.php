@@ -25,7 +25,7 @@ $productos = [
         'precio' => 2800, 
         'imagen' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg',
         'categoria' => 'clasicos', 
-        'es_combo' => true, // Es combo
+        'es_combo' => true, 
     ],
     [
         'id' => 102, 'nombre' => 'Submarino', 'descripcion' => 'Chocolate caliente',
@@ -35,7 +35,7 @@ $productos = [
     [
         'id' => 103, 'nombre' => 'COMBO Tostado', 'descripcion' => 'Café + Tostado jamón y queso',
         'precio' => 4800, 'imagen' => 'https://img.freepik.com/free-photo/closeup-shot-baked-sandwiches-made-with-sausage-served-wooden-board_181624-61300.jpg',
-        'categoria' => 'mediodias', 'es_combo' => true, // Es combo
+        'categoria' => 'mediodias', 'es_combo' => true, 
     ],
     [
         'id' => 104, 'nombre' => 'Sandwich Miga', 'descripcion' => 'Jamón y Queso',

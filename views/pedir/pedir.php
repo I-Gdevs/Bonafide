@@ -1,26 +1,62 @@
 <?php 
-// 1. CONFIGURACIÓN Y PARTIALS
+
 if (!defined('BASE_PATH')) define('BASE_PATH', dirname(__DIR__, 2)); 
 if (!defined('BASE_URL')) define('BASE_URL', '/');
 
 include BASE_PATH . '/views/partials/head.php'; 
 include BASE_PATH . '/views/partials/header.php'; 
 
-// 2. DATOS DE PRODUCTOS (PHP)
+
 $categorias = [
     'combos' => 'Combos', 'clasicos' => 'Clásicos', 'bebidas_calientes' => 'Bebidas Calientes',
     'cafeteria' => 'Cafetería', 'bebidas_frias' => 'Bebidas Frías', 'postres' => 'Postres',
 ];
 
 $productos = [
-    ['id' => 101, 'nombre' => 'COMBO Café + 2 Medialunas', 'precio' => 2800, 'cat' => 'clasicos', 'img' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg', 'combo' => true],
-    ['id' => 102, 'nombre' => 'Submarino', 'precio' => 3400, 'cat' => 'bebidas_calientes', 'img' => 'https://img.freepik.com/premium-photo/closeup-tasty-coffee-espresso-with-tasty-foam-small-ceramic-cup-male-hands-holding-warm-hot-drink_1220-1563.jpg', 'combo' => false],
-    ['id' => 105, 'nombre' => 'Cheesecake Frutos Rojos', 'precio' => 5500, 'cat' => 'postres', 'img' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg', 'combo' => false],
+    [
+        'id' => 101, 
+        'nombre' => 'COMBO Café + 2 Medialunas', 
+        'descripcion' => 'Café con leche con 2 medialunas de manteca.',
+        'precio' => 2800, 
+        'cat' => 'clasicos', 
+        'img' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg', 
+        'combo' => true
+    ],
+    [
+        'id' => 102, 
+        'nombre' => 'Submarino', 
+        'descripcion' => 'Chocolate caliente con barra fundida.',
+        'precio' => 3400, 
+        'cat' => 'bebidas_calientes', 
+        'img' => 'https://img.freepik.com/premium-photo/closeup-tasty-coffee-espresso-with-tasty-foam-small-ceramic-cup-male-hands-holding-warm-hot-drink_1220-1563.jpg', 
+        'combo' => false
+    ],
+    [
+        'id' => 105, 
+        'nombre' => 'Cheesecake Frutos Rojos', 
+        'descripcion' => 'Porción de torta con base crocante y salsa.',
+        'precio' => 5500, 
+        'cat' => 'postres', 
+        'img' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg', 
+        'combo' => false
+    ],
 ];
 ?>
 
 <style>
-    /* Estética de la Perilla (Toggle) */
+    
+    .product-card { transition: transform 0.2s; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+    
+    
+    .btn-round-sm {
+        width: 32px; height: 32px; 
+        padding: 0; 
+        display: flex; align-items: center; justify-content: center; 
+        font-weight: bold; font-size: 1.2rem; line-height: 1;
+    }
+
+    
     .switch-container { background: #eee; border-radius: 50px; position: relative; display: flex; padding: 4px; cursor: pointer; user-select: none; }
     .switch-option { flex: 1; text-align: center; padding: 8px 0; z-index: 2; font-weight: bold; transition: color 0.3s; font-size: 0.85rem; }
     .switch-slider { position: absolute; width: calc(50% - 4px); height: calc(100% - 8px); background: #e53935; border-radius: 50px; transition: transform 0.3s ease; z-index: 1; }
@@ -28,10 +64,7 @@ $productos = [
     .switch-container.is-local .opt-local { color: white; }
     .switch-container.is-delivery .opt-delivery { color: white; }
     
-    /* Botones de control de cantidad en carrito */
     .qty-btn { width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid #e53935; background: white; color: #e53935; cursor: pointer; font-weight: bold; }
-    .qty-btn:hover { background: #e53935; color: white; }
-
     .cart-container { background: white; border-radius: 12px; border: 1px solid #ddd; }
     .cart-header { background: #e53935; color: white; padding: 10px; border-radius: 12px 12px 0 0; text-align: center; }
 </style>
@@ -50,19 +83,34 @@ $productos = [
 
         <section class="col-md-7">
             <div class="row row-cols-md-3 g-3" id="product-grid">
-                <?php foreach ($productos as $p): ?>
-                <div class="col product-item" data-cat="<?= $p['cat'] . ($p['combo'] ? ' combos' : '') ?>">
-                    <div class="card h-100 shadow-sm border-0">
-                        <img src="<?= $p['img'] ?>" class="card-img-top" style="height: 140px; object-fit: cover;">
-                        <div class="card-body p-2 text-center">
-                            <h6 class="fw-bold mb-1 small"><?= $p['nombre'] ?></h6>
-                            <span class="text-danger fw-bold">$<?= number_format($p['precio'], 0, ',', '.') ?></span>
-                            <button class="btn btn-sm btn-danger rounded-circle d-block mx-auto mt-2" 
-                                    onclick="addItem(<?= $p['id'] ?>, '<?= $p['nombre'] ?>', <?= $p['precio'] ?>)">+</button>
+                
+                <?php foreach ($productos as $producto): 
+                    // Lógica para filtrar (adaptada al JS nuevo)
+                    $filter_categories = $producto['cat'] . ($producto['combo'] ? ' combos' : '');
+                ?>
+                <div class="col product-item" data-cat="<?= $filter_categories ?>">
+                    <div class="card h-100 product-card">
+                        <img src="<?= htmlspecialchars($producto['img']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['nombre']) ?>" style="height: 150px; object-fit: cover;">
+                        
+                        <div class="card-body">
+                            <h6 class="card-title fw-bold"><?= htmlspecialchars($producto['nombre']) ?></h6>
+                            <p class="card-text small text-muted"><?= htmlspecialchars($producto['descripcion']) ?></p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="text-danger fw-bold">$<?= number_format($producto['precio'], 0, ',', '.') ?></span>
+                                
+                                <button 
+                                    class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm"
+                                    onclick="addItem(<?= $producto['id'] ?>, '<?= htmlspecialchars($producto['nombre']) ?>', <?= $producto['precio'] ?>)"
+                                >
+                                    +
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <?php endforeach; ?>
+
             </div>
         </section>
 
@@ -70,27 +118,24 @@ $productos = [
             <div class="cart-container sticky-top" style="top: 20px;">
                 <div class="cart-header fw-bold">Mi Pedido</div>
                 <div class="p-3">
-                    <div id="cart-list" class="mb-3">
-                        </div>
-                    
+                    <div id="cart-list" class="mb-3"></div>
                     <hr>
-                    
                     <div class="switch-container is-local mb-3" id="delivery-toggle" onclick="toggleDelivery()">
                         <div class="switch-slider"></div>
                         <div class="switch-option opt-delivery">Delivery</div>
                         <div class="switch-option opt-local">Local</div>
                     </div>
-
                     <div class="d-flex justify-content-between small">
-                        <span>Envío:</span>
-                        <span id="ship-cost">$0</span>
+                        <span>Envío:</span><span id="ship-cost">$0</span>
                     </div>
                     <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
-                        <span>Total:</span>
-                        <span id="cart-total">$0</span>
+                        <span>Total:</span><span id="cart-total">$0</span>
                     </div>
-                    
-                    <button class="btn btn-danger w-100 mt-3 fw-bold" onclick="processOrder()">PAGAR</button>
+                    <form action="<?= BASE_URL ?>/pagar" method="POST" id="checkout-form">
+                        <input type="hidden" name="cart_data" id="cart-input">
+                        <input type="hidden" name="delivery_type" id="delivery-input">
+                        <button type="button" class="btn btn-danger w-100 mt-3 fw-bold" onclick="goToCheckout()">PAGAR</button>
+                    </form>
                 </div>
             </div>
         </aside>
@@ -150,30 +195,16 @@ $productos = [
         }
 
         const ship = isDelivery ? SHIP_FEE : 0;
-        const total = subtotal + ship;
-        
         document.getElementById('ship-cost').innerText = `$${ship.toLocaleString()}`;
-        document.getElementById('cart-total').innerText = `$${total.toLocaleString()}`;
+        document.getElementById('cart-total').innerText = `$${(subtotal + ship).toLocaleString()}`;
         localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Atributos útiles para el envío a PHP
-        window.currentOrderData = { subtotal, ship, total, items: itemsArray, type: isDelivery ? 'delivery' : 'local' };
     }
 
-    function processOrder() {
+    function goToCheckout() {
         if (Object.keys(cart).length === 0) return alert("El carrito está vacío.");
-        
-        console.log("Enviando pedido a la DB...", window.currentOrderData);
-        alert("¡Pedido enviado! (Aquí llamarías a tu archivo PHP con Fetch)");
-        
-        // Ejemplo de como enviarías los datos a PHP:
-        /*
-        fetch('controllers/guardar_pedido.php', {
-            method: 'POST',
-            body: JSON.stringify(window.currentOrderData),
-            headers: {'Content-Type': 'application/json'}
-        }).then(...)
-        */
+        document.getElementById('cart-input').value = JSON.stringify(Object.values(cart));
+        document.getElementById('delivery-input').value = isDelivery ? 'delivery' : 'local';
+        document.getElementById('checkout-form').submit();
     }
 
     function filterProducts(cat, el) {

@@ -1,170 +1,175 @@
-<head>
-    <title>Bonafide | Pagar</title>
-</head>
+<?php 
 
-<?php include BASE_PATH . '/views/partials/head.php'; ?>
-<?php include BASE_PATH . '/views/partials/header.php'; ?>
 
-<?php
-$subtotal = 6300;
-$costo_envio = 2100;
-$total_final = $subtotal + $costo_envio;
+include BASE_PATH . '/views/partials/head.php'; 
+include BASE_PATH . '/views/partials/header.php'; 
+
+// 2. LÓGICA PHP: Procesamos los datos si vienen por POST (desde el carrito)
+$productos_checkout = isset($_POST['cart_data']) ? json_decode($_POST['cart_data'], true) : [];
+$tipo_entrega = $_POST['delivery_type'] ?? 'local';
+$sucursal_id = $_POST['sucursal'] ?? 'tribunales';
+
+// Definición de sucursales
+$sucursales = [
+    'tribunales' => ['nombre' => 'Bonafide Tribunales', 'direccion' => 'Talcahuano 550, CABA'],
+    'centro' => ['nombre' => 'Bonafide Centro', 'direccion' => 'Av. Corrientes 800, CABA']
+];
+
+$costo_envio = ($tipo_entrega === 'delivery') ? 2100 : 0;
+$subtotal = 0;
 ?>
 
 <style>
-    
-
-    /* Estilos del resumen de pago (similar al carrito) */
-    .resumen-pago-card {
-        background-color: #f8f9fa; /* Fondo gris claro */
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
-        padding: 20px;
+    .checkout-container {
+        background: white;
+        border-radius: 12px; 
+        border: 1px solid #ddd; 
+        padding: 25px; 
     }
-    .resumen-header {
-        background-color: #e53935; /* Rojo de Bonafide */
-        color: white;
-        padding: 10px;
-        border-radius: 6px;
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 20px;
+    .order-summary { 
+        background: #f9f9f9; 
+        border-radius: 12px; 
+        border: 1px solid #eee; 
+        padding: 20px; 
     }
-    .total-final-line {
-        background-color: #e9ecef;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 1.25rem;
+    .local-info-box { 
+        border-left: 4px solid #e53935; 
+        background: #fff; 
+        padding: 10px; 
+        margin-bottom: 15px; 
     }
-    .btn-confirm-pay {
-        background-color: #e53935;
-        color: white;
-        font-weight: bold;
-    }
-    .btn-confirm-pay:hover {
-        background-color: #c62828;
-        color: white;
+    #success-popup { 
+        display: none; 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        background: rgba(0,0,0,0.8); 
+        z-index: 9999; 
+        align-items: center; 
+        justify-content: center; 
     }
 </style>
 
-<main>
-    <div class="container my-5 fixed-width-container mx-auto">
-        
-        <h1 class="fw-bold mb-4">Finalizar Pedido y Pago</h1>
-        
-        <div class="row g-4">
-            
-            <div class="col-md-7">
-                <h3 class="fw-bold text-dark mb-3">1. Datos de Contacto y Entrega</h3>
-                
-                <form id="formularioPago" action="[URL_CONTROLADOR_PAGO]" method="POST">
-                    
-                    <div class="card p-4 shadow-sm mb-4">
-                        <h5 class="fw-bold mb-3 border-bottom pb-2">Información Personal</h5>
-                        <div class="row g-3 mb-3">
-                            <div class="col-md-6">
-                                <label for="inputNombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="inputNombre" name="nombre" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputApellido" class="form-label">Apellido</label>
-                                <input type="text" class="form-control" id="inputApellido" name="apellido" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputTelefono" class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" id="inputTelefono" name="telefono" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="inputEmail" name="email" required>
-                            </div>
+<main class="container my-5">
+    <div class="mb-4">
+        <a href="<?= BASE_URL ?>/pedir" class="btn btn-link text-danger fw-bold p-0 text-decoration-none">
+            <i class="bi bi-arrow-left"></i> VOLVER A MI PEDIDO
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="checkout-container shadow-sm">
+                <h4 class="fw-bold mb-4 border-bottom pb-2">Datos de Facturación</h4>
+                <form id="main-payment-form" action="<?= BASE_URL ?>/procesar_pago" method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold small">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold small">Apellido</label>
+                            <input type="text" name="apellido" class="form-control" required>
                         </div>
                         
-                        <h5 class="fw-bold mb-3 border-bottom pb-2 mt-4">Dirección de Envío</h5>
-                         <div class="mb-3">
-                            <label for="inputDireccion" class="form-label">Calle y Número</label>
-                            <input type="text" class="form-control" id="inputDireccion" name="direccion" required>
+                        <?php if ($tipo_entrega === 'delivery'): ?>
+                        <div class="col-12">
+                            <label class="fw-bold small">Dirección de Entrega</label>
+                            <input type="text" name="direccion" class="form-control" placeholder="Calle y altura" required>
                         </div>
-                         <div class="mb-3">
-                            <label for="inputComentarios" class="form-label">Notas del Pedido (Opcional)</label>
-                            <textarea class="form-control" id="inputComentarios" name="comentarios" rows="2"></textarea>
-                        </div>
-                    </div>
-                    
-                    <h3 class="fw-bold text-dark mb-3 mt-5">2. Método de Pago</h3>
-                    
-                    <div class="card p-4 shadow-sm mb-4">
-                        <div class="alert alert-info small" role="alert">
-                            Nota: Aquí se integraría la API de Mercado Pago o similar.
-                        </div>
+                        <?php endif; ?>
 
-                        <div class="mb-3">
-                            <label for="inputTarjeta" class="form-label">Número de Tarjeta</label>
-                            <input type="text" class="form-control" id="inputTarjeta" placeholder="XXXX XXXX XXXX XXXX" required>
-                        </div>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="inputVencimiento" class="form-label">Vencimiento (MM/AA)</label>
-                                <input type="text" class="form-control" id="inputVencimiento" placeholder="MM/AA" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputCVV" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="inputCVV" placeholder="123" required>
+                        <div class="col-12 mt-4">
+                            <h6 class="fw-bold">Tarjeta de Crédito / Débito</h6>
+                            <div class="p-3 border rounded bg-light">
+                                <input type="text" class="form-control mb-2" placeholder="0000 0000 0000 0000" required>
+                                <div class="row">
+                                    <div class="col-6"><input type="text" class="form-control" placeholder="MM/AA" required></div>
+                                    <div class="col-6"><input type="text" class="form-control" placeholder="CVC" required></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <button type="submit" class="btn btn-confirm-pay btn-lg w-100 py-3 mt-4">
-                        Confirmar y Pagar $<?= number_format($total_final, 0, ',', '.') ?>
-                    </button>
                 </form>
             </div>
-            
-            <div class="col-md-5">
-                <div class="resumen-pago-card sticky-top" style="top: 20px;">
-                    
-                    <div class="resumen-header">
-                        Resumen de la Orden
-                    </div>
-                    
-                    <ul class="list-group list-group-flush mb-4">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>2x Café Negro Simple</span>
-                            <span>$4200</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>1x Submarino de Chocolate</span>
-                            <span>$3400</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>2x Medialunas Saladas</span>
-                            <span>$800</span>
-                        </li>
-                    </ul>
-                    
-                    <div class="d-flex justify-content-between small mb-2">
-                        <span>Subtotal</span>
+        </div>
+
+        <aside class="col-md-5">
+            <div class="order-summary shadow-sm">
+                <h5 class="fw-bold mb-3">Resumen del Pedido</h5>
+
+                <?php if ($tipo_entrega === 'local'): ?>
+                <div class="local-info-box shadow-sm">
+                    <div class="fw-bold text-danger"><i class="bi bi-shop"></i> Retiro en:</div>
+                    <div class="fw-bold"><?= $sucursales[$sucursal_id]['nombre'] ?></div>
+                    <div class="text-muted small"><?= $sucursales[$sucursal_id]['direccion'] ?></div>
+                </div>
+                <?php endif; ?>
+
+                <div class="product-list mb-4">
+                    <?php if (empty($productos_checkout)): ?>
+                        <p class="text-muted">No hay productos en el pedido.</p>
+                    <?php else: ?>
+                        <?php foreach ($productos_checkout as $item): 
+                            $total_item = $item['price'] * $item['qty'];
+                            $subtotal += $total_item;
+                        ?>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span><strong><?= $item['qty'] ?>x</strong> <?= htmlspecialchars($item['name']) ?></span>
+                            <span>$<?= number_format($total_item, 0, ',', '.') ?></span>
+                        </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+
+                <div class="border-top pt-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Subtotal:</span>
                         <span>$<?= number_format($subtotal, 0, ',', '.') ?></span>
                     </div>
-                    <div class="d-flex justify-content-between small mb-3">
-                        <span>Costo de Envío</span>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Envío:</span>
                         <span>$<?= number_format($costo_envio, 0, ',', '.') ?></span>
                     </div>
-                    
-                    <div class="total-final-line d-flex justify-content-between fw-bold mt-3">
-                        <span>TOTAL FINAL</span>
-                        <span class="text-danger">$<?= number_format($total_final, 0, ',', '.') ?></span>
+                    <div class="d-flex justify-content-between fw-bold fs-4 mt-2 border-top pt-2">
+                        <span>Total:</span>
+                        <span>$<?= number_format($subtotal + $costo_envio, 0, ',', '.') ?></span>
                     </div>
-                    
                 </div>
-            </div>
 
-        </div>
-        
+                <button class="btn btn-danger w-100 mt-4 py-3 fw-bold" onclick="showFinalPopup()">
+                    CONFIRMAR PAGO
+                </button>
+            </div>
+        </aside>
     </div>
 </main>
 
+<div id="success-popup">
+    <div class="bg-white p-5 rounded-4 text-center shadow-lg" style="max-width: 400px;">
+        <div class="text-success mb-3" style="font-size: 4rem;"><i class="bi bi-check-circle-fill"></i></div>
+        <h2 class="fw-bold">¡Hecho!</h2>
+        <p class="text-muted">Tu pedido ha sido realizado con éxito.</p>
+        <button class="btn btn-danger w-100" onclick="clearAndGo()">Cerrar</button>
+    </div>
+</div>
 
-<?php 
-include BASE_PATH . '/views/partials/footer.php';
-?>
+<script>
+    // JS Mínimo: Solo para el efecto visual del popup y limpiar el carrito
+    function showFinalPopup() {
+        if(document.getElementById('main-payment-form').checkValidity()) {
+            document.getElementById('success-popup').style.display = 'flex';
+        } else {
+            alert("Por favor, completa todos los campos.");
+        }
+    }
+
+    function clearAndGo() {
+        localStorage.removeItem('cart'); // Borramos el carrito al terminar
+        window.location.href = '<?= BASE_URL ?>/home';
+    }
+</script>
+
+<?php include BASE_PATH . '/views/partials/footer.php'; ?>
