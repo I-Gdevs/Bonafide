@@ -67,21 +67,20 @@
                                 <th>CUIT</th>
                                 <th>Detalle</th>
                                 <th>Acciones</th>
-                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tablaStockBody">
-                            <?php if (empty($providerList)): ?>
+                            <?php if (empty($providers)): ?>
                                 <tr>
                                     <td colspan="4" class="text-center py-4 text-muted">No hay ningún proveedor cargado.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($providerList as $item): ?>
+                                <?php foreach ($providers as $item): ?>
                                     <tr class="align-middle">
                                         <td><?= $item['nombre_proveedor']?></td>
                                         <td><?= $item['cuit_proveedor']?></td>
                                         <td><?= $item['detalle_proveedor']?></td>
-                                        <td>
+                                        <td class="text-end">
                                             <button class="btn btn-sm btn-secondary"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalEditarProveedor"
