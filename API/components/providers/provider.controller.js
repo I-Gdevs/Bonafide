@@ -1,8 +1,28 @@
 import ProviderService from "./provider.service.js";
+import * as responseBuilder from "../../helpers/response.helper.js";
 
 const providerService = new ProviderService();
 
 class ProviderController {
+
+    async getProviders(req, res) {
+        try {
+            let filters = req.query;
+
+            let providersList = await providerService.getProviders(filters);
+
+            return responseBuilder.success(req, res, 200, providersList);
+
+        } catch (error) {
+            console.error("Error al buscar la lista de proveedores: ", error.message);
+
+            if (error.message.includes("No hay")) {
+                responseBuilder.error(req, res, 404, "No se encontró ningún proveedor.");
+            } else {
+                responseBuilder.error(req, res)
+            }
+        }
+    }
     
     async createProvider(req, res) {
         try {
@@ -25,29 +45,6 @@ class ProviderController {
 
             return res.status(500).json({
                 error: "Error interno al crear nuevo proveedor."
-            });
-        }
-    }
-
-    async getAllProviders(req, res) {
-        try {
-            let providersList = await providerService.getAllProviders();
-
-            return res.status(200).json({
-                success: "Lista de proveedores buscada correctamente",
-                providers_list: providersList
-            });
-        } catch (error) {
-            console.error("Error al buscar la lista de proveedores: ", error.message);
-
-            if (error.message.includes("No hay")) {
-                return res.status(404).json({
-                    error: error.message
-                });
-            }
-
-            return res.status(500).json({
-                error: "Error interno al buscar la lista de proveedores."
             });
         }
     }
