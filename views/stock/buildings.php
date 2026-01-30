@@ -82,7 +82,7 @@
 										<td><?= $item["direccion"]?></td>
 										<td><?= $item["cantidad_empleados"]?></td>
 										<td><?= $item["nombre_encargado"]?></td>
-										<td>
+										<td class="text-end">
 											<button class="btn btn-sm btn-danger"
 												data-bs-toggle="modal"
 												data-bs-target="#modalEditarLocal"

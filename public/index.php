@@ -81,7 +81,7 @@
 
         // Proveedores
         case 'stock/providers':
-            require BASE_PATH . '/controllers/stock/providers/provider.controller.php';
+            require BASE_PATH . '/controllers/stock/providers/providers.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/providers.php';
             break;
@@ -159,6 +159,10 @@
         // Administracion
         case 'administracion':
             $view_file = BASE_PATH . '/views/administracion/administracion.php';
+            break;
+
+        case 'estadisticas':
+            $view_file = BASE_PATH . '/views/administracion/estadisticas.php';
             break;
 
         // Perfil

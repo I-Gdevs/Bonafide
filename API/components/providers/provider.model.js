@@ -83,16 +83,36 @@ class ProviderModel {
         }
     }
 
-    async getAllProviders() {
+    async getProviders(filters) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM proveedores;";
+            let dbQuery = `
+                SELECT * FROM proveedores
+                WHERE 1=1
+            `;
+            
+            let dbParams = [];
 
-            result = await dbConnection.query(dbQuery);
+            if (filters.provider_id) {
+                dbQuery += " AND id_proveedor = (?)";
+                dbParams.push(filters.provider_id);
+            }
+            
+            if (filters.provider_name) {
+                dbQuery += " AND nombre_proveedor = (?)";
+                dbParams.push(filters.provider_name);
+            }
+
+            if (filters.provider_cuit) {
+                dbQuery += " AND cuit_proveedor = (?)";
+                dbParams.push(filters.provider_cuit);
+            }
+
+            result = await dbConnection.query(dbQuery, dbParams);
 
         } catch (error) {
             if (dbConnection) {

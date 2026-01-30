@@ -17,11 +17,11 @@ class ProviderService {
         return { newProviderId: Number(newProvider.insertId), provider_name, provider_cuit, provider_detail };
     }
 
-    async getAllProviders() {
+    async getProviders(filters) {
 
         let providers = [];
 
-        providers = await providerModel.getAllProviders();
+        providers = await providerModel.getProviders(filters);
 
         if (providers.length === 0) {
             throw new Error("No hay ningún proveedor cargado.");
