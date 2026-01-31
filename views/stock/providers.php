@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="buscadorStock" placeholder="Buscar...">
+                        <input type="text" class="form-control" id="buscadorProveedor" placeholder="Buscar...">
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
                                         <td><?= $item['cuit_proveedor']?></td>
                                         <td><?= $item['detalle_proveedor']?></td>
                                         <td class="text-end">
-                                            <button class="btn btn-sm btn-secondary"
+                                            <button class="btn btn-sm btn-danger"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalEditarProveedor"
                                                 data-id="<?= $item['id_proveedor'] ?>"
@@ -89,9 +89,13 @@
                                                 data-cuit="<?= $item['cuit_proveedor'] ?>"
                                                 data-detalle="<?= $item['detalle_proveedor'] ?>"
                                             >
-                                                <i class="bi bi-pen"></i>
+                                                <i class="bi bi-pencil-square"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger">
+                                            <button class="btn btn-sm btn-outline-danger"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalEliminarProveedor"
+                                                data-id="<?= $item['id_proveedor'] ?>"
+                                            >
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
@@ -106,7 +110,7 @@
     </div>
 </main>
 
-<!-- Creación de proveedores -->
+<!-- Modal para crear proveedores -->
 <div class="modal fade" id="modalCrearProveedor" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -115,7 +119,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             
-            <form method="POST" action="<?= BASE_URL ?>/stock/providers/create">
+            <form method="POST" action="<?= BASE_URL ?>/stock/providers">
                 <div class="modal-body">
 
                     <div class="mb-3">
@@ -143,7 +147,7 @@
     </div>
 </div>
 
-<!-- Edición de proveedores -->
+<!-- Modal para editar proveedores -->
 <div class="modal fade" id="modalEditarProveedor" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -181,6 +185,32 @@
     </div>
 </div>
 
+<!-- Modal para eliminar proveedores -->
+<div class="modal fade" id="modalEliminarProveedor" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-danger text-white">
+				<h5 class="modal-title">Eliminar proveedor</h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+			</div>
+
+			<form method="POST" action="<?= BASE_URL ?>/stock/providers/delete">
+				<div class="modal-body">
+					<input type="hidden" name="id" id="input_id">
+
+					¿Está seguro que desea eliminar el proveedor?
+				</div>
+
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-outline-secondary">Eliminar</button>
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
 <!-- TOAST ALERTA -->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
     <div id="toastSuccess" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -191,28 +221,29 @@
         </div>
         
         <div class="toast-body">
-            <?= !empty($response['data']['success']) ? $response['data']['success'] : "Y bueno acá está el modal" ?>
+            <?= !empty($response["res"]['success']) ? $response['data']['success'] : "Y bueno acá está el modal" ?>
         </div>
     </div>
 </div>
 
 <script>
     // Buscador
-    document.getElementById('buscadorStock').addEventListener('keyup', function() {
+    document.getElementById('buscadorProveedor').addEventListener('keyup', function() {
         let searchText = this.value.toLowerCase();
         let rows = document.querySelectorAll('#tablaStockBody tr');
 
-        rows.forEach(row => {
-            let nombre = row.cells[0].innerText.toLowerCase();
-            if (nombre.includes(searchText)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
+		rows.forEach(row => {
+			let nombre = row.innerText.toLowerCase();
+
+			if (nombre.includes(searchText)) {
+				row.style.display = '';
+			} else {
+				row.style.display = 'none';
+			}
+		});
     });
 
-    // Modal para editar proveedores
+    // Rellenar modal para editar proveedores
     const modalEditar = document.getElementById("modalEditarProveedor");
 
     modalEditar.addEventListener('show.bs.modal', function (event) {
@@ -228,6 +259,18 @@
         modalEditar.querySelector('#input_cuit').value = cuit;
         modalEditar.querySelector('#input_detalle').value = detalle;
     });
+
+	// Rellenar modal para eliminar proveedores
+	const modalEliminarProveedor = document.getElementById("modalEliminarProveedor");
+
+	modalEliminarProveedor.addEventListener('show.bs.modal', function (event) {
+		const boton = event.relatedTarget;
+
+		const id = boton.getAttribute('data-id');
+		
+		modalEliminarProveedor.querySelector('#input_id').value = id;
+	});
+
 </script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>

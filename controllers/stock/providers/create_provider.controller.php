@@ -8,17 +8,17 @@
         $detalle = $_POST['detalle'];
 
 
-        $response = callApi("POST", "/provider/create", [
+        $createProviderResponse = callApi("POST", "/providers", [
             "provider_name" => $nombre,
             "provider_cuit" => $cuit,
             "provider_detail" => $detalle
         ]);
 
-        if($response['ok']) {
+        if($createProviderResponse["ok"]) {
             header("Location: " . BASE_URL . "/stock/providers?success=creado");
             exit;
         } else {
-            $error = urlencode($response['data']['error'] ?? "Error al actualizar los datos .");
+            $error = urlencode($createProviderResponse["res"]["error"] ?? "Error al actualizar los datos .");
 
             header("Location: " . BASE_URL . "/stock/providers?error=" . $error);
 

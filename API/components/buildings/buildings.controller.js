@@ -5,25 +5,6 @@ const buildingService = new BuildingService();
 
 class BuildingController {
 
-    async createBuilding(req, res) {
-        try {
-            let { building_name, building_address, building_employees, building_manager } = req.body;
-
-            let newBuilding = await buildingService.createBuilding({ building_name, building_address, building_employees, building_manager });
-
-            return res.status(201).json({
-                success: "Nuevo local creado correctamente.",
-                newBuilding: newBuilding
-            });
-        } catch (error) {
-            console.error("Error al crear nuevo local: ", error.message);
-
-            return res.status(500).json({
-                error: "Error interno al crear nuevo local."
-            });
-        }
-    }
-
     async getBuildings(req, res) {
         try {
             let filters = req.query;
@@ -43,6 +24,27 @@ class BuildingController {
 
         }
     }
+
+    async createBuilding(req, res) {
+        try {
+            let { building_name, building_address, building_employees, building_manager } = req.body;
+
+            let newBuilding = await buildingService.createBuilding({ building_name, building_address, building_employees, building_manager });
+
+            return res.status(201).json({
+                success: "Nuevo local creado correctamente.",
+                newBuilding: newBuilding
+            });
+        } catch (error) {
+            console.error("Error al crear nuevo local: ", error.message);
+
+            return res.status(500).json({
+                error: "Error interno al crear nuevo local."
+            });
+        }
+    }
+
+    
 
     async updateBuilding(req, res) {
         try {

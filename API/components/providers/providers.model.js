@@ -92,7 +92,7 @@ class ProviderModel {
 
             let dbQuery = `
                 SELECT * FROM proveedores
-                WHERE 1=1
+                WHERE proveedor_desactivado_bool = 0
             `;
             
             let dbParams = [];
@@ -130,7 +130,7 @@ class ProviderModel {
 
     async updateProvider({ provider_id, new_provider_name, new_provider_detail }) {
         let dbConnection;
-        let result = [];
+        let result;
 
         try {
             dbConnection = await dbPool.getConnection();
@@ -172,7 +172,8 @@ class ProviderModel {
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result[0];
+
+            return { "affectedRows": result.affectedRows, provider_id };
         }
     }
 
