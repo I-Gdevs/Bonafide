@@ -1,8 +1,20 @@
-import ProviderModel from "./provider.model.js";
+import ProviderModel from "./providers.model.js";
 
 const providerModel = new ProviderModel();
 
 class ProviderService {
+
+    async getProviders(filters) {
+
+        let providers = [];
+
+        providers = await providerModel.getProviders(filters);
+
+        if (providers.length === 0) {
+            throw new Error("No hay ningún proveedor cargado.");
+        }
+        return providers;
+    }
     
     async createProvider({ provider_name, provider_cuit, provider_detail }) {
         
@@ -17,17 +29,6 @@ class ProviderService {
         return { newProviderId: Number(newProvider.insertId), provider_name, provider_cuit, provider_detail };
     }
 
-    async getProviders(filters) {
-
-        let providers = [];
-
-        providers = await providerModel.getProviders(filters);
-
-        if (providers.length === 0) {
-            throw new Error("No hay ningún proveedor cargado.");
-        }
-        return providers;
-    }
 
     async updateProvider({ provider_id, new_provider_name, new_provider_detail }) {
 
@@ -39,7 +40,7 @@ class ProviderService {
 
         let updatedProvider = await providerModel.updateProvider({ provider_id, new_provider_name, new_provider_detail });
         
-        if (updatedProvider) {
+        if (!updatedProvider.affectedRows) {
             throw new Error("No se puede actualizar proveedor.");
         }
 

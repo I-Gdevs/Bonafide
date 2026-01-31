@@ -82,18 +82,20 @@
         // Proveedores
         case 'stock/providers':
             require BASE_PATH . '/controllers/stock/providers/providers.controller.php';
+            require BASE_PATH . '/controllers/stock/providers/create_provider.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/providers.php';
-            break;
-        
-        case 'stock/providers/create':
-            require BASE_PATH . '/controllers/stock/providers/create_provider.controller.php';
             break;
         
         case 'stock/providers/edit':
             require BASE_PATH . '/controllers/stock/providers/edit_provider.controller.php';
             break;
         
+        case 'stock/providers/delete':
+            require BASE_PATH . '/controllers/stock/providers/delete_provider.controller.php';
+            break;
+
+
         // Locales
         case 'stock/buildings':
             require BASE_PATH . '/controllers/stock/buildings/buildings.controller.php';

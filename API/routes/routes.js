@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import userRouter from "../components/user/user.route.js";
-import providerRouter from "../components/providers/provider.route.js";
+import providerRouter from "../components/providers/providers.route.js";
 import buildingRouter from "../components/buildings/buildings.route.js";
 import stockRouter from "../components/stock/stock.router.js";
 import productRouter from "../components/product/product.route.js";
