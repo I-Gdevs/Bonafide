@@ -11,7 +11,7 @@
             <div class="col-md-3">
                 <div class="list-group">
                     <a href="<?= BASE_URL ?>/stock" 
-                    class="list-group-item list-group-item-action active fs-5 fw-bold">
+                    class="list-group-item list-group-item-action active fw-bold">
                         <i class="bi bi-box-seam me-2"></i>
                         Mi stock
                     </a>
@@ -22,7 +22,7 @@
                         Movimientos
                     </a>
 
-                    <a href="<?= BASE_URL ?>/stock/item-models" 
+                    <a href="<?= BASE_URL ?>/stock/item-templates" 
                     class="list-group-item list-group-item-action text-dark">
                         <i class="bi bi-file-earmark-text me-2"></i>
                         Modelos de Artículos

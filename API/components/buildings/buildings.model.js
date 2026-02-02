@@ -62,7 +62,7 @@ class BuildingModel {
             let dbParams = [];
 
             if (filters.manager_id) {
-                dbQuery += " AND l.id_usuario = ?;";
+                dbQuery += " AND l.id_usuario = (?)";
                 
                 dbParams.push(filters.manager_id);
             } else {

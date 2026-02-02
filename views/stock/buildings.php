@@ -22,7 +22,7 @@
 						Movimientos
 					</a>
 
-					<a href="<?= BASE_URL ?>/stock/item-models"
+					<a href="<?= BASE_URL ?>/stock/item-templates"
 					class="list-group-item list-group-item-action text-dark">
 						<i class="bi bi-file-earmark-text me-2"></i>
 						Modelos de Artículos
@@ -35,7 +35,7 @@
 					</a>
 
 					<a href="<?= BASE_URL ?>/stock/buildings"
-					class="list-group-item list-group-item-action active fs-5 fw-bold">
+					class="list-group-item list-group-item-action active fw-bold">
 						<i class="bi bi-shop me-2"></i>
 						Locales
 					</a>
