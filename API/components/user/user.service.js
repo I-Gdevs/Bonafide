@@ -44,7 +44,7 @@ class UserService {
         }
 
         let token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: '8h'
+            expiresIn: '72h'
         });
 
         return { token, user: payload };

@@ -17,7 +17,11 @@
 
     require_once BASE_PATH . '/config/config.php';
 
+    // Tiene las funciones para hacer llamadas a la API
     require_once BASE_PATH . '/helpers/api.helper.php';
+
+    // Tiene las funciones para armar mensajitos para las toasts
+    require_once BASE_PATH . '/helpers/flash.helper.php';
 
     $route = isset($_GET['route']) ? $_GET['route'] : 'home';
 
@@ -69,18 +73,27 @@
 
 
         // Modelos de artículos
-        case 'stock/item-models':
-            require BASE_PATH . '/controllers/stock/item_models/item_models.controller.php';
+        case 'stock/item-templates':
+            require BASE_PATH . '/controllers/stock/item_templates/item_templates.controller.php';
+            require BASE_PATH . '/controllers/stock/item_templates/create_item_template.controller.php';
+            
+            $view_file = BASE_PATH . '/views/stock/item_templates.php';
+            break;
 
-            $view_file = BASE_PATH . '/views/stock/item_models.php';
+        case 'stock/item-templates/edit':
+            require BASE_PATH . '/controllers/stock/item_templates/edit_item_template.controller.php';
             break;
         
-        case 'stock/item-models/create':
-            require BASE_PATH . '/controllers/stock/item_models/create_item_models.controller.php';
+        case 'stock/item-templates/delete':
+            require BASE_PATH . '/controllers/stock/item_templates/delete_item_template.controller.php';
             break;
-
-        case 'stock/item-models/edit':
-            require BASE_PATH . '/controllers/stock/item_models/edit_item_models.controller.php';
+        
+        case 'stock/item-templates/restore':
+            require BASE_PATH . '/controllers/stock/item_templates/restore_item_template.controller.php';
+            break;
+        
+            case 'stock/item-templates/destroy':
+            require BASE_PATH . '/controllers/stock/item_templates/destroy_item_template.controller.php';
             break;
 
 

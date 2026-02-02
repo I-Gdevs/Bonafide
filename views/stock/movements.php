@@ -17,12 +17,12 @@
                     </a>
                     
                     <a href="<?= BASE_URL ?>/stock/movements" 
-                    class="list-group-item list-group-item-action active fs-5 fw-bold">
+                    class="list-group-item list-group-item-action active fw-bold">
                         <i class="bi bi-arrow-left-right me-2"></i>
                         Movimientos
                     </a>
 
-                    <a href="<?= BASE_URL ?>/stock/item-models" 
+                    <a href="<?= BASE_URL ?>/stock/item-templates" 
                     class="list-group-item list-group-item-action text-dark">
                         <i class="bi bi-file-earmark-text me-2"></i>
                         Modelos de Artículos
