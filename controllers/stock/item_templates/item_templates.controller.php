@@ -8,6 +8,10 @@
     $itemTemplates = [];
 
     $filters = $_GET;
+    if(isset($filters["route"])) {
+        unset($filters["route"]);
+    }
+
     if (!isset($filters["item_template_disabled"])) {
         $filters["item_template_disabled"] = 0;
     }

@@ -53,6 +53,7 @@
         // Stock
         case 'stock':
             require BASE_PATH . '/controllers/stock/stock.controller.php';
+            require BASE_PATH . '/controllers/stock/buildings/buildings.controller.php';
 
             $view_file = BASE_PATH . '/views/stock/stock.php';
             break;

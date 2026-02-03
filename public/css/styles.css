@@ -1,31 +1,42 @@
+:root {
+    --bs-primary: #dc3545;
+    --bs-primary-rgb: 220, 53, 69;
+
+    --bs-danger: #0d6efd;
+    --bs-danger-rgb: 13, 110, 253;
+}
 
 /* 1. Estructura General y Layout */
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;    
+    min-height: 100vh;
     font-family: 'Poppins', sans-serif;
     scrollbar-width: none;
 }
+
 main {
-    flex: 1; 
+    flex: 1;
     scrollbar-width: none;
 }
+
 body::-webkit-scrollbar,
 html::-webkit-scrollbar,
-.presentation-stage::-webkit-scrollbar { /* Apuntamos al contenedor principal si se desborda */
-    display: none; 
+.presentation-stage::-webkit-scrollbar {
+    /* Apuntamos al contenedor principal si se desborda */
+    display: none;
 }
 
 /* 2. Estilos de Marca y Navegación */
 .navbar-brand {
     font-weight: 700;
     font-size: 1.5rem;
-    color: #e53935 !important; 
+    color: #e53935 !important;
 }
+
 .nav-link.active {
     font-weight: 600;
-    color: #e53935 !important; 
+    color: #e53935 !important;
 }
 
 /* 3. Botones y Elementos Rojos de Marca */
@@ -33,40 +44,46 @@ html::-webkit-scrollbar,
     background-color: #e53935;
     color: #fff;
 }
+
 .btn-red:hover {
-    background-color: #c62828; 
+    background-color: #c62828;
     color: #fff;
 }
 
 /* 4. Estilos de Login y Formulario (Usado en la vista de Login) */
 .login-container {
     max-width: 1320px;
-    margin: 3rem auto; 
+    margin: 3rem auto;
 }
+
 .login-card {
     background: #fff;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.08); 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
 }
 
 /* 5. Estilos del Footer */
 .footer {
     background-color: #f9f9f9;
     padding: 2rem 0;
-    margin-top: auto; 
+    margin-top: auto;
 }
+
 .footer h5 {
     font-weight: 700;
     color: #e53935;
 }
+
 .footer a {
     text-decoration: none;
     color: #333;
 }
+
 .footer a:hover {
     text-decoration: underline;
 }
+
 .footer small {
     display: block;
     text-align: center;
@@ -78,9 +95,10 @@ html::-webkit-scrollbar,
 .list-group-item {
     border: none;
     border-radius: 0;
-    padding-left: 1.25rem; 
-    font-size: 1rem; 
+    padding-left: 1.25rem;
+    font-size: 1rem;
 }
+
 .list-group-item:not(.active) a {
     font-weight: normal;
     color: #333;
@@ -88,51 +106,55 @@ html::-webkit-scrollbar,
 
 /* 7. Estado Activo de Menú (Stock y Pedir) */
 .list-group-item.active {
-    background-color: #da3544; 
+    background-color: #da3544;
     border: none;
-    border-radius: 5px; 
-    border-color: #da3544 !important; 
+    border-radius: 5px;
+    border-color: #da3544 !important;
 }
 
 .list-group-item.active a {
-    color: white !important; 
+    color: white !important;
     font-weight: bold;
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
 }
 
 /* 8. Estilos del Carrusel de Producto Destacado (Home) */
-.carrusel-home, 
+.carrusel-home,
 .carrusel-home .carousel-inner,
 .carrusel-home .carousel-item {
-    height: 500px; 
-    overflow: hidden; 
+    height: 500px;
+    overflow: hidden;
 }
+
 .carrusel-home .carousel-item img {
-    height: 100%; 
-    width: 100%;  
-    object-fit: cover; 
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 /* 9. Estilos del Carrito de Pedido (Pedir) */
 .cart-container {
-    background-color: #f8f9fa; 
+    background-color: #f8f9fa;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #e9ecef;
 }
+
 .cart-header {
-    background-color: #da3544; 
+    background-color: #da3544;
     color: white;
     padding: 15px;
     font-weight: bold;
     font-size: 1.2rem;
 }
+
 .btn-pagar {
     background-color: #da3544;
     color: white;
     font-weight: bold;
     border: none;
 }
+
 .btn-pagar:hover {
     background-color: #b92b3a;
     color: white;
@@ -142,16 +164,17 @@ html::-webkit-scrollbar,
 .product-card {
     transition: transform 0.2s;
     border: none;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
+
 .product-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /*11. Efecto hover sobre navbar */
 .navbar-nav .nav-link:hover {
-    color: #e53935 !important; 
+    color: #e53935 !important;
 }
 
 .navbar-nav .nav-link:hover svg {
@@ -171,31 +194,35 @@ html::-webkit-scrollbar,
 
 /* 14. Estilo de Tarjetas KPI (Separadores Verticales - Estaditica) */
 .kpi-card-row {
-    border: 1px solid #dee2e6; 
+    border: 1px solid #dee2e6;
     border-radius: 8px;
-    overflow: hidden; 
+    overflow: hidden;
     background-color: white;
 }
+
 .kpi-item {
     padding: 20px 30px;
     text-align: center;
-    border-right: 1px solid #dee2e6; 
+    border-right: 1px solid #dee2e6;
 }
+
 .kpi-item:last-child {
-    border-right: none; 
+    border-right: none;
 }
+
 .kpi-number {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #343a40; 
+    color: #343a40;
     line-height: 1.1;
 }
+
 .kpi-label {
     font-size: 0.9rem;
     color: #6c757d;
-    text-transform: lowercase; 
+    text-transform: lowercase;
     font-weight: 500;
-}    
+}
 
 /* 15. Estilo de Gráficos y Listas Secundarias */
 .chart-container {
@@ -203,14 +230,17 @@ html::-webkit-scrollbar,
     border-radius: 8px;
     overflow: hidden;
 }
+
 .chart-header {
     font-weight: 700;
     padding: 10px 15px;
     border-bottom: 1px solid #dee2e6;
 }
+
 .chart-content {
     padding: 15px;
 }
+
 .best-seller-list .list-group-item {
     border: none;
     padding: 10px 15px;
@@ -225,12 +255,14 @@ html::-webkit-scrollbar,
     border: none;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
+
 .recipe-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
+
 .recipe-img {
     height: 180px;
     object-fit: cover;
@@ -244,15 +276,19 @@ html::-webkit-scrollbar,
     border-radius: 12px;
     overflow: hidden;
 }
+
 .local-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    border-color: #e53935; /* Resalta con el color de marca */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: #e53935;
+    /* Resalta con el color de marca */
 }
+
 .local-card img {
     height: 400px;
     object-fit: cover;
 }
+
 .card-footer-action {
     background-color: #f8f9fa;
     color: #e53935;
@@ -263,20 +299,21 @@ html::-webkit-scrollbar,
 
 /* 18. Boton + redondo de pedir */
 .btn-round-sm {
-    width: 30px; 
-    height: 30px; 
-    padding: 0 !important; 
-    display: inline-flex; 
-    justify-content: center; 
-    align-items: center; 
-    font-size: 1.2rem; 
-    line-height: 1; 
+    width: 30px;
+    height: 30px;
+    padding: 0 !important;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    line-height: 1;
 }
 
 /* 19. Recetas */
 .ficha-tecnica-card {
     border-left: 5px solid #e53935;
 }
+
 .ficha-seccion-header {
     background-color: #f8f9fa;
     padding: 10px;
@@ -285,13 +322,15 @@ html::-webkit-scrollbar,
     color: #e53935;
     margin-bottom: 15px;
 }
+
 .sin-tacc-badge {
-    background-color: #fd7e14; 
+    background-color: #fd7e14;
     color: white;
     font-weight: bold;
 }
+
 .ingrediente-sintacc {
-    color: #fd7e14; 
+    color: #fd7e14;
     font-weight: 600;
 }
 
@@ -301,19 +340,22 @@ html::-webkit-scrollbar,
     cursor: pointer;
     transition: all 0.2s;
 }
+
 .delivery-option:hover:not(.active-delivery) {
     background-color: #f0f0f0;
-    border-color: #adb5bd; 
+    border-color: #adb5bd;
 }
+
 .delivery-option.active-delivery {
     border-color: #e53935 !important;
     background-color: #ffeaea;
     font-weight: bold;
     color: #e53935 !important;
 }
+
 /* 21. Boton para los botones +/- del carrito */
 .btn-round-sm-cart {
-    width: 15px; 
+    width: 15px;
     height: 15px;
     padding: 0 !important;
     display: inline-flex;

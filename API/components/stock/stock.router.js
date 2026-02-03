@@ -5,13 +5,8 @@ import StockController from "./stock.controller.js";
 const stockRouter = Router();
 const stockController = new StockController();
 
-stockRouter.post("/create", verifyToken, (req, res) => stockController.createStockTemplate(req, res));
-stockRouter.post("/template", verifyToken, (req, res) => stockController.getStockTemplate(req, res));
-stockRouter.patch("/update", verifyToken, (req, res) => stockController.updateStock(req, res));
-stockRouter.delete("/delete", verifyToken, (req, res) => stockController.deleteStock(req, res));
-
-stockRouter.post("/move", verifyToken, (req, res) => stockController.moveStock(req, res));
-stockRouter.post("/amount", verifyToken, (req, res) => stockController.getStockAmount(req, res));
-
+stockRouter.get("", verifyToken, (req, res) => stockController.getStock(req, res));
+stockRouter.post("", verifyToken, (req, res) => stockController.createMovement(req, res));
+stockRouter.patch("/:stock_id", verifyToken, (req, res) => stockController.updateStockMinQuantity(req, res));
 
 export default stockRouter;
