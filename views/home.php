@@ -113,6 +113,15 @@ include BASE_PATH . '/views/partials/header.php';
         .hero-title { font-size: 2.5rem; }
         .btn-cta { width: 100%; display: block; margin: 10px 0 0 0; }
     }
+
+    :root {
+    --bs-primary: #dc3545;
+    --bs-primary-rgb: 220, 53, 69;
+
+    --bs-danger: #0d6efd;
+    --bs-danger-rgb: 13, 110, 253;
+    }
+
 </style>
 
 <main>

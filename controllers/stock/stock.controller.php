@@ -5,14 +5,25 @@
     }
 
     $error = null;
-    $stockList = [];
+    $stock = [];
 
-    $response = callApi("POST", "/stock/amount");
-
-    if ($response["ok"]) {
-        $stockList = $response["res"]["stock_list"] ?? [];
-    } else {
-        $error ="No se pudo buscar la lista de stock: " . ($response["data"]['error'] ?? 'Error de API');
+    $filters = $_GET;
+        
+    if (isset($filters["route"])) {
+        unset($filters["route"]);
     }
 
+    if (isset($filters["building_id"]) && $filters["building_id"] === "") {
+        unset($filters["building_id"]);
+    }
+
+    $stockResponse = callApi("GET", "/stock", $filters);
+
+    if ($stockResponse["ok"]) {
+        $stock = $stockResponse["res"]["data"] ?? [];
+    } else {
+        $error ="No se pudo buscar la lista de stock: " . ($stockResponse["res"]["error"] ?? 'Error de API');
+    }
+
+    
 ?>

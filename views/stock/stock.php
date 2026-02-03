@@ -2,8 +2,9 @@
     <title>Bonafide | Stock</title>
 </head>
 
-<?php include BASE_PATH . '/views/partials/head.php'; ?>
-<?php include BASE_PATH . '/views/partials/header.php'; ?>
+<?php include BASE_PATH . "/views/partials/head.php"; ?>
+<?php include BASE_PATH . "/views/partials/header.php"; ?>
+<?php $flash = getFlash(); ?>
 
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
@@ -50,11 +51,37 @@
                                 <i class="bi bi-filetype-pdf"></i>
                             </a>
 
-                            <select name="local_elegido" id="localElegido" class="form-select form-select-sm">
-                                <option value="peatonal">Todo</option>
-                                <option value="tribunales" selected>Sucursal Tribunales</option>
-                                <option value="sinlocal">Sucursal Peatonal</option>
-                            </select>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?php
+                                        $localActual = "Todos";
+                                        if (isset($filters["building_id"]) && $filters["building_id"] != "") {
+                                            foreach ($buildings as $building) {
+                                                if ($building["id"] == $filters["building_id"]) {
+                                                    $localActual = $building["nombre"];
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    ?>
+                                    Local: <?= $localActual ?>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item <?= (!isset($filters["building_id"]) || $filters["building_id"] == "") ? "active" : "" ?>" href="?building_id=">Todos</a>
+                                    </li>
+                                    <?php foreach ($buildings as $item): ?>
+                                        <?php
+                                            $isActive = (isset($filters["building_id"]) && $filters["building_id"] == $item["id"]) ? "active" : "";
+                                        ?>
+                                        <li>
+                                            <a class="dropdown-item <?= $isActive ?>" href="?building_id=<?= $item["id"] ?>">
+                                                <?= $item["nombre"] ?>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
                         </div>
 
                         <div class="col-sm-3">
@@ -70,28 +97,36 @@
                                 <th>Artículo</th>
                                 <th>Cantidad</th>
                                 <th>Unidad</th>
+                                <?php if (!isset($filters["building_id"]) || $filters["building_id"] == ""): ?>
+                                    <th>Local</th>
+                                <?php endif; ?>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tablaStockBody" class="align-middle">
-                            <?php if (empty($stockList)): ?>
+                            <?php if (empty($stock)): ?>
                                 <tr>
                                     <td colspan="4" class="text-center py-4 text-muted">No hay artículos cargados.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($stockList as $item): ?>
+                                <?php foreach ($stock as $item): ?>
                                     <tr>
-                                        <td><?= $item['nombre']?></td>
-                                        <td class="<?= $item['cantidad'] < $item['cantidad_minima'] ? 'text-danger fw-bold' : '' ?>"><?= $item['cantidad']?></td>
-                                        <td><?= $item['unidad_medida']?></td>
-                                        <td class="text-end">
-                                            <button class="btn btn-sm btn-danger editar-articulo-btn"
+                                        <td><?= $item["nombre_modelo_articulo"]?></td>
+                                        <td class="<?= $item["cantidad_stock"] < $item["cantidad_minima_stock"] ? "text-danger fw-bold" : "" ?>"><?= $item["cantidad_stock"]?></td>
+                                        <td><?= $item["unidad_medida_modelo_articulo"]?></td>
+                                        <?php if (!isset($filters["building_id"]) || $filters["building_id"] == ""): ?>
+                                            <td>
+                                                <?= $item["nombre_local"] ?>
+                                            </td>
+                                        <?php endif; ?>
+                                        <td class="text-start">
+                                            <button class="btn btn-sm btn-danger"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#modalEditarArticulo"
-                                                data-id="<?= $item['id'] ?>"
-                                                data-nombre="<?= $item['nombre'] ?>"
-                                                data-unidad="<?= $item['unidad_medida'] ?>"
-                                                data-cantidad-minima="<?= $item['cantidad_minima'] ?>"
+                                                data-bs-target="#modalEditarStock"
+                                                data-id="<?= $item["id_stock"] ?>"
+                                                data-nombre-modelo-articulo="<?= $item["nombre_modelo_articulo"] ?>"
+                                                data-unidad="<?= $item["unidad_medida_modelo_articulo"] ?>"
+                                                data-cantidad-minima-stock="<?= $item["cantidad_minima_stock"] ?>"
                                             >
                                                 <i class="bi bi-pencil-square"></i>
                                             </button>
@@ -108,11 +143,11 @@
 </main>
 
 <!-- Modal para editar la cantidad mínima de los artículos -->
-<div class="modal fade" id="modalEditarArticulo" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalEditarStock" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="modalEditarArticuloLabel">Editar artículo</h5>
+                <h5 class="modal-title" id="modalEditarStockLabel">Editar artículo</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             
@@ -138,11 +173,11 @@
                     
                     <div class="mb-3">
                         <label class="form-label">Cantidad mínima</label>
-                        <input type="number" class="form-control" id="input_cantidad_minima" name="cantidadMinima">
+                        <input type="number" class="form-control" id="input_cantidad_minima" name="cantidad_minima_stock">
                     </div>
                 </div>
                 
-                <div class="modal-footer justify-content-between">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-danger">Guardar Cambios</button>
                 </div>
@@ -151,60 +186,59 @@
     </div>
 </div>
 
-<!-- TOAST ALERTA -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toastAlert" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header bg-<?= (!empty($response['data']['success'])) ? "success" : (!empty($response['data']['error']) ? "danger" : "info")?> text-white">
-            <strong class="me-auto">Modelo de artículo</strong>
-            <small>Justo ahora</small>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        
-        <div class="toast-body">
-            <?= !empty($response['data']['success']) ? $response['data']['success'] : "Procesado correctamente" ?>
+<!-- FLASH - TOAST ALERTA -->
+<?php if ($flash): ?>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="flashToast" class="toast bg-<?= $flash["type"] ?>-subtle" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Avisos | Modelos de artículos</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <?= $flash["message"]; ?>
+            </div>
         </div>
     </div>
-</div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let toastElement = document.getElementById("flashToast");
+            var toastTrigger = new bootstrap.Toast(toastElement);
+            toastTrigger.show();
+        });
+    </script>
+<?php endif; ?>
 
 <script>
-    document.getElementById('buscadorStock').addEventListener('keyup', function() {
+    document.getElementById("buscadorStock").addEventListener("keyup", function() {
         let searchText = this.value.toLowerCase();
-        let rows = document.querySelectorAll('#tablaStockBody tr');
+        let rows = document.querySelectorAll("#tablaStockBody tr");
 
         rows.forEach(row => {
             let nombre = row.cells[0].innerText.toLowerCase();
             if (nombre.includes(searchText)) {
-                row.style.display = '';
+                row.style.display = "";
             } else {
-                row.style.display = 'none';
+                row.style.display = "none";
             }
         });
     });
 
-// Rellenar modal para editar artículos
-    const modalEditar = document.getElementById("modalEditarArticulo");
+// Rellenar modal para editar stock
+    const modalEditarStock = document.getElementById("modalEditarStock");
 
-    modalEditar.addEventListener('show.bs.modal', function (event) {
+    modalEditarStock.addEventListener("show.bs.modal", function (event) {
         const boton = event.relatedTarget;
 
-        const id = boton.getAttribute('data-id');
-        const nombre = boton.getAttribute('data-nombre');
-        const unidad = boton.getAttribute('data-unidad');
-        const cantidadMinima = boton.getAttribute('data-cantidad-minima');
+        const id = boton.getAttribute("data-id");
+        const nombre_modelo_articulo = boton.getAttribute("data-nombre-modelo-articulo");
+        const unidad = boton.getAttribute("data-unidad");
+        const cantidad_minima_stock = boton.getAttribute("data-cantidad-minima-stock");
         
-        modalEditar.querySelector('#input_id').value = id;
-        modalEditar.querySelector('#input_nombre').value = nombre;
-        modalEditar.querySelector('#input_unidad').value = unidad;
-        modalEditar.querySelector('#input_cantidad_minima').value = cantidadMinima;
+        modalEditarStock.querySelector("#input_id").value = id;
+        modalEditarStock.querySelector("#input_nombre").value = nombre_modelo_articulo;
+        modalEditarStock.querySelector("#input_unidad").value = unidad;
+        modalEditarStock.querySelector("#input_cantidad_minima").value = cantidad_minima_stock;
     });
 </script>
 
-<?php include BASE_PATH . '/views/partials/footer.php'; ?>
-
-<?php if (isset($_GET['success'])): ?>
-    <script>
-        const toastAlert = document.getElementById('toastAlert');
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastAlert);
-        toastBootstrap.show();
-    </script>
-<?php endif; ?>
+<?php include BASE_PATH . "/views/partials/footer.php"; ?>

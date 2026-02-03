@@ -1,28 +1,29 @@
 <?php
     $error = null;
-    $success_msg = null;
 
     if ($_SERVER['REQUEST_METHOD'] === "POST") {
         
-        $id = $_POST['id'];
-        $cantidad_minima= $_POST['cantidad_minima'];
+        $id = $_POST["id"];
+        $cantidad_minima = $_POST["cantidad_minima_stock"];
 
 
-        $response = callApi("PATCH", "/stock/update", [
-            "stock_id" => $id,
-            "new_stock_minimum_ammount" => $cantidad_minima
+        $editStockMinimumQuantity = callApi("PATCH", "/stock" . "/" . $id, [
+            "new_stock_minimum_quantity" => $cantidad_minima
         ]);
 
-        if($response['ok']) {
-            header("Location: " . BASE_URL . "/stock?success=editado");
-            exit;
+        if($editStockMinimumQuantity["ok"]) {
+            setFlash("Cantidad mínima de stock modificada correctamente.", "success");
         } else {
-            $error = urlencode($response['data']['error'] ?? "Error al actualizar modelo de artículo.");
-
-            header("Location: " . BASE_URL . "/stock?error=" . $error);
-
-            exit;
+            $error = $editStockMinimumQuantity["res"]["error"] ?? "Error al modificar cantidad mínima de stock.";
+            setFlash($error, "error");
         }
 
+        if (isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])) {
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+        } else {
+            header("Location: " . BASE_URL . "/stock");
+        }
+        
+        exit;
     }
 ?>
