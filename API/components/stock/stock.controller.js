@@ -66,6 +66,26 @@ class StockController {
             return responseBuilder.error(req, res, error);
         }
     }
+
+    async getStockMovements(req, res) {
+        try {
+            let filters = {
+                building_id: req.query.building_id,
+                item_template_id: req.query.item_template_id,
+                date_from: req.query.date_from,
+                date_to: req.query.date_to
+            };
+
+            let movements = await stockService.getStockMovements(filters);
+
+            return responseBuilder.success(req, res, 200, movements);
+
+        } catch (error) {
+            console.error("Error al buscar la lista de movimientos de stock: ", error);
+
+            return responseBuilder.error(req, res, error);
+        }
+    }
 }
 
 export default StockController;

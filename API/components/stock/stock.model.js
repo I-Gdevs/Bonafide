@@ -57,6 +57,68 @@ class StockModel {
         }
     }
 
+    async getStockMovements(filters) {
+        let dbConnection;
+        let movements = [];
+        let dbParams = [];
+
+        let dbQuery = `
+            SELECT
+                ms.id_movimiento_stock,
+                ms.fecha,
+                ms.tipo_movimiento,
+                ms.motivo_movimiento,
+                ms.cantidad_movida,
+                ms.id_referencia,
+                m.nombre_modelo_articulo,
+                m.unidad_medida_modelo_articulo,
+                l.nombre_local,
+                u.nombre_usuario
+            FROM movimientos_stock ms
+            INNER JOIN stock s ON ms.id_stock = s.id_stock
+            INNER JOIN modelos_de_articulos m ON s.id_modelo_articulo = m.id_modelo_articulo
+            INNER JOIN locales l ON s.id_local = l.id_local
+            LEFT JOIN usuarios u ON ms.id_usuario = u.id_usuario
+            WHERE 1=1
+        `;
+
+        if (filters.building_id) {
+            dbQuery += " AND s.id_local = (?)";
+            dbParams.push(filters.building_id);
+        }
+        if (filters.item_template_id) {
+            dbQuery += " AND s.id_modelo_articulo = (?)";
+            dbParams.push(filters.item_template_id);
+        }
+        if (filters.date_from) {
+            dbQuery += " AND ms.fecha >= (?)";
+            dbParams.push(filters.date_from);
+        }
+        if (filters.date_to) {
+            dbQuery += " AND ms.fecha <= (?)";
+            dbParams.push(filters.date_to + " 23:59:59");
+        }
+
+        dbQuery += " ORDER BY ms.fecha DESC LIMIT 500";
+
+        try {
+            dbConnection = await dbPool.getConnection();
+            
+            movements = await dbConnection.query(dbQuery, dbParams);
+        } catch (error) {
+            console.error(error);
+            if (dbConnection) {
+                await dbConnection.release();
+            }
+            throw error;
+        } finally {
+            if (dbConnection) {
+                await dbConnection.release();
+            }
+            return movements;
+        }
+    }
+
     async updateStockMinQuantity({ stock_id, new_stock_minimum_quantity }) {
         let dbConnection;
 

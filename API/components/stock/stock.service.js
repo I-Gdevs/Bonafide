@@ -56,7 +56,10 @@ class StockService {
             movement_reason,
             user_id
         });
+    }
 
+    async getStockMovements(filters) {
+        return await stockModel.getStockMovements(filters);
     }
 }
 
