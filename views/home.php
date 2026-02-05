@@ -1,221 +1,203 @@
-<head>
-    <title>Bonafide | Home</title>
-</head>
-
 <?php 
+if (!defined('BASE_PATH')) define('BASE_PATH', dirname(__DIR__, 2)); 
+if (!defined('BASE_URL')) define('BASE_URL', '/');
+
 include BASE_PATH . '/views/partials/head.php'; 
 include BASE_PATH . '/views/partials/header.php'; 
-
-
-$productos_destacados = [
-    ['nombre' => 'Cappuccino Clásico', 
-    'imagen' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg', 
-    'precio' => 3500, 
-    'descripcion' => 'La cremosidad perfecta.'
-    ],
-    ['nombre' => 'Torta Bonafide', 
-    'imagen' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg?ga=GA1.1.1758273452.1764627825&semt=ais_hybrid&w=740&q=80', 
-    'precio' => 5800, 
-    'descripcion' => 'Exclusivo blend de chocolate.'
-    ],
-    ['nombre' => 'Blend Expreso', 
-    'imagen' => 'https://img.freepik.com/free-photo/closeup-shot-baked-sandwiches-made-with-sausage-served-wooden-board_181624-61300.jpg', 
-    'precio' => 9500, 
-    'descripcion' => 'Granos tostados a la perfección.'],
-    ['nombre' => 'Alfajor Marroc', 
-    'imagen' => 'https://i.pinimg.com/1200x/4e/f0/31/4ef031186eb0275a4f9635b7553031f2.jpg', 
-    'precio' => 1200, 
-    'descripcion' => 'El favorito de todos.'
-    ],
-];
-?> 
+?>
 
 <style>
-    #home-hero {
+    body { font-family: 'Poppins', sans-serif; color: #333; }
+    
+    .text-bonafide { color: #e53935; }
+    .bg-bonafide { background-color: #e53935; color: white; }
+    
+    .hero-section {
+        position: relative;
+        height: 55vh; 
         background-image: url('<?= BASE_URL ?>/img/BonafideHome.png');
         background-size: cover;
         background-position: center;
-        min-height: 100vh;
-        width: 100%;
         display: flex;
         align-items: center;
-        padding-top: 60px;
-        position: relative;
+        justify-content: center;
+        text-align: center;
+        color: white;
     }
     
-    #home-hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.4);
+    .hero-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.5); 
         z-index: 1;
     }
-
-    #home-content {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        display: flex;
-        align-items: center;
-    }
-
-    #logo-section {
-        color: white;
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-        text-align: left;
-        opacity: 0;
-        animation: fadeInSlide 1s ease-out 0.5s forwards;
-    }
-    #main-logo {
-        width: 100%;
-        max-width: 850px;
-        height: auto;
-        margin-bottom: 20px;
-        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5)); 
-        display: block;
-        margin-left: -32;
-    }
-    #logo-section p {
-        font-size: 1.5rem;
-        font-weight: 300;
-        opacity: 0;
-        animation: fadeInSlide 1s ease-out 0.8s forwards;
-    }
-
-    #carousel-wrapper {
-        position: relative; 
-        max-width: 400px; 
-        margin-left: auto;
+    
+    .hero-content { position: relative; z-index: 2; max-width: 800px; padding: 20px; }
+    
+    .hero-title {
+        font-size: 3.5rem; font-weight: 800; margin-bottom: 20px;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        letter-spacing: -1px;
     }
     
-    .product-card {
-        background: rgba(241, 241, 241, 1);
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        transform: scale(0.9);
-        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-        opacity: 0;
-        animation: fadeInScale 0.8s ease-out forwards;
-        
-        min-height: 550px;
-    }
-    .product-card:hover {
-        transform: scale(1);
-        box-shadow: 0 15px 30px rgba(229, 57, 53, 0.5); 
-    }
-    .card-img-top {
-        height: 200px;
-        object-fit: cover;
-    }
-    .card-title {
-        color: #e53935;
+    .hero-subtitle { font-size: 1.2rem; margin-bottom: 40px; font-weight: 300; opacity: 0.9; }
+
+    /* --- BOTONES MODERNOS --- */
+    .btn-cta {
+        padding: 15px 40px;
+        font-size: 1.1rem;
         font-weight: bold;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
     
-    #carousel-controls {
-        position: absolute;
-        bottom: 10px; 
-        right: 0;
-        z-index: 10;
-        display: flex;
-        gap: 10px; 
-        justify-content: flex-end;
-        width: 100%;
+    .btn-cta-primary {
+        background-color: #e53935; color: white; border: none;
     }
-    .carousel-control {
-        position: relative; 
-        display: block;
-        width: 40px; 
-        height: 40px; 
-        opacity: 1; 
-        background: rgba(229, 57, 53, 0.9); 
-        border-radius: 50%;
-        transition: background 0.2s;
-    }
-    .carousel-control:hover {
-        background: #e53935;
-    }
-    .carousel-control-prev, .carousel-control-next {
-        position: relative;
-        left: auto;
-        right: auto;
-    }
-    .carousel-control-prev-icon, .carousel-control-next-icon {
-        width: 1rem;
-        height: 1rem;
+    .btn-cta-primary:hover {
+        background-color: #c62828; transform: translateY(-3px); color: white;
+        box-shadow: 0 15px 30px rgba(229, 57, 53, 0.4);
     }
 
-    @keyframes fadeInSlide {
-        from { transform: translateY(20px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
+    .btn-cta-outline {
+        background: transparent; border: 2px solid white; color: white; margin-left: 10px;
     }
-    @keyframes fadeInScale {
-        from { transform: scale(0.8); opacity: 0; }
-        to { transform: scale(1); opacity: 1; } /* Ajustado a escala 1 para compensar el .9 inicial */
+    .btn-cta-outline:hover {
+        background: white; color: #333; transform: translateY(-3px);
+    }
+
+    /* --- SECCIÓN DE BENEFICIOS --- */
+    .features-section { padding: 80px 0; background: #fff; }
+    .feature-card {
+        text-align: center; padding: 30px; border-radius: 15px;
+        transition: transform 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-10px); }
+    .feature-icon {
+        width: 80px; height: 80px; margin: 0 auto 20px;
+        background: #ffebee; color: #e53935;
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        font-size: 2rem;
+    }
+
+    /* --- FAVORITOS (Productos Destacados) --- */
+    .favorites-section { padding: 80px 0; background: #f9f9f9; }
+    .fav-card {
+        border: none; border-radius: 15px; overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s;
+        background: white;
+    }
+    .fav-card:hover { box-shadow: 0 15px 30px rgba(0,0,0,0.1); transform: translateY(-5px); }
+    .fav-img { height: 200px; object-fit: cover; }
+
+    /* --- PROMO BANNER --- */
+    .promo-banner {
+        background: #e53935; color: white; padding: 60px 0; text-align: center;
+        background-image: linear-gradient(45deg, #c62828 25%, #e53935 25%, #e53935 50%, #c62828 50%, #c62828 75%, #e53935 75%, #e53935 100%);
+        background-size: 20px 20px;
+    }
+
+    /* ANIMACIONES */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.3s; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero-title { font-size: 2.5rem; }
+        .btn-cta { width: 100%; display: block; margin: 10px 0 0 0; }
     }
 </style>
 
 <main>
-    <section id="home-hero">
-        <div id="home-content">
+    
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
             
-            <div id="logo-section" class="col-md-6 d-none d-md-block">
-                <img 
-                    src="<?= BASE_URL ?>/img/logo/LogoNombre.png" 
-                    alt="Logo Bonafide" 
-                    id="main-logo"
-                >
-                <p>El Café que Sabe a Historia. <br> Descubre nuestros sabores más premium.</p>
-                <a href="<?= BASE_URL ?>/pedir" class="btn btn-lg btn-danger mt-4" style="background-color: #e53935; border: none;">
-                    Explorar Menú <i class="bi bi-arrow-right-short"></i>
+            <h1 class="hero-title animate-up delay-1">El sabor de siempre,<br>ahora donde estés.</h1>
+            <p class="hero-subtitle animate-up delay-2">Disfruta de tu café Bonafide favorito y nuestra pastelería artesanal sin hacer filas. Pide online y retira o recibe en casa.</p>
+            <div class="animate-up delay-2">
+                <a href="<?= BASE_URL ?>/pedir" class="btn btn-cta btn-cta-primary text-decoration-none">
+                    <i class="bi bi-bag-check-fill me-2"></i> Hacer Pedido
                 </a>
+                <a href="#favoritos" class="btn btn-cta btn-cta-outline text-decoration-none">Ver Menú</a>
             </div>
-
-            <div id="carousel-wrapper" class="col-md-6 col-12">
-                
-                <div id="product-carousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        
-                        <?php foreach ($productos_destacados as $index => $producto): ?>
-                        <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>" data-bs-interval="4000">
-                            <div class="product-card p-3">
-                                <img src="<?= htmlspecialchars($producto['imagen']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['nombre']) ?>">
-                                <div class="card-body p-3">
-                                    <h5 class="card-title"><?= htmlspecialchars($producto['nombre']) ?></h5>
-                                    <p class="card-text small text-muted"><?= htmlspecialchars($producto['descripcion']) ?></p>
-                                    <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <span class="fw-bold text-dark fs-5">$<?= number_format($producto['precio'], 0, ',', '.') ?></span>
-                                        <a href="<?= BASE_URL ?>/pedir?producto=<?= $producto['nombre'] ?>" class="btn btn-sm btn-outline-dark">Ver Receta</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
-                        
-                    </div>
-                    
-                    <div id="carousel-controls" class="p-3">
-                         <button class="carousel-control carousel-control-prev" type="button" data-bs-target="#product-carousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Anterior</span>
-                        </button>
-                        <button class="carousel-control carousel-control-next" type="button" data-bs-target="#product-carousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Siguiente</span>
-                        </button>
-                    </div>
-                    </div>
-            </div>
-
         </div>
     </section>
+
+    
+
+    <section id="favoritos" class="favorites-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h6 class="text-danger fw-bold text-uppercase ls-2">Nuestros Clásicos</h6>
+                <h2 class="fw-bold">Los favoritos de la semana</h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card fav-card h-100">
+                        <img src="https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg" class="card-img-top fav-img" alt="Café">
+                        <div class="card-body text-center p-4">
+                            <h5 class="fw-bold">Combo Desayuno</h5>
+                            <p class="text-muted small">Café con leche + 2 Medialunas de manteca.</p>
+                            <h5 class="text-danger fw-bold">$2.800</h5>
+                            <a href="<?= BASE_URL ?>/pedir" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fav-card h-100">
+                        <img src="https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg" class="card-img-top fav-img" alt="Torta">
+                        <div class="card-body text-center p-4">
+                            <h5 class="fw-bold">Cheesecake NY</h5>
+                            <p class="text-muted small">La dulzura perfecta con frutos rojos frescos.</p>
+                            <h5 class="text-danger fw-bold">$5.500</h5>
+                            <a href="<?= BASE_URL ?>/pedir" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card fav-card h-100">
+                        <img src="https://img.freepik.com/free-photo/closeup-shot-baked-sandwiches-made-with-sausage-served-wooden-board_181624-61300.jpg" class="card-img-top fav-img" alt="Tostado">
+                        <div class="card-body text-center p-4">
+                            <h5 class="fw-bold">Tostado Especial</h5>
+                            <p class="text-muted small">Jamón y queso en pan de miga tostado.</p>
+                            <h5 class="text-danger fw-bold">$4.800</h5>
+                            <a href="<?= BASE_URL ?>/pedir" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="<?= BASE_URL ?>/pedir" class="btn btn-link text-danger fw-bold text-decoration-none fs-5">
+                    Ver todo el menú <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
 </main>
+
+<script>
+    // Pequeño script para suavizar el scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>

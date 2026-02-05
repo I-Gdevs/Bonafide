@@ -1,324 +1,429 @@
-<head>
-    <title>Bonafide | Comandas</title>
-</head>
+<?php 
+if (!defined('BASE_PATH')) define('BASE_PATH', dirname(__DIR__, 2)); 
+if (!defined('BASE_URL')) define('BASE_URL', '/');
 
-<?php include BASE_PATH . '/views/partials/head.php'; ?>
-<?php include BASE_PATH . '/views/partials/header.php'; ?>
+include BASE_PATH . '/views/partials/head.php'; 
+include BASE_PATH . '/views/partials/header.php'; 
+
+// DATOS SIMULADOS 
+$hoy = date('Y-m-d');
+$ayer = date('Y-m-d', strtotime('-1 day'));
+
+$comandas = [
+    [
+        'id' => 801, 'hora' => date('H:i', strtotime('-2 minutes')), 'minutos' => 2, 'estado' => 1, 
+        'items' => [['cant'=>1, 'nom'=>'Capuccino', 'hecho'=>false], ['cant'=>2, 'nom'=>'Medialunas', 'hecho'=>false]], 
+        'tipo' => 'local', 'sucursal' => 'tribunales', 'fecha' => $hoy
+    ],
+    [
+        'id' => 800, 'hora' => date('H:i', strtotime('-2 minutes')), 'minutos' => 2, 'estado' => 1, 
+        'items' => [['cant'=>1, 'nom'=>'Capuccino', 'hecho'=>false], ['cant'=>2, 'nom'=>'Medialunas', 'hecho'=>false]], 
+        'tipo' => 'local', 'sucursal' => 'tribunales', 'fecha' => $hoy
+    ],
+    [
+        'id' => 801, 'hora' => date('H:i', strtotime('-2 minutes')), 'minutos' => 2, 'estado' => 1, 
+        'items' => [['cant'=>1, 'nom'=>'Capuccino', 'hecho'=>false], ['cant'=>2, 'nom'=>'Medialunas', 'hecho'=>false]], 
+        'tipo' => 'local', 'sucursal' => 'tribunales', 'fecha' => $hoy
+    ],
+    [
+        'id' => 801, 'hora' => date('H:i', strtotime('-2 minutes')), 'minutos' => 2, 'estado' => 1, 
+        'items' => [['cant'=>1, 'nom'=>'Capuccino', 'hecho'=>false], ['cant'=>2, 'nom'=>'Medialunas', 'hecho'=>false]], 
+        'tipo' => 'local', 'sucursal' => 'tribunales', 'fecha' => $hoy
+    ],
+    [
+        'id' => 802, 'hora' => date('H:i', strtotime('-15 minutes')), 'minutos' => 15, 'estado' => 1, 
+        'items' => [['cant'=>1, 'nom'=>'Tostado J/Q', 'hecho'=>true]], 
+        'tipo' => 'delivery', 'sucursal' => 'centro', 'fecha' => $hoy
+    ],
+    [
+        'id' => 799, 'hora' => date('H:i', strtotime('-30 minutes')), 'minutos' => 30, 'estado' => 2, 
+        'items' => [['cant'=>1, 'nom'=>'Cheesecake', 'hecho'=>true]], 
+        'tipo' => 'local', 'sucursal' => 'tribunales', 'fecha' => $hoy
+    ],
+    [
+        'id' => 795, 'hora' => '10:00', 'minutos' => 0, 'estado' => 3, 
+        'items' => [['cant'=>1, 'nom'=>'Café solo', 'hecho'=>true]], 
+        'tipo' => 'takeaway', 'sucursal' => 'centro', 'fecha' => $hoy
+    ],
+    [
+        'id' => 700, 'hora' => '20:00', 'minutos' => 0, 'estado' => 3, 
+        'items' => [['cant'=>2, 'nom'=>'Licuados', 'hecho'=>true]], 
+        'tipo' => 'local', 'sucursal' => 'tribunales', 'fecha' => $ayer
+    ],
+];
+?>
 
 <style>
-    /* Asegurar ancho fijo de 1000px */
-    .fixed-width-container {
-        max-width: 1320px !important;
+
+    .main-wrapper { max-width: 1320px; margin: 0 auto; padding: 30px 20px; }
+
+    .command-section {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        margin-bottom: 30px;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
     }
 
-    /* --- ESTILOS DEL MENÚ LATERAL (REFERENCIAS) --- */
-    /* Replicamos el estilo limpio de Stock */
-    .sidebar-title {
-        font-weight: 700;
-        margin-bottom: 1rem;
-        padding-left: 1.25rem; /* Alineado con los items */
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        color: #6c757d;
-    }
-    .legend-item {
-        border: none;
-        padding-left: 1.25rem;
-        background: transparent;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 0.95rem;
-        color: #333;
-    }
-    /* Cuadraditos de color para la referencia */
-    .color-box {
-        width: 15px;
-        height: 15px;
-        border-radius: 4px;
-        display: inline-block;
-        border: 1px solid #dee2e6;
-    }
-
-    /* --- ESTILOS DE TARJETAS KDS --- */
-    .kds-card {
-        background-color: #fff;
-        border: 1px solid #dee2e6;
-        border-radius: 8px;
-        /* Sombra suave */
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        font-size: 0.85rem; /* Texto un poco más chico para que entre en 4 columnas */
-    }
-
-    /* Encabezados de Colores */
-    .kds-header {
-        padding: 6px 10px;
-        border-top-left-radius: 8px;
-        border-top-right-radius: 8px;
-        font-weight: bold;
+    .section-header {
+        padding: 15px 25px;
+        cursor: pointer;
         display: flex;
         justify-content: space-between;
-        font-size: 0.8rem;
+        align-items: center;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        transition: background 0.2s;
+        user-select: none;
     }
-
-    /* COLORES DE ESTADO */
-    /* A Preparar (Rojo Suave) */
-    .header-preparar { background-color: #fde8e8; color: #c0392b; border-bottom: 2px solid #c0392b; }
-    /* A Entregar (Verde Suave) */
-    .header-entregar { background-color: #d1e7dd; color: #198754; border-bottom: 2px solid #198754; }
-    /* Entregadas (Gris) */
-    .header-entregado { background-color: #e9ecef; color: #6c757d; border-bottom: 2px solid #6c757d; }
-    /* Nuevas (Blanco/Borde Gris) */
-    .header-new { background-color: #fff; color: #333; border-bottom: 2px solid #333; }
-    /* Tiempo Cumplido (Amarillo) */
-    .header-warning { background-color: #fff3cd; color: #856404; border-bottom: 2px solid #ffc107; }
-
-
-    .kds-body {
-        padding: 8px;
-        flex: 1;
-    }
-
-    /* Checkboxes tachados */
-    .form-check-input:checked + .form-check-label {
-        text-decoration: line-through;
-        color: #adb5bd;
-    }
-    .form-check-label { cursor: pointer; }
-
-    /* Títulos de Sección */
-    .section-header {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid #dee2e6;
+    .section-header:hover { background: #e9ecef; }
+    .section-title { font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+    
+    .section-body {
+        padding: 25px;
         display: flex;
-        align-items: center;
-        gap: 8px;
+        flex-wrap: wrap;
+        gap: 25px;
+        background: #fff;
+        transition: max-height 0.4s ease-out, padding 0.4s ease;
+        justify-content: flex-start;
     }
+    .section-body.collapsed { max-height: 0; padding: 0; overflow: hidden; }
 
-    /* Botón Timbre y Historial */
-    .action-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-weight: 600;
+    .comanda-card {
+        flex: 0 0 280px; 
+        background: white;
+        border-radius: 8px;
+        padding: 15px 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        border-top: 6px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s, opacity 0.2s;
     }
+    .comanda-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.12); }
+    .comanda-card.hidden-card { display: none !important; } /* Clase para el filtro */
+
+    .border-prep { border-top-color: #e53935; }
+    .border-ready { border-top-color: #ffca28; }
+    .border-done { border-top-color: #4caf50; }
+    
+    .time-badge {
+        font-size: 0.8rem; font-weight: 600; padding: 5px 10px; border-radius: 6px;
+        display: flex; align-items: center; gap: 6px; margin: 10px 0;
+    }
+    .time-ok { background: #e8f5e9; color: #2e7d32; }
+    .time-warn { background: #fff8e1; color: #f57f17; }
+    .time-late { background: #ffebee; color: #c62828; animation: pulse 2s infinite; }
+
+    .item-list li {
+        padding: 6px 0; border-bottom: 1px dashed #eee; cursor: pointer;
+        display: flex; justify-content: space-between; font-size: 0.9rem;
+    }
+    .item-list li.checked span { text-decoration: line-through; color: #bbb; }
+    .item-list li.checked i { color: #4caf50 !important; }
+
+    .card-actions { margin-top: auto; padding-top: 15px; display: flex; gap: 8px; }
+    .btn-card { flex: 1; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 5px; }
+
+    .chevron-icon { transition: transform 0.3s; }
+    .collapsed .chevron-icon { transform: rotate(-90deg); }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 </style>
 
-<main>
-    <div class="container my-5 fixed-width-container mx-auto">
-        
-        <h1 class="mb-4">Monitor de Cocina</h1>
-
-        <div class="row g-4">
+<main class="main-wrapper">
+    
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 bg-white p-3 rounded shadow-sm border gap-3">
+        <div class="d-flex gap-3 align-items-center flex-wrap">
+            <h4 class="fw-bold m-0 text-danger d-flex align-items-center gap-2">
+                <i class="bi bi-grid-1x2-fill"></i> KDS <small class="text-muted fs-6 fw-normal">Cocina</small>
+            </h4>
+            <div class="vr d-none d-md-block"></div>
             
-            <div class="col-md-3">
-                <div class="sidebar-title">Referencias</div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item legend-item">
-                        <span class="color-box bg-white border-dark"></span> Recién llegada
-                    </li>
-                    <li class="list-group-item legend-item">
-                        <span class="color-box bg-warning"></span> Tiempo cumplido
-                    </li>
-                    <li class="list-group-item legend-item">
-                        <span class="color-box bg-danger"></span> Atrasado
-                    </li>
-                    <li class="list-group-item legend-item">
-                        <span class="color-box bg-success"></span> Listo para entrega
-                    </li>
-                    <li class="list-group-item legend-item">
-                        <span class="color-box bg-secondary"></span> Cancelado
-                    </li>
-                </ul>
+            <select id="filter-branch" class="form-select form-select-sm" style="width: 160px;" onchange="applyFilters()">
+                <option value="all">Todas las Sucursales</option>
+                <option value="tribunales">Tribunales</option>
+                <option value="centro">Centro</option>
+            </select>
+            
+            <input type="date" id="filter-date" class="form-control form-control-sm" value="<?= date('Y-m-d') ?>" style="width: 140px;" onchange="applyFilters()">
+        </div>
+        
+        <div class="d-flex gap-2">
+            <button class="btn btn-warning btn-sm fw-bold shadow-sm px-3" onclick="alert('Llamando Mozos...')">
+                <i class="bi bi-bell-fill"></i> Timbre
+            </button>
+            <button class="btn btn-info text-white btn-sm fw-bold shadow-sm px-3" data-bs-toggle="modal" data-bs-target="#helpModal">
+                <i class="bi bi-question-circle-fill"></i> Ayuda
+            </button>
+        </div>
+    </div>
+
+    <section class="command-section">
+        <div class="section-header" onclick="toggleSection('sec-prep')">
+            <div class="section-title text-danger">
+                <i class="bi bi-fire"></i> 1. A PREPARAR (<span id="count-prep">0</span>)
             </div>
-
-            <div class="col-md-9">
+            <i class="bi bi-chevron-down chevron-icon" id="icon-sec-prep"></i>
+        </div>
+        <div class="section-body" id="sec-prep">
+            <?php foreach($comandas as $c): if($c['estado'] != 1) continue; 
+                $timeClass = ($c['minutos'] > 20) ? 'time-late' : (($c['minutos'] > 10) ? 'time-warn' : 'time-ok');
+            ?>
+            <div class="comanda-card border-prep" id="cmd-<?= $c['id'] ?>" 
+                 data-branch="<?= $c['sucursal'] ?>" 
+                 data-date="<?= $c['fecha'] ?>">
                 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <select class="form-select form-select-sm fw-bold border-danger text-danger">
-                            <option selected>Tribunales</option>
-                            <option>Peatonal</option>
-                            <option>Shopping</option>
-                        </select>
-                    </div>
-
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-outline-secondary btn-sm action-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clock-history" viewBox="0 0 16 16"><path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.79-.613a8 8 0 0 1 .926 1.135l-.936.418a7 7 0 0 0-.127-.144zm.908 2.212a7 7 0 0 0-.123-.153l.939-.42a8 8 0 0 1 .302 1.036l-.986.18a7 7 0 0 0-.132-.643zm-12.26-2.23 1.258.85a7 7 0 0 1 .253-.306l-.954-.85a8 8 0 0 0-.557.306m-.87 1.258a7 7 0 0 1-.306-.253l-.85.954a8 8 0 0 0 .306.557l.85-1.258m-.253 1.258-.954-.85a8 8 0 0 0-.306.557l1.258.85a7 7 0 0 1 .253-.306m.85 1.258-.85 1.258a7 7 0 0 1 .306.253l.954-.85a8 8 0 0 0-.557-.306m1.258.85 1.258-.85a7 7 0 0 1 .253.306l-.954.85a8 8 0 0 0-.306-.557"/><path d="M8 5.5a.5.5 0 0 1 .5.5v4.793l3.146 3.147a.5.5 0 0 1-.708.708l-3.5-3.5A.5.5 0 0 1 7.5 10.5V6a.5.5 0 0 1 .5-.5"/></svg>
-                            Historial
-                        </button>
-
-                        <button class="btn btn-warning btn-sm action-btn shadow-sm" onclick="alert('🔔 Timbre sonando en mostrador...')">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16"><path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/></svg>
-                            Timbre
-                        </button>
-                    </div>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold fs-5">#<?= $c['id'] ?></span>
+                    <span class="text-muted small"><?= $c['hora'] ?></span>
+                </div>
+                <div class="d-flex justify-content-between small text-muted fw-bold mb-2">
+                    <span class="text-uppercase"><?= $c['tipo'] ?></span>
+                    <span class="badge bg-light text-dark border"><?= ucfirst($c['sucursal']) ?></span>
                 </div>
 
-                <div class="mb-4">
-                    <div class="section-header text-danger">
-                        <i class="bi bi-fire"></i> A Preparar
-                    </div>
-                    
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-2">
-                        
-                        <div class="col">
-                            <div class="kds-card border-danger">
-                                <div class="kds-header bg-danger text-white">
-                                    <span>08:40</span>
-                                    <span>16:30 <i class="bi bi-stopwatch"></i></span>
-                                </div>
-                                <div class="kds-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c1-1">
-                                        <label class="form-check-label fw-bold" for="c1-1">1 Café Expresso</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c1-2">
-                                        <label class="form-check-label" for="c1-2">6 Tostados</label>
-                                    </div>
-                                </div>
-                                <div class="p-2 border-top">
-                                    <button class="btn btn-danger btn-sm w-100 py-0">Listo</button>
-                                </div>
-                            </div>
-                        </div>
+                <div class="time-badge <?= $timeClass ?>">
+                    <i class="bi bi-stopwatch"></i> <?= $c['minutos'] ?> min
+                </div>
+                
+                <ul class="item-list list-unstyled mb-3">
+                    <?php foreach($c['items'] as $i): ?>
+                    <li onclick="toggleCheck(this)" class="<?= $i['hecho']?'checked':'' ?>">
+                        <span><b><?= $i['cant'] ?></b> <?= $i['nom'] ?></span>
+                        <i class="bi bi-circle text-muted" style="font-size:0.8rem"></i>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                
+                <div class="card-actions">
+                    <button class="btn btn-outline-secondary btn-sm btn-card" onclick="cancelCmd(<?= $c['id'] ?>)">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                    <button class="btn btn-danger btn-sm btn-card text-white" onclick="moveCard(<?= $c['id'] ?>, 2)">
+                        Listo <i class="bi bi-check-lg"></i>
+                    </button>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
 
-                        <div class="col">
-                            <div class="kds-card border-warning">
-                                <div class="kds-header header-warning">
-                                    <span>08:50</span>
-                                    <span>06:45 <i class="bi bi-stopwatch"></i></span>
-                                </div>
-                                <div class="kds-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c2-1">
-                                        <label class="form-check-label" for="c2-1">1 Capuccino</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c2-2">
-                                        <label class="form-check-label" for="c2-2">1 Medialuna</label>
-                                    </div>
-                                </div>
-                                <div class="p-2 border-top">
-                                    <button class="btn btn-warning btn-sm w-100 py-0 text-white">Listo</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="kds-card">
-                                <div class="kds-header header-new">
-                                    <span>08:53</span>
-                                    <span>03:30 <i class="bi bi-stopwatch"></i></span>
-                                </div>
-                                <div class="kds-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c3-1">
-                                        <label class="form-check-label" for="c3-1">1 Café Expresso</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c3-2">
-                                        <label class="form-check-label" for="c3-2">2 Medialunas</label>
-                                    </div>
-                                </div>
-                                <div class="p-2 border-top">
-                                    <button class="btn btn-outline-dark btn-sm w-100 py-0">Listo</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col">
-                            <div class="kds-card">
-                                <div class="kds-header header-new">
-                                    <span>08:56</span>
-                                    <span>00:30 <i class="bi bi-stopwatch"></i></span>
-                                </div>
-                                <div class="kds-body">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c4-1">
-                                        <label class="form-check-label" for="c4-1">1 Capuccino</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="c4-2">
-                                        <label class="form-check-label" for="c4-2">6 Tostados</label>
-                                    </div>
-                                </div>
-                                <div class="p-2 border-top">
-                                    <button class="btn btn-outline-dark btn-sm w-100 py-0">Listo</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+    <section class="command-section">
+        <div class="section-header" onclick="toggleSection('sec-dlv')">
+            <div class="section-title text-warning">
+                <i class="bi bi-bell-fill"></i> 2. A ENTREGAR (<span id="count-dlv">0</span>)
+            </div>
+            <i class="bi bi-chevron-down chevron-icon" id="icon-sec-dlv"></i>
+        </div>
+        <div class="section-body" id="sec-dlv">
+            <?php foreach($comandas as $c): if($c['estado'] != 2) continue; ?>
+            <div class="comanda-card border-ready" id="cmd-<?= $c['id'] ?>" 
+                 data-branch="<?= $c['sucursal'] ?>" 
+                 data-date="<?= $c['fecha'] ?>">
+                 
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold fs-5">#<?= $c['id'] ?></span>
+                    <span class="text-muted small"><?= $c['hora'] ?></span>
+                </div>
+                <div class="d-flex justify-content-between small text-muted fw-bold mb-2">
+                    <span class="text-uppercase"><?= $c['tipo'] ?></span>
+                    <span class="badge bg-light text-dark border"><?= ucfirst($c['sucursal']) ?></span>
                 </div>
 
-                <div class="mb-4">
-                    <div class="section-header text-success">
-                        <i class="bi bi-check-circle"></i> A Entregar
-                    </div>
-                    
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-2">
-                        
-                        <div class="col">
-                            <div class="kds-card border-success">
-                                <div class="kds-header header-entregar">
-                                    <span>08:50</span>
-                                    <span>06:45 <i class="bi bi-stopwatch"></i></span>
-                                </div>
-                                <div class="kds-body">
-                                    <ul class="list-unstyled m-0">
-                                        <li><i class="bi bi-check2"></i> 1 Café Expresso</li>
-                                        <li><i class="bi bi-check2"></i> 2 Medialunas</li>
-                                    </ul>
-                                </div>
-                                <div class="p-2 border-top">
-                                    <button class="btn btn-success btn-sm w-100 py-0">Entregado</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                <div class="alert alert-warning py-1 small fw-bold text-center mb-2 mt-1">
+                    <i class="bi bi-exclamation-circle"></i> Retirar
                 </div>
 
-                <div class="mb-4">
-                    <div class="section-header text-secondary">
-                        <i class="bi bi-archive"></i> Entregadas / Histórico
-                    </div>
-                    
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-2">
-                        
-                        <div class="col">
-                            <div class="kds-card opacity-75">
-                                <div class="kds-header header-entregado">
-                                    <span>08:50</span>
-                                    <span>Finalizado</span>
-                                </div>
-                                <div class="kds-body bg-light">
-                                    <ul class="list-unstyled m-0 text-muted">
-                                        <li>1 Café Expresso</li>
-                                        <li>2 Medialunas</li>
-                                    </ul>
-                                </div>
-                                <div class="p-2 border-top">
-                                    <button class="btn btn-secondary btn-sm w-100 py-0 disabled">Cerrado</button>
-                                </div>
-                            </div>
-                        </div>
+                <ul class="item-list list-unstyled mb-3">
+                    <?php foreach($c['items'] as $i): ?>
+                    <li class="checked">
+                        <span><b><?= $i['cant'] ?></b> <?= $i['nom'] ?></span>
+                        <i class="bi bi-check-circle-fill text-success" style="font-size:0.8rem"></i>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+                <div class="card-actions">
+                    <button class="btn btn-outline-danger btn-sm btn-card" onclick="moveCard(<?= $c['id'] ?>, 1)">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                    <button class="btn btn-warning btn-sm btn-card" onclick="moveCard(<?= $c['id'] ?>, 3)">
+                        Entregar <i class="bi bi-box-seam"></i>
+                    </button>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
 
-                    </div>
+    <section class="command-section">
+        <div class="section-header" onclick="toggleSection('sec-hist')">
+            <div class="section-title text-success">
+                <i class="bi bi-clock-history"></i> 3. HISTORIAL (<span id="count-hist">0</span>)
+            </div>
+            <i class="bi bi-chevron-down chevron-icon" id="icon-sec-hist"></i>
+        </div>
+        <div class="section-body collapsed" id="sec-hist">
+            <?php foreach($comandas as $c): if($c['estado'] != 3) continue; ?>
+            <div class="comanda-card border-done" id="cmd-<?= $c['id'] ?>" style="opacity: 0.7;"
+                 data-branch="<?= $c['sucursal'] ?>" 
+                 data-date="<?= $c['fecha'] ?>">
+                 
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold fs-5 text-muted">#<?= $c['id'] ?></span>
+                    <span class="badge bg-success">Finalizado</span>
+                </div>
+                <div class="d-flex justify-content-between small text-muted fw-bold mb-2">
+                    <span class="text-uppercase"><?= $c['tipo'] ?></span>
+                    <span class="badge bg-light text-dark border"><?= ucfirst($c['sucursal']) ?></span>
                 </div>
 
+                <ul class="item-list list-unstyled mb-3 text-muted">
+                    <?php foreach($c['items'] as $i): ?>
+                    <li><b><?= $i['cant'] ?></b> <?= $i['nom'] ?></li>
+                    <?php endforeach; ?>
+                </ul>
+                <div class="card-actions">
+                    <button class="btn btn-outline-secondary btn-sm btn-card w-100" onclick="moveCard(<?= $c['id'] ?>, 2)">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reclamar
+                    </button>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+</main>
+
+<div class="modal fade" id="helpModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header fw-bold">Colores de Espera</div>
+            <div class="modal-body">
+                <div class="d-flex align-items-center mb-3"><span class="badge bg-success me-3 p-2"> </span> 0-10 min: A tiempo</div>
+                <div class="d-flex align-items-center mb-3"><span class="badge bg-warning text-dark me-3 p-2"> </span> 10-20 min: Precaución</div>
+                <div class="d-flex align-items-center"><span class="badge bg-danger me-3 p-2"> </span> +20 min: Demorado</div>
             </div>
         </div>
     </div>
-</main>
+</div>
+
+<script>
+    function applyFilters() {
+        const branch = document.getElementById('filter-branch').value;
+        const date = document.getElementById('filter-date').value;
+        const cards = document.querySelectorAll('.comanda-card');
+
+        cards.forEach(card => {
+            const cardBranch = card.getAttribute('data-branch');
+            const cardDate = card.getAttribute('data-date');
+            
+            const matchBranch = (branch === 'all' || branch === cardBranch);
+            const matchDate = (date === cardDate);
+
+            if (matchBranch && matchDate) {
+                card.classList.remove('hidden-card');
+            } else {
+                card.classList.add('hidden-card');
+            }
+        });
+        updateCounters(); 
+    }
+
+    function toggleSection(id) {
+        const body = document.getElementById(id);
+        const icon = document.getElementById('icon-' + id);
+        body.classList.toggle('collapsed');
+        icon.style.transform = body.classList.contains('collapsed') ? 'rotate(-90deg)' : 'rotate(0deg)';
+    }
+
+    function toggleCheck(el) {
+        el.classList.toggle('checked');
+        const icon = el.querySelector('i');
+        if(icon) {
+            if(el.classList.contains('checked')) {
+                icon.className = 'bi bi-check-circle-fill text-success';
+            } else {
+                icon.className = 'bi bi-circle text-muted';
+            }
+        }
+    }
+
+    function moveCard(id, newStatus) {
+        const card = document.getElementById('cmd-' + id);
+        if(!card) return;
+
+        card.style.transform = 'scale(0.95)';
+        card.style.opacity = '0.5';
+
+        setTimeout(() => {
+            let targetId, actionsHtml, borderClass;
+
+            if (newStatus === 1) { // A Preparar
+                targetId = 'sec-prep';
+                borderClass = 'border-prep';
+                actionsHtml = `
+                    <button class="btn btn-outline-secondary btn-sm btn-card" onclick="cancelCmd(${id})"><i class="bi bi-x-lg"></i></button>
+                    <button class="btn btn-danger btn-sm btn-card text-white" onclick="moveCard(${id}, 2)">Listo <i class="bi bi-check-lg"></i></button>
+                `;
+            } else if (newStatus === 2) { // A Entregar
+                targetId = 'sec-dlv';
+                borderClass = 'border-ready';
+                actionsHtml = `
+                    <button class="btn btn-outline-danger btn-sm btn-card" onclick="moveCard(${id}, 1)"><i class="bi bi-arrow-counterclockwise"></i></button>
+                    <button class="btn btn-warning btn-sm btn-card" onclick="moveCard(${id}, 3)">Entregar <i class="bi bi-box-seam"></i></button>
+                `;
+            } else { // Historial
+                targetId = 'sec-hist';
+                borderClass = 'border-done';
+                actionsHtml = `
+                    <button class="btn btn-outline-secondary btn-sm btn-card w-100" onclick="moveCard(${id}, 2)"><i class="bi bi-arrow-counterclockwise"></i> Reclamar</button>
+                `;
+            }
+
+            // Actualizar clases y HTML
+            card.className = `comanda-card ${borderClass}`;
+            if(card.classList.contains('hidden-card')) card.classList.add('hidden-card'); // Mantener oculto si estaba filtrado
+            
+            card.querySelector('.card-actions').innerHTML = actionsHtml;
+            card.style.opacity = (newStatus === 3) ? '0.7' : '1';
+            card.style.transform = 'scale(1)';
+
+            // Mover en el DOM
+            document.getElementById(targetId).prepend(card);
+            
+            // Abrir sección si está cerrada
+            const targetSection = document.getElementById(targetId);
+            if(targetSection.classList.contains('collapsed')) toggleSection(targetId);
+
+            updateCounters();
+        }, 200);
+    }
+
+    function cancelCmd(id) {
+        if(confirm('¿Cancelar comanda #' + id + '?')) {
+            moveCard(id, 3);
+            document.getElementById('cmd-' + id).style.background = '#ffebee';
+        }
+    }
+
+    // 5. ACTUALIZAR CONTADORES
+    function updateCounters() {
+        const sections = ['sec-prep', 'sec-dlv', 'sec-hist'];
+        const ids = ['count-prep', 'count-dlv', 'count-hist'];
+
+        sections.forEach((sec, index) => {
+            const visibleCards = document.querySelectorAll(`#${sec} .comanda-card:not(.hidden-card)`);
+            document.getElementById(ids[index]).innerText = visibleCards.length;
+        });
+    }
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', () => {
+        applyFilters(); // Aplicar filtro inicial (hoy)
+    });
+</script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
