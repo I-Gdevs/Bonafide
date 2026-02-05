@@ -6,7 +6,7 @@ const stockRouter = Router();
 const stockController = new StockController();
 
 stockRouter.get("", verifyToken, (req, res) => stockController.getStock(req, res));
-stockRouter.post("", verifyToken, (req, res) => stockController.createMovement(req, res));
+stockRouter.post("/movements", verifyToken, (req, res) => stockController.createMovement(req, res));
 stockRouter.patch("/:stock_id", verifyToken, (req, res) => stockController.updateStockMinQuantity(req, res));
 stockRouter.get("/movements", verifyToken, (req, res) => stockController.getStockMovements(req, res));
 

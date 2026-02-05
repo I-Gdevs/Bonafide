@@ -1,5 +1,6 @@
 import dbPool from "../../database/db.js";
 import { MOVEMENTS } from "../../helpers/stock-movement.helper.js";
+import crypto from "crypto";
 
 class StockModel {
 
@@ -70,6 +71,7 @@ class StockModel {
                 ms.motivo_movimiento,
                 ms.cantidad_movida,
                 ms.id_referencia,
+                ms.id_lote_movimiento,
                 m.nombre_modelo_articulo,
                 m.unidad_medida_modelo_articulo,
                 l.nombre_local,
@@ -90,6 +92,10 @@ class StockModel {
             dbQuery += " AND s.id_modelo_articulo = (?)";
             dbParams.push(filters.item_template_id);
         }
+        if (filters.movement_batch_id) {
+            dbQuery += " AND ms.id_lote_movimiento = (?)";
+            dbParams.push(filters.movement_batch_id);
+        }
         if (filters.date_from) {
             dbQuery += " AND ms.fecha >= (?)";
             dbParams.push(filters.date_from);
@@ -98,6 +104,7 @@ class StockModel {
             dbQuery += " AND ms.fecha <= (?)";
             dbParams.push(filters.date_to + " 23:59:59");
         }
+        
 
         dbQuery += " ORDER BY ms.fecha DESC LIMIT 500";
 
@@ -162,8 +169,10 @@ class StockModel {
             dbConnection = await dbPool.getConnection();
             await dbConnection.beginTransaction();
 
+            let newBatchId = crypto.randomUUID();
+
             for (let item of items) {
-                await this._processItemStock(dbConnection, building_id, item, movement_reason, user_id);
+                await this._processItemStock(dbConnection, building_id, item, movement_reason, user_id, null, newBatchId);
             }
 
             await dbConnection.commit();
@@ -201,6 +210,8 @@ class StockModel {
 
             let newPurchaseId = purchaseQuery.insertId;
 
+            let newBatchId = crypto.randomUUID();
+
             for (let item of items) {
                 await dbConnection.query(
                     `INSERT INTO detalle_compra (id_comprobante, id_modelo_articulo, cantidad_comprada) VALUES (?, ?, ?);`,
@@ -214,7 +225,8 @@ class StockModel {
                     itemDataForStock,
                     MOVEMENTS.REASONS.PURCHASE,
                     user_id,
-                    newPurchaseId
+                    newPurchaseId,
+                    newBatchId
                 );
             }
 
@@ -242,7 +254,7 @@ class StockModel {
         }
     }
 
-    async _processItemStock(dbConnection, building_id, item, movement_reason, user_id, reference_id) {
+    async _processItemStock(dbConnection, building_id, item, movement_reason, user_id, reference_id, batch_movement_id) {
         
         if (item.quantity <= 0) {
             throw new Error(`No se pudo generar el movimiento: El item se ${item.item_template_id} envió con cantidad: 0.`);
@@ -296,8 +308,8 @@ class StockModel {
         );
 
         let logQuery = `
-            INSERT INTO movimientos_stock (id_stock, tipo_movimiento, motivo_movimiento, cantidad_movida, stock_antes, stock_despues, id_usuario, id_referencia)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO movimientos_stock (id_stock, tipo_movimiento, motivo_movimiento, cantidad_movida, stock_antes, stock_despues, id_usuario, id_referencia, id_lote_movimiento)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
         await dbConnection.query(logQuery, [
@@ -308,7 +320,8 @@ class StockModel {
             current_quantity,
             new_quantity,
             user_id,
-            reference_id || null
+            reference_id || null,
+            batch_movement_id
         ]);
     }
 }

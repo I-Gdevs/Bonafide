@@ -133,7 +133,7 @@
 </main>
 
 <!-- Modal para crear modelos de artículos -->
- <div class="modal fade" id="modalCrearModeloArticulo" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalCrearModeloArticulo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
@@ -172,7 +172,7 @@
 </div>
 
 <!-- Modal para filtrar modelos de artículos -->
- <div class="modal fade" id="modalFiltrarModeloArticulo" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalFiltrarModeloArticulo" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
