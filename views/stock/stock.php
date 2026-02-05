@@ -106,7 +106,7 @@
                         <tbody id="tablaStockBody" class="align-middle">
                             <?php if (empty($stock)): ?>
                                 <tr>
-                                    <td colspan="4" class="text-center py-4 text-muted">No hay artículos cargados.</td>
+                                    <td colspan="5" class="text-center py-4 text-muted">No hay artículos cargados.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($stock as $item): ?>

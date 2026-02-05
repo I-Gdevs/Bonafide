@@ -59,7 +59,37 @@ class StockService {
     }
 
     async getStockMovements(filters) {
-        return await stockModel.getStockMovements(filters);
+        let movements = await stockModel.getStockMovements(filters);
+        let batchMovements = [];
+        let groupsMap = {};
+
+        for (let movement of movements) {
+            
+            let groupKey = movement.id_lote_movimiento;
+
+            if (!groupsMap[groupKey]) {
+                groupsMap[groupKey] = {
+                    id_lote_movimiento: movement.id_lote_movimiento,
+                    id_referencia: movement.id_referencia,
+                    fecha: movement.fecha,
+                    tipo_movimiento: movement.tipo_movimiento,
+                    motivo_movimiento: movement.motivo_movimiento,
+                    usuario: movement.nombre_usuario,
+                    nombre_local: movement.nombre_local,
+                    items: []
+                };
+
+                batchMovements.push(groupsMap[groupKey]);
+            }
+
+            groupsMap[groupKey].items.push({
+                nombre_modelo_articulo: movement.nombre_modelo_articulo,
+                cantidad_movida: movement.cantidad_movida,
+                unidad_medida_modelo_articulo: movement.unidad_medida_modelo_articulo
+            });
+        }
+
+        return batchMovements;
     }
 }
 

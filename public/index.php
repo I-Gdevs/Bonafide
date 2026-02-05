@@ -1,4 +1,6 @@
 <?php
+    date_default_timezone_set("America/Argentina/Buenos_Aires");
+
     session_start();
 
     define('BASE_PATH', dirname(__DIR__));
@@ -64,14 +66,24 @@
         
         // Movimientos de stock
         case 'stock/movements':
+            require BASE_PATH . '/controllers/stock/movements/movements.controller.php';
+            require BASE_PATH . '/controllers/stock/buildings/buildings.controller.php';
+            require BASE_PATH . '/controllers/stock/providers/providers.controller.php';
+            require BASE_PATH . '/controllers/stock/item_templates/item_templates.controller.php';
+
+
             $view_file = BASE_PATH . '/views/stock/movements.php';
             break;
 
+        case 'stock/movements/create':
+            require BASE_PATH . '/controllers/stock/movements/create_movement.controller.php';
+            break;
 
         // Modelos de artículos
         case 'stock/item-templates':
             require BASE_PATH . '/controllers/stock/item_templates/item_templates.controller.php';
             require BASE_PATH . '/controllers/stock/item_templates/create_item_template.controller.php';
+
             
             $view_file = BASE_PATH . '/views/stock/item_templates.php';
             break;

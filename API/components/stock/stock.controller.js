@@ -73,7 +73,8 @@ class StockController {
                 building_id: req.query.building_id,
                 item_template_id: req.query.item_template_id,
                 date_from: req.query.date_from,
-                date_to: req.query.date_to
+                date_to: req.query.date_to,
+                movement_batch_id: req.query.movement_batch_id
             };
 
             let movements = await stockService.getStockMovements(filters);
