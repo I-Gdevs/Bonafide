@@ -160,6 +160,15 @@ $productos_destacados = [
         from { transform: scale(0.8); opacity: 0; }
         to { transform: scale(1); opacity: 1; } /* Ajustado a escala 1 para compensar el .9 inicial */
     }
+
+    :root {
+    --bs-primary: #dc3545;
+    --bs-primary-rgb: 220, 53, 69;
+
+    --bs-danger: #0d6efd;
+    --bs-danger-rgb: 13, 110, 253;
+    }
+
 </style>
 
 <main>

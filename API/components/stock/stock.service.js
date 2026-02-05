@@ -1,98 +1,95 @@
 import StockModel from "./stock.model.js";
+import { errorHandler } from "../../helpers/error.helper.js";
+import { MOVEMENTS } from "../../helpers/stock-movement.helper.js";
 
 const stockModel = new StockModel();
 
 class StockService {
-    
-    async createStockTemplate({ stock_name, stock_measurement_unit}) {
 
-        let newStock = await stockModel.createStockTemplate({ stock_name, stock_measurement_unit });
+    async getStock(filters) {
 
-        return {
-            newStockId: Number(newStock.insertId),
-            stock_name,
-            stock_measurement_unit
+        let currentStock = [];
+
+        currentStock = await stockModel.getStock(filters);
+
+        if (currentStock.length === 0) {
+            errorHandler.notFound("No hay nada de stock cargado.");
         }
+
+        return currentStock;
     }
 
-    async getStockTemplate() {
+    async updateStockMinQuantity({ stock_id, new_stock_minimum_quantity }) {
         
-        let stockTemplates = [];
-
-        stockTemplates = await stockModel.getStockTemplate();
-
-        if (stockTemplates.length === 0) {
-            throw new Error("No hay ningún modelo de stock cargado.");
+        if (!stock_id || !new_stock_minimum_quantity) {
+            errorHandler.badRequest("No se pudo actualizar la mínima cantidad de stock: Faltan parámetros.");
         }
-        return stockTemplates;
+
+        return await stockModel.updateStockMinQuantity({ stock_id, new_stock_minimum_quantity });
     }
 
-    async getStockAmount({ stock_id, building_id }) {
+    async registerPurchase({ building_id, items, provider_id, receipt_type, user_id }) {
 
-        let stockAmount = [];
-
-        stockAmount = await stockModel.getStockAmount({ stock_id, building_id });
-
-        if (stockAmount.length === 0) {
-            throw new Error("No hay nada de stock cargado.");
+        if (!provider_id) {
+            errorHandler.badRequest("No se puede registrar compra: Falta especificar proveedor.");
         }
-        return stockAmount;
+
+        return await stockModel.createPurchaseMovement({
+            building_id,
+            items,
+            provider_id,
+            receipt_type,
+            user_id
+        });
     }
 
-    async updateStock({ stock_id, new_stock_name, new_stock_measurement_unit }) {
+    async registerAdjustments({ building_id, items, movement_reason, user_id }) {
 
-        if (!stock_id) {
-            throw new Error("No se puede actualizar ingrediente/stock. Datos faltantes. No se proporcionó ningún ID de ingrediente/stock.");
+        let validReasons = [MOVEMENTS.REASONS.ADJUSTMENT, MOVEMENTS.REASONS.BROKEN, MOVEMENTS.REASONS.INTERNAL_USE];
+        if (!validReasons.includes(movement_reason)) {
+            errorHandler.badRequest("Motivo de movimiento no válido");
         }
 
-        if (!new_stock_name && !new_stock_measurement_unit && !new_stock_building_id) {
-            throw new Error("No se puede actualizar ingrediente/stock. Datos faltantes. No se envió ningún cambio { new_stock_name, new_stock_measurement_unit }");
-        }
-
-        let updatedStock = await stockModel.updateStock({ stock_id, new_stock_name, new_stock_measurement_unit });
-
-        if (updatedStock.affectedRows !== 1) {
-            throw new Error("No se pudo actualizar ingrediente/stock.");
-        }
-
-        return updatedStock = {
-            stock_id,
-            new_stock_name,
-            new_stock_measurement_unit
-        }
+        return await stockModel.createAdjustmentMovement({
+            building_id,
+            items,
+            movement_reason,
+            user_id
+        });
     }
 
-    async deleteStock({}) {
+    async getStockMovements(filters) {
+        let movements = await stockModel.getStockMovements(filters);
+        let batchMovements = [];
+        let groupsMap = {};
 
-    }
+        for (let movement of movements) {
+            
+            let groupKey = movement.id_lote_movimiento;
 
-    async moveStock({ stock_movement_type, stock_movement_reason, building_id, provider_id, stock_list }) {
-        let movedStock;
+            if (!groupsMap[groupKey]) {
+                groupsMap[groupKey] = {
+                    id_lote_movimiento: movement.id_lote_movimiento,
+                    id_referencia: movement.id_referencia,
+                    fecha: movement.fecha,
+                    tipo_movimiento: movement.tipo_movimiento,
+                    motivo_movimiento: movement.motivo_movimiento,
+                    usuario: movement.nombre_usuario,
+                    nombre_local: movement.nombre_local,
+                    items: []
+                };
 
-        if (!stock_movement_reason || !stock_movement_type) {
-            throw new Error("No se puede cargar movimiento de stock. Datos faltantes. No se proporcionó motivo o tipo de movimiento { stock_movement_type, stock_movement_reason }.");
+                batchMovements.push(groupsMap[groupKey]);
+            }
+
+            groupsMap[groupKey].items.push({
+                nombre_modelo_articulo: movement.nombre_modelo_articulo,
+                cantidad_movida: movement.cantidad_movida,
+                unidad_medida_modelo_articulo: movement.unidad_medida_modelo_articulo
+            });
         }
 
-        if (!building_id) {
-            throw new Error("No se puede cargar movimiento de stock. Datos faltantes. No se proporcionó ningún local { building_id }.");
-        }
-
-        if (!stock_list) {
-            throw new Error("No se puede cargar movimiento de stock. Datos faltantes. No se proporcionó ningún ítem [{ stock_id, stock_quantity }, ...] ");
-        }
-
-        // Si el movimiento es por ajuste manual, entonces no enviamos ningún prooveedor.
-        if (stock_movement_reason.includes("ajuste")) {
-            movedStock = stockModel.moveStock({ stock_movement_type, stock_movement_reason, building_id, provider_id: null, stock_list });
-        } else {
-            movedStock = stockModel.moveStock({ stock_movement_type, stock_movement_reason, building_id, provider_id, stock_list });
-        }
-
-        if (!movedStock) {
-            throw new Error("No se pudo cargar nuevo movimiento de stock");
-        }
-
-        return movedStock;
+        return batchMovements;
     }
 }
 

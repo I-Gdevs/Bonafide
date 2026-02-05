@@ -13,12 +13,15 @@ export const success = (req, res, statusCode = 200, data, message = "Operación 
     return res.status(statusCode).json(responseBody);
 }
 
-export const error = (req, res, statusCode = 500, message) => {
+export const error = (req, res, errorRaw) => {
+
+    let statusCode = errorRaw.statusCode || 500;
     
+    let message = errorRaw.message || errorRaw || "Error desconocido del servidor";
+
     return res.status(statusCode).json({
         success: false,
-        message: "Ocurrió un error",
         error: message
     });
-    
+
 }
