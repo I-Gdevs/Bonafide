@@ -56,7 +56,7 @@
                         </button>
                         
                         <button class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#modalRegistrarAjuste">
-                            <i class="bi bi-plus-slash-minus"></i>
+                            <i class="bi bi-sliders"></i>
                         </button>
 
                         <button class="btn btn-outline-secondary">
@@ -124,25 +124,28 @@
         </div>
     </div>
 
-    <nav class="navbar fixed-bottom bg-white border-top d-md-none shadow-lg" style="padding-bottom: env(safe-area-inset-bottom);">
+    <nav class="navbar fixed-bottom bg-white border-top d-md-none shadow-lg" >
         <div class="container-fluid d-flex justify-content-around py-1">
             
-            <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-secondary text-center small">
-                <i class="bi bi-box-seam fs-4 d-block"></i>
-                Stock
+            <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-secondary">
+                <i class="bi bi-box-seam fs-3 d-block"></i>
             </a>
 
-            <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-danger text-center small fw-bold">
-                <i class="bi bi-arrow-left-right fs-4 d-block"></i>
-                Movim.
+            <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-danger">
+                <i class="bi bi-arrow-left-right fs-1 d-block"></i>
             </a>
 
-            <a href="<?= BASE_URL ?>/stock/item-templates" class="text-decoration-none text-secondary text-center small">
-                <i class="bi bi-file-earmark-text fs-4 d-block"></i>
-                Artículos
+            <a href="<?= BASE_URL ?>/stock/item-templates" class="text-decoration-none text-secondary">
+                <i class="bi bi-file-earmark-text fs-3 d-block"></i>
             </a>
 
-            
+            <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-secondary">
+                <i class="bi bi-truck fs-3 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/buildings" class="text-decoration-none text-secondary">
+                <i class="bi bi-shop fs-3 d-block"></i>
+            </a>
 
         </div>
     </nav>
@@ -153,7 +156,7 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="flashToast" class="toast bg-<?= $flash["type"] ?>-subtle" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <strong class="me-auto">Avisos | Modelos de artículos</strong>
+                <strong class="me-auto">Avisos | Movimientos</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
@@ -278,6 +281,75 @@
     </div>
 </div>
 
+<!-- Modal para registrar ajuste manual -->
+<div class="modal fade" id="modalRegistrarAjuste" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-sliders me-2"></i>
+                    Registrar Ajuste de Stock
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <form method="POST" action="<?= BASE_URL ?>/stock/movements/create">
+                <div class="modal-body">
+                    
+                    <input type="hidden" name="user_id" value="<?= $_SESSION['user']['user_id'] ?? 1 ?>">
+                    
+                    <input type="hidden" name="provider_id" value="">
+                    <input type="hidden" name="receipt_type" value="">
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="fw-bold">Local Afectado</label>
+                            <select class="form-select" name="building_id" required>
+                                <option selected disabled value="">Seleccionar...</option>
+                                <?php foreach ($buildings as $local): ?>
+                                    <option value="<?= $local['id'] ?>"><?= $local['nombre'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label class="fw-bold">Motivo del Ajuste</label>
+                            <select class="form-select" name="movement_reason" required>
+                                <option selected disabled value="">Seleccionar causa...</option>
+                                <option value="AJUSTE_MANUAL">Ajuste manual</option>
+                                <option value="ROTURA">Rotura</option>
+                                <option value="USO_INTERNO">Uso interno</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="fw-bold text-danger">Artículos</label>
+                        <button type="button" class="btn btn-sm btn-outline-danger fw-bold" onclick="agregarFilaAjuste()">
+                            <i class="bi bi-plus-lg"></i> Agregar Item
+                        </button>
+                    </div>
+
+                    <div class="alert alert-light border border-danger small text-muted py-2 mb-3">
+                        <i class="bi bi-info-circle-fill text-danger me-1"></i> 
+                        Para <strong>descontar</strong> mercadería (ej: se rompió), poné el número en negativo (ej: <strong>-5</strong>).
+                        Para <strong>agregar</strong>, usá positivo.
+                    </div>
+
+                    <div id="contenedor-items-ajuste"></div>
+
+                </div>
+
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Confirmar Ajuste</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Modal para ver detalle de movimientos -->
 <div class="modal fade" id="modalVerDetalleMovimiento" tabindex="-1" aria-hidden="true">
@@ -334,8 +406,6 @@
     </div>
 </div>
 
-
-
 <script>
     // Barra de búsqueda
     document.getElementById("buscadorStock").addEventListener("keyup", function() {
@@ -352,12 +422,10 @@
             }
         });
     });
-
-
+    
     
     // Funciones para agregar articulos en el modal de crear movimiento
     let contadorFilasArticulos = 0;
-    
     function agregarFilaArticulo() {
 
         const contenedorArticulos = document.getElementById('contenedor-articulos');
@@ -393,9 +461,51 @@
         contadorFilasArticulos++;
     }
 
+    // Funciones para agregar artículos en el modal de registrar un movimiento de stock por ajuste manual
+    let contadorFilasAjuste = 0;
+
+    function agregarFilaAjuste() {
+        const contenedor = document.getElementById('contenedor-items-ajuste');
+        const nuevaFila = document.createElement('div');
+        
+        nuevaFila.className = 'row g-2 mb-2 align-items-center item-row';
+        
+        let opcionesHtml = '<option selected disabled value="">Seleccionar...</option>';
+
+        DATA_ITEM_TEMPLATES.forEach(item => {
+            opcionesHtml += `<option value="${item.id_modelo_articulo}">
+                                ${item.nombre_modelo_articulo} (${item.unidad_medida_modelo_articulo})
+                            </option>`;
+        });
+
+        nuevaFila.innerHTML = `
+            <div class="col-8">
+                <select class="form-select" name="items[${contadorFilasAjuste}][item_template_id]" required>
+                    ${opcionesHtml}
+                </select>
+            </div>
+            <div class="col-3">
+                <input type="number" class="form-control" 
+                    name="items[${contadorFilasAjuste}][quantity]" 
+                    placeholder="-1" step="0.01" required>
+            </div>
+            <div class="col-1 text-center">
+                <button type="button" class="btn btn-outline-danger" 
+                        onclick="this.closest('.row').remove()">
+                    <i class="bi bi-x-lg hover-danger fs-5"></i>
+                </button>
+            </div>
+        `;
+
+        contenedor.appendChild(nuevaFila);
+        contadorFilasAjuste++;
+    }
+
+    // Cuando carga la página se agrega una fila vacía en ambos modales
     document.addEventListener("DOMContentLoaded", function() {
         if (typeof DATA_ITEM_TEMPLATES !== "undefined" && DATA_ITEM_TEMPLATES.length > 0) {
             agregarFilaArticulo();
+            agregarFilaAjuste();
         }
     });
 </script>
