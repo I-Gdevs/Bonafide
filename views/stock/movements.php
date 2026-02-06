@@ -11,7 +11,7 @@
 </script>
 
 <main>
-    <div class="container my-5 fixed-width-container mx-auto">
+    <div class="container my-5 fixed-width-container mx-auto d-md-block d-none">
         <div class="row g-4">
             <div class="col-md-3">
                 <div class="list-group">
@@ -123,6 +123,29 @@
             </div>
         </div>
     </div>
+
+    <nav class="navbar fixed-bottom bg-white border-top d-md-none shadow-lg" style="padding-bottom: env(safe-area-inset-bottom);">
+        <div class="container-fluid d-flex justify-content-around py-1">
+            
+            <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-secondary text-center small">
+                <i class="bi bi-box-seam fs-4 d-block"></i>
+                Stock
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-danger text-center small fw-bold">
+                <i class="bi bi-arrow-left-right fs-4 d-block"></i>
+                Movim.
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/item-templates" class="text-decoration-none text-secondary text-center small">
+                <i class="bi bi-file-earmark-text fs-4 d-block"></i>
+                Artículos
+            </a>
+
+            
+
+        </div>
+    </nav>
 </main>
 
 <!-- FLASH - TOAST ALERTA -->
