@@ -130,6 +130,33 @@
             </div>
         </div>
     </div>
+
+    <nav class="navbar fixed-bottom bg-white border-top d-md-none shadow-lg" >
+        <div class="container-fluid d-flex justify-content-around py-1">
+            
+            <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-secondary">
+                <i class="bi bi-box-seam fs-3 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-secondary">
+                <i class="bi bi-arrow-left-right fs-3 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/item-templates" class="text-decoration-none text-danger">
+                <i class="bi bi-file-earmark-text fs-1 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-secondary">
+                <i class="bi bi-truck fs-3 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/buildings" class="text-decoration-none text-secondary">
+                <i class="bi bi-shop fs-3 d-block"></i>
+            </a>
+
+        </div>
+    </nav>
+
 </main>
 
 <!-- Modal para crear modelos de artículos -->

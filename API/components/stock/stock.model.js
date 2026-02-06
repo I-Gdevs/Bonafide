@@ -172,11 +172,29 @@ class StockModel {
             let newBatchId = crypto.randomUUID();
 
             for (let item of items) {
-                await this._processItemStock(dbConnection, building_id, item, movement_reason, user_id, null, newBatchId);
+                let quantity = parseFloat(item.quantity);
+                
+                let type = quantity >= 0 ? "IN" : "OUT"; 
+
+                let itemProcessed = {
+                    item_template_id: item.item_template_id,
+                    quantity: Math.abs(quantity), 
+                    movement_type: type 
+                };
+
+                await this._processItemStock(
+                    dbConnection, 
+                    building_id, 
+                    itemProcessed,
+                    movement_reason, 
+                    user_id, 
+                    null, 
+                    newBatchId
+                );
             }
 
             await dbConnection.commit();
-            return { success: true, message: "Movimientos registrados correctamente." };
+            return { data: "Movimientos registrados correctamente."};
 
         } catch (error) {
             console.error("Error al generar movimientos de stock:", error);
@@ -193,6 +211,7 @@ class StockModel {
             }
         }
     }
+
 
     async createPurchaseMovement({ building_id, items, provider_id, receipt_type, user_id }) {
         let dbConnection;
