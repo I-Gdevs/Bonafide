@@ -38,8 +38,10 @@ class StockController {
 
     async createMovement(req, res) {
         try {
-            let { building_id, movement_reason, items, ...extraData } = req.body;
-            let user_id = req.user.id || 1;
+            let { building_id, movement_reason, items, receipt_number, user_id, ...extraData } = req.body;
+            const data = req.body;
+
+            console.log("Esto llegó del PHP:", data);
 
             if (!items || !Array.isArray(items) || items.length === 0) {
                 return responseBuilder.error(req, res, { statusCode: 400, message: "No se envió ninguna lista de ítems." });
@@ -47,17 +49,17 @@ class StockController {
             
             if (movement_reason === "COMPRA_PROVEEDOR") {
                 let result = await stockService.registerPurchase({
-                    building_id, items, user_id, ...extraData
+                    building_id, items, user_id, receipt_number, ...extraData
                 });
                 return responseBuilder.success(req, res, 201, result);
             }
 
-            if (["AJUSTE_MANUAL", "ROTURA", "CONSUMO_INTERNO"].includes(movement_reason)) {
+            if (["AJUSTE_MANUAL", "ROTURA", "USO_INTERNO"].includes(movement_reason)) {
                 let result = await stockService.registerAdjustments({
                     building_id, items, movement_reason, user_id
                 });
 
-                return response.success(req, res, 201, result);
+                return responseBuilder.success(req, res, 201, result);
             }
 
             return responseBuilder.error(req, res, { statusCode: 400, message: "No se pudo generar el movimiento de stock: Motivo de movimiento no válido." });

@@ -70,17 +70,20 @@ class StockModel {
                 ms.tipo_movimiento,
                 ms.motivo_movimiento,
                 ms.cantidad_movida,
-                ms.id_referencia,
+                ms.tipo_comprobante,
+                ms.numero_recibo,
                 ms.id_lote_movimiento,
                 m.nombre_modelo_articulo,
                 m.unidad_medida_modelo_articulo,
                 l.nombre_local,
-                u.nombre_usuario
+                u.nombre_usuario,
+                p.nombre_proveedor
             FROM movimientos_stock ms
             INNER JOIN stock s ON ms.id_stock = s.id_stock
             INNER JOIN modelos_de_articulos m ON s.id_modelo_articulo = m.id_modelo_articulo
             INNER JOIN locales l ON s.id_local = l.id_local
             LEFT JOIN usuarios u ON ms.id_usuario = u.id_usuario
+            LEFT JOIN proveedores p ON ms.id_proveedor = p.id_proveedor
             WHERE 1=1
         `;
 
@@ -172,11 +175,29 @@ class StockModel {
             let newBatchId = crypto.randomUUID();
 
             for (let item of items) {
-                await this._processItemStock(dbConnection, building_id, item, movement_reason, user_id, null, newBatchId);
+                let quantity = parseFloat(item.quantity);
+                
+                let type = quantity >= 0 ? "IN" : "OUT"; 
+
+                let itemProcessed = {
+                    item_template_id: item.item_template_id,
+                    quantity: Math.abs(quantity), 
+                    movement_type: type 
+                };
+
+                await this._processItemStock(
+                    dbConnection, 
+                    building_id, 
+                    itemProcessed,
+                    movement_reason, 
+                    user_id, 
+                    null, 
+                    newBatchId
+                );
             }
 
             await dbConnection.commit();
-            return { success: true, message: "Movimientos registrados correctamente." };
+            return { data: "Movimientos registrados correctamente."};
 
         } catch (error) {
             console.error("Error al generar movimientos de stock:", error);
@@ -194,39 +215,34 @@ class StockModel {
         }
     }
 
-    async createPurchaseMovement({ building_id, items, provider_id, receipt_type, user_id }) {
+
+    async createPurchaseMovement({ building_id, items, provider_id, receipt_type, receipt_number, user_id }) {
         let dbConnection;
 
         try {
             dbConnection = await dbPool.getConnection();
             await dbConnection.beginTransaction();
 
-            let purchaseQuery = await dbConnection.query(
-                `INSERT INTO comprobante_compra (id_local, id_proveedor, motivo_comprobante, tipo_comprobante)
-                VALUES (?, ?, ?, ?);
-                `,
-                [building_id, provider_id, MOVEMENTS.REASONS.PURCHASE, receipt_type]
-            );
-
-            let newPurchaseId = purchaseQuery.insertId;
-
             let newBatchId = crypto.randomUUID();
 
             for (let item of items) {
-                await dbConnection.query(
-                    `INSERT INTO detalle_compra (id_comprobante, id_modelo_articulo, cantidad_comprada) VALUES (?, ?, ?);`,
-                    [newPurchaseId, item.item_template_id, item.quantity]
-                );
 
-                let itemDataForStock = { ...item, movement_type: MOVEMENTS.TYPES.IN };
+                let itemDataForStock = {
+                    ...item, 
+                    quantity: Math.abs(parseFloat(item.quantity)),
+                    movement_type: MOVEMENTS.TYPES.IN
+                };
+                
                 await this._processItemStock(
                     dbConnection,
                     building_id,
                     itemDataForStock,
                     MOVEMENTS.REASONS.PURCHASE,
                     user_id,
-                    newPurchaseId,
-                    newBatchId
+                    receipt_number,
+                    newBatchId,
+                    provider_id,
+                    receipt_type
                 );
             }
 
@@ -234,8 +250,8 @@ class StockModel {
 
             return {
                 success: true,
-                message: "Comprobante de compra registrado con éxito.",
-                id_comprobante: Number(newPurchaseId)
+                message: "Movimientos por compra a proveedor registrados correctamente.",
+                batch_id: newBatchId
             };
 
         } catch (error) {
@@ -254,7 +270,7 @@ class StockModel {
         }
     }
 
-    async _processItemStock(dbConnection, building_id, item, movement_reason, user_id, reference_id, batch_movement_id) {
+    async _processItemStock(dbConnection, building_id, item, movement_reason, user_id, reference_id, batch_movement_id, providerId = null, receiptType = null) {
         
         if (item.quantity <= 0) {
             throw new Error(`No se pudo generar el movimiento: El item se ${item.item_template_id} envió con cantidad: 0.`);
@@ -308,9 +324,24 @@ class StockModel {
         );
 
         let logQuery = `
-            INSERT INTO movimientos_stock (id_stock, tipo_movimiento, motivo_movimiento, cantidad_movida, stock_antes, stock_despues, id_usuario, id_referencia, id_lote_movimiento)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+            INSERT INTO movimientos_stock
+            (
+                id_stock,
+                tipo_movimiento,
+                motivo_movimiento,
+                cantidad_movida,
+                stock_antes,
+                stock_despues,
+                id_usuario,
+                numero_recibo,
+                id_lote_movimiento,
+                id_proveedor,
+                tipo_comprobante
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
+
+        console.log("Tratando de guardar recibo:", reference_id);
 
         await dbConnection.query(logQuery, [
             stock_id,
@@ -321,7 +352,9 @@ class StockModel {
             new_quantity,
             user_id,
             reference_id || null,
-            batch_movement_id
+            batch_movement_id,
+            providerId,
+            receiptType
         ]);
     }
 }

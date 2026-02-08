@@ -7,13 +7,19 @@
         $movement_reason = $_POST["movement_reason"];
         $receipt_type = $_POST["receipt_type"];
         $user_id = $_POST["user_id"];
-        $provider_id = $_POST["provider_id"];        
+        $provider_id = $_POST["provider_id"] ?? null;
         $items = $_POST["items"];
+        $receipt_number = $_POST["receipt_number"] ?? null;
+
+        if ($provider_id === "") {
+            $provider_id = null;
+        }
 
         $createStockMovementResponse = callApi("POST", "/stock/movements", [
             "building_id" => $building_id,
             "movement_reason" => $movement_reason,
             "receipt_type" => $receipt_type,
+            "receipt_number" => $receipt_number,
             "user_id" => $user_id,
             "provider_id" => $provider_id,
             "items" => $items

@@ -9,7 +9,7 @@
 <main>
     <div class="container my-5 fixed-width-container mx-auto">
         <div class="row g-4">
-            <div class="col-md-3">
+            <div class="col-md-3 d-none d-md-block">
                 <div class="list-group">
                     <a href="<?= BASE_URL ?>/stock" 
                     class="list-group-item list-group-item-action active fw-bold">
@@ -90,7 +90,7 @@
 
                     </div>
 
-                <div class="table-responsive">
+                <div class="table-responsive d-none d-md-block">
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -137,9 +137,72 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="d-md-none">
+                    <?php foreach ($stock as $item): ?>
+                        
+                        <div class="card border-0 shadow-sm mb-3 rounded-3 overflow-hidden">
+                            <div class="card-body p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    
+                                    <div style="max-width: 70%;">
+                                        <h6 class="mb-1 fw-bold text-dark text-truncate">
+                                            <?= $item['nombre_articulo'] ?>
+                                        </h6>
+                                        <div class="small text-muted">
+                                            <i class="bi bi-shop me-1"></i> <?= $item['nombre_local'] ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-end">
+                                        <span class="d-block h4 mb-0 fw-bold text-danger">
+                                            <?= $item['cantidad'] ?>
+                                        </span>
+                                        <span class="d-block small text-muted text-uppercase" style="font-size: 0.7rem;">
+                                            <?= $item['unidad_medida'] ?>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                            <div class="progress" style="height: 3px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 25%"></div>
+                            </div>
+                        </div>
+
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
+
+    <nav class="navbar fixed-bottom bg-white border-top d-md-none shadow-lg" >
+        <div class="container-fluid d-flex justify-content-around py-1">
+            
+            <a href="<?= BASE_URL ?>/stock" class="text-decoration-none text-danger">
+                <i class="bi bi-box-seam fs-1 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/movements" class="text-decoration-none text-secondary">
+                <i class="bi bi-arrow-left-right fs-3 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/item-templates" class="text-decoration-none text-secondary">
+                <i class="bi bi-file-earmark-text fs-3 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/providers" class="text-decoration-none text-secondary">
+                <i class="bi bi-truck fs-3 d-block"></i>
+            </a>
+
+            <a href="<?= BASE_URL ?>/stock/buildings" class="text-decoration-none text-secondary">
+                <i class="bi bi-shop fs-3 d-block"></i>
+            </a>
+
+        </div>
+    </nav>
+
 </main>
 
 <!-- Modal para editar la cantidad mínima de los artículos -->
