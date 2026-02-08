@@ -28,19 +28,15 @@ class StockService {
         return await stockModel.updateStockMinQuantity({ stock_id, new_stock_minimum_quantity });
     }
 
-    async registerPurchase({ building_id, items, provider_id, receipt_type, user_id }) {
+    async registerPurchase(data) {
 
-        if (!provider_id) {
+        if (!data.provider_id) {
             errorHandler.badRequest("No se puede registrar compra: Falta especificar proveedor.");
         }
 
-        return await stockModel.createPurchaseMovement({
-            building_id,
-            items,
-            provider_id,
-            receipt_type,
-            user_id
-        });
+        console.log("Servicio pasando los datos:", data);
+
+        return await stockModel.createPurchaseMovement(data);
     }
 
     async registerAdjustments({ building_id, items, movement_reason, user_id }) {
@@ -70,7 +66,9 @@ class StockService {
             if (!groupsMap[groupKey]) {
                 groupsMap[groupKey] = {
                     id_lote_movimiento: movement.id_lote_movimiento,
-                    id_referencia: movement.id_referencia,
+                    numero_recibo: movement.numero_recibo,
+                    nombre_proveedor: movement.nombre_proveedor,
+                    tipo_comprobante: movement.tipo_comprobante,
                     fecha: movement.fecha,
                     tipo_movimiento: movement.tipo_movimiento,
                     motivo_movimiento: movement.motivo_movimiento,
