@@ -38,7 +38,10 @@ class StockController {
 
     async createMovement(req, res) {
         try {
-            let { building_id, movement_reason, items, user_id, ...extraData } = req.body;
+            let { building_id, movement_reason, items, receipt_number, user_id, ...extraData } = req.body;
+            const data = req.body;
+
+            console.log("Esto llegó del PHP:", data);
 
             if (!items || !Array.isArray(items) || items.length === 0) {
                 return responseBuilder.error(req, res, { statusCode: 400, message: "No se envió ninguna lista de ítems." });
@@ -46,7 +49,7 @@ class StockController {
             
             if (movement_reason === "COMPRA_PROVEEDOR") {
                 let result = await stockService.registerPurchase({
-                    building_id, items, user_id, ...extraData
+                    building_id, items, user_id, receipt_number, ...extraData
                 });
                 return responseBuilder.success(req, res, 201, result);
             }
