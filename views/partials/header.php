@@ -22,18 +22,9 @@
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/stock">Stock</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/comandas">Comandas</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/administracion">Administración</a></li>
-                    
-                    <li class="nav-item ms-2">
-                        <a class="nav-link" href="<?= BASE_URL ?>/perfil">
-                            <!-- Nombre usuario -->
-                            <?php if (isset($nombreUsuario)): ?>
-                                <?= $nombreUsuario ?>
-                            <?php endif ?>
-                            
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                <path fill-rule="evenodd" d="M8 9a5 5 0 0 0-5 5v.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14a5 5 0 0 0-5-5z"/>
-                            </svg>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= (isset($_SESSION["user"]) && $_SESSION["user"]["user_nickname"] != "") ? BASE_URL . '/perfil' :  BASE_URL . '/login' ?>">
+                            <?= (isset($_SESSION["user"]) && $_SESSION["user"]["user_nickname"] != "") ? "Mi Perfil" : "Iniciar sesión" ?>
                         </a>
                     </li>
                 </ul>

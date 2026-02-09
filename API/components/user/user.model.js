@@ -2,23 +2,24 @@ import dbPool from "../../database/db.js";
 
 class UserModel {
 
-    async createUser({user_name, user_email, user_dni, user_password, user_role}) {
+    async createUser({ user_fullname, user_email, user_dni, user_password, user_role, user_nickname }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
             
-            let dbQuery = "INSERT INTO usuarios (nombre_usuario, correo_usuario, dni_usuario, contraseña_usuario, id_rol) VALUES (?, ?, ?, ?, ?)";
+            let dbQuery = "INSERT INTO usuarios (nombre_usuario, correo_usuario, dni_usuario, contraseña_usuario, id_rol, nick_usuario) VALUES (?, ?, ?, ?, ?, ?)";
 
             dbConnection.beginTransaction();
 
             result[0] = await dbConnection.query(dbQuery, [
-                user_name,
+                user_fullname,
                 user_email,
                 user_dni,
                 user_password,
-                user_role
+                user_role,
+                user_nickname
             ]);
 
             await dbConnection.commit();
@@ -89,8 +90,11 @@ class UserModel {
                 SELECT
                     id_usuario AS id,
                     nombre_usuario AS name,
+                    nick_usuario AS nickname,
                     correo_usuario AS email,
-                    id_rol AS role
+                    dni_usuario AS dni,
+                    id_rol AS role,
+                    contraseña_usuario AS password
                 FROM usuarios
                 WHERE 1=1
             `;
@@ -102,9 +106,14 @@ class UserModel {
                 dbParams.push(filters.role);
             }
 
-            if (filters.name) {
-                dbQuery += " AND nombre_usuario LIKE (?)";
-                dbParams.push(`%${filters.name}`);
+            if (filters.email) {
+                dbQuery += " AND correo_usuario = (?)";
+                dbParams.push(filters.email);
+            }
+
+            if (filters.nickname) {
+                dbQuery += " AND nick_usuario LIKE (?)";
+                dbParams.push(`%${filters.nickname}`);
             }
 
             result = await dbConnection.query(dbQuery, dbParams);

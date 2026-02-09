@@ -8,9 +8,9 @@ class UserController {
 
     async createUser(req, res) {
         try {
-            let { user_name, user_email, user_dni, user_password, user_role } = req.body;
+            let { user_fullname, user_email, user_dni, user_password, user_role, user_nickname } = req.body;
 
-            let newUser = await userService.createUser({ user_name, user_email, user_dni, user_password, user_role });
+            let newUser = await userService.createUser({ user_fullname, user_email, user_dni, user_password, user_role, user_nickname });
 
             return res.status(201).json({
                 message: "Usuario creado correctamente",
