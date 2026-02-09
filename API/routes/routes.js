@@ -12,7 +12,7 @@ import salesRouter from "../components/sales/sales.route.js";
 
 const router = Router();
 
-router.use("/user", userRouter);
+router.use("/users", userRouter);
 router.use("/providers", providerRouter);
 router.use("/buildings", buildingRouter);
 router.use("/item-templates", itemTemplateRouter);
