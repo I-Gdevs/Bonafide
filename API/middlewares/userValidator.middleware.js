@@ -1,7 +1,7 @@
 import { body, validationResult } from "express-validator";
 
 export const validateCreateUser = [
-    body("user_name")
+    body("user_fullname")
     .trim()
     .notEmpty().withMessage("El nombre es un campo obligatorio.")
     .isLength({ min: 3 }).withMessage("El nombre ha de tener al menos 3 letras.")
@@ -26,6 +26,11 @@ export const validateCreateUser = [
     .optional()
     .isNumeric()
     .escape(),
+
+    body("user_nickname")
+    .trim()
+    .notEmpty().withMessage("El nombre de usuario es un campo obligatorio.")
+    .isLength({ min: 3 }).withMessage("El nombre de usuario debe tener al menos 3 caracteres"),
 
     (req, res, next) => {
         const errors = validationResult(req);

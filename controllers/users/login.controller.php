@@ -11,7 +11,7 @@
         $user_email = $_POST['user_email'];
         $user_password = $_POST['user_password'];
 
-        $response = callApi("POST", "/user/login", [
+        $response = callApi("POST", "/users/login", [
             "user_email" => $user_email,
             "user_password" => $user_password
         ]);

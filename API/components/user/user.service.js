@@ -7,7 +7,7 @@ const userModel = new UserModel();
 
 class UserService {
 
-    async createUser({user_name, user_email, user_dni, user_password, user_role}) {
+    async createUser({ user_fullname, user_email, user_dni, user_password, user_role, user_nickname }) {
         
         let doesUserAlreadyExist = await userModel.findUser({ user_email });
         
@@ -21,31 +21,33 @@ class UserService {
             user_role = 3;
         }
     
-        let newUser = await userModel.createUser({ user_name, user_email, user_dni, user_password: encryptedPassword, user_role });
+        await userModel.createUser({ user_fullname, user_email, user_dni, user_password: encryptedPassword, user_role, user_nickname });
 
-        return { newUserId: Number(newUser.insertId), user_name, user_email, user_role };
+        return this.getUsers({nickname: user_nickname});
     }
 
     async loginUser({ user_email, user_password }) {
 
-        let user = await userModel.findUser({ user_email })
+        let [user] = await userModel.getUsers({ email: user_email });
 
-        let authUser = await bcrypt.compare(user_password, user.contraseña_usuario);
+        let authUser = await bcrypt.compare(user_password, user.password);
         
         if (!authUser) {
             throw new Error("Credenciales inválidas.");
         }
 
         let payload = {
-            user_id: Number(user.id_usuario),
-            user_name: user.nombre_usuario,
-            user_email,
-            user_role: user.id_rol
+            user_id: Number(user.id),
+            user_fullname: user.name,
+            user_nickname: user.nickname,
+            user_email: user.email,
+            user_dni: user.dni
         }
 
         let token = jwt.sign(payload, process.env.JWT_SECRET, {
             expiresIn: '72h'
         });
+
 
         return { token, user: payload };
     }

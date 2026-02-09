@@ -38,7 +38,7 @@
 
         // Inicio de sesión y registro de usuario
         case 'login':
-            require BASE_PATH . '/controllers/login.controller.php';
+            require BASE_PATH . '/controllers/users/login.controller.php';
             
             $view_file = BASE_PATH . '/views/login/login.php';
             break;
@@ -49,6 +49,10 @@
 
         case 'forgottenPassword':
             $view_file = BASE_PATH . '/views/forgottenPassword/forgottenPassword.php';
+            break;
+
+        case 'logout':
+            require BASE_PATH . '/controllers/users/logout.controller.php';
             break;
 
 
@@ -193,6 +197,7 @@
             $view_file = BASE_PATH . '/views/administracion/estadisticas.php';
             break;
 
+        
         // Perfil
         case 'perfil':
             $view_file = BASE_PATH . '/views/perfil/perfil.php';

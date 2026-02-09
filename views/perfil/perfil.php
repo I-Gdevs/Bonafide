@@ -5,14 +5,8 @@
 <?php include BASE_PATH . '/views/partials/head.php'; ?>
 <?php include BASE_PATH . '/views/partials/header.php'; ?>
 
-<?php
-$nombre_usuario = "Guido Asplanatti";
-$email_usuario = "guidoasplanatti@ejemplo.com";
-$perfil_admin = true; 
-?>
-
 <main>
-    <div class="container my-5 fixed-width-container mx-auto">
+    <div class="container my-3 fixed-width-container mx-auto">
         
         <h1 class="fw-bold mb-4">Mi Perfil</h1>
         
@@ -28,7 +22,7 @@ $perfil_admin = true;
                         <i class="bi bi-box-seam me-2"></i> Historial de Pedidos
                     </a>                
 
-                    <a class="list-group-item list-group-item-action mt-3" href="/logout" onclick="deleteCookie('session_id')">
+                    <a class="list-group-item list-group-item-action mt-3" href="<?= BASE_URL?>/logout">
                         <i class="bi bi-box-arrow-right me-2"></i> Cerrar Sesión
                     </a>
                 </div>
@@ -38,32 +32,79 @@ $perfil_admin = true;
                 <div class="tab-content" id="nav-tabContent">
                     
                     <div class="tab-pane fade show active" id="list-datos" role="tabpanel" aria-labelledby="list-datos-list">
-                        <h4 class="fw-bold text-dark mb-4">Actualizar mi Información</h4>
+                        <h4 class="fw-bold text-dark mb-3">Información personal</h4>
                         <form>
-                            <div class="mb-3">
-                                <label for="inputNombre" class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control" id="inputNombre" value="<?= htmlspecialchars($nombre_usuario) ?>" required>
+                            <div class="row g-4 mb-4">
+                                <div class="col-5">
+                                    <label for="inputNombreCompleto" class="form-label">Nombre completo</label>
+                                    <input disabled type="text" class="form-control" id="input_nickname" value="<?= $_SESSION["user"]["user_fullname"] ?>">
+                                </div>
+                                
+                                <div class="col-3">
+                                    <label for="inputDni" class="form-label">DNI</label>
+                                    <input disabled type="text" class="form-control" id="input_nickname" value="<?= $_SESSION["user"]["user_dni"] ?>">
+                                </div>
+
                             </div>
-                            <div class="mb-3">
-                                <label for="inputEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="inputEmail" value="<?= htmlspecialchars($email_usuario) ?>" required>
+                            <div class="row g-4 mb-4">
+                                <div class="col-3">
+                                    <label for="inputNombre" class="form-label">Nombre de usuario</label>
+                                    <input disabled type="text" class="form-control" id="input_nombre_completo" value="<?= $_SESSION["user"]["user_nickname"] ?>">
+                                </div>
+                                <div class="col-4">
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <input disabled type="text" class="form-control" id="input_email" value="<?= $_SESSION["user"]["user_email"] ?>">
+                                </div>
                             </div>
-                            <div class="mb-2">
-                                <label for="inputPassword" class="form-label">Cambiar Contraseña</label>
-                                <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña actual">
+                        </form>
+
+                        <hr>
+
+                        <h4 class="fw-bold text-dark mb-3">Cambiar email</h4>
+
+                        <form method="POST" action="">
+                            <div class="row g-4 mb-4">
+                                <div class="col-4">
+                                    <label for="inputNewEmail" class="form-label">Nuevo email</label>
+                                    <input type="email" class="form-control" id="inputNewEmail" value="" required>
+                                </div>
+                                <div class="col-4">
+                                    <label for="inputRepeatNewEmail" class="form-label">Repetir nuevo email</label>
+                                    <input type="email" class="form-control" id="inputRepeatNewEmail" value="" required>
+                                </div>
                             </div>
-                            <div class="mb-4">
-                                <input type="password" class="form-control" id="newPassword" placeholder="Nueva contraseña">
+                            <button type="submit" class="btn btn-danger">Cambiar contraseña</button>
+                        </form>
+
+                        <hr>
+
+                        <h4 class="fw-bold text-dark mb-3">Contraseña</h4>
+
+                        <form action="">
+                            <div class="row g-4 mb-4">
+                                <div class="col-5">
+                                    <label for="oldPassword" class="form-label">Contraseña actual</label>
+                                    <input required type="password" class="form-control" id="oldPassword" placeholder="Ingrese su contraseña actual">
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-danger">Guardar Cambios</button>
+    
+                            <div class="row g-4 mb-4">
+                                <div class="col-5">
+                                    <label for="newPassword" class="form-label">Contraseña nueva</label>
+                                    <input required type="password" class="form-control" id="newPassword">
+                                </div>
+                                <div class="col-5">
+                                    <label for="repeatNewPassword" class="form-label">Repetir contraseña nueva</label>
+                                    <input required type="password" class="form-control" id="repeatNewPassword">
+                                </div>
+    
+                            </div>
+                            <button type="submit" class="btn btn-danger">Cambiar contraseña</button>
                         </form>
                     </div>
                     
                     <div class="tab-pane fade" id="list-pedidos" role="tabpanel" aria-labelledby="list-pedidos-list">
                         <h4 class="fw-bold text-dark mb-4">Mis Últimos Pedidos</h4>
-                        <p class="text-muted">
-                            Aquí se mostraría una tabla con los pedidos, su estado (Entregado, Pendiente, Cancelado) y el total.
-                        </p>
                         <div class="card p-3 shadow-sm mb-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
