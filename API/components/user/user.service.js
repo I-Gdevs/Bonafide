@@ -1,6 +1,8 @@
 import UserModel from "./user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { sendVerificationEmail } from "../../middlewares/email.middleware.js";
+import { errorHandler } from "../../helpers/error.helper.js";
 
 const cucharadasDeSalsa = 10;
 const userModel = new UserModel();
@@ -20,10 +22,25 @@ class UserService {
         if (!user_role) {
             user_role = 3;
         }
-    
-        await userModel.createUser({ user_fullname, user_email, user_dni, user_password: encryptedPassword, user_role, user_nickname });
 
-        return this.getUsers({nickname: user_nickname});
+        let verification_token = crypto.randomUUID();
+    
+        await userModel.createUser({ user_fullname, user_email, user_dni, user_password: encryptedPassword, user_role, user_nickname, verification_token });
+
+        await sendVerificationEmail(user_email, user_fullname, verification_token);
+
+        return await this.getUsers({nickname: user_nickname});
+    }
+
+    async verifyUser({ verification_token }) {
+
+        let [user] = await userModel.getUsers({ verification_token: verification_token });
+
+        if (!user) {
+            return errorHandler.notFound("No se pudo verificar el token, no se encontró cuenta.");
+        }
+
+        return await userModel.activateUser(user.id);
     }
 
     async loginUser({ user_email, user_password }) {
