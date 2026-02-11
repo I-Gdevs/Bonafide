@@ -6,12 +6,13 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $old_data = $_POST;
 
-        $user_name = $_POST['user_name'];
-        $user_dni = $_POST['user_dni'];
+        $user_fullname = $_POST['user_fullname'];
         $user_email = $_POST['user_email'];
         $repeat_user_email = $_POST['repeat_user_email'];
+        $user_dni = $_POST['user_dni'];
         $user_password = $_POST['user_password'];
         $repeat_user_password = $_POST['repeat_user_password'];
+        $user_nickname = $_POST['user_nickname'];
 
         if ($user_email != $repeat_user_email) {
             $error = "Los correos electrónicos no coinciden";
@@ -20,13 +21,14 @@
         } else {
 
             $userData = json_encode([
-                'user_name' => $user_name,
-                'user_dni' => $user_dni,
+                'user_fullname' => $user_fullname,
                 'user_email' => $user_email,
-                'user_password' => $user_password
+                'user_dni' => $user_dni,
+                'user_password' => $user_password,
+                'user_nickname' => $user_nickname
             ]);
 
-            $curl_req = curl_init(API_URL . '/user/create');
+            $curl_req = curl_init(API_URL . '/users');
             curl_setopt($curl_req, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl_req, CURLOPT_POST, true);
             curl_setopt($curl_req, CURLOPT_POSTFIELDS, $userData);
@@ -77,13 +79,18 @@
                     <?php endif; ?>
                     <form method="POST">
                         <div class="mb-3">
-                            <label for="username" class="form-label fw-bold">Nombre de usuario</label>
-                            <input type="text" class="form-control" name="user_name" id="username" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_name'] ?? '') ?>" required>
+                            <label for="fullname" class="form-label fw-bold">Nombre completo</label>
+                            <input type="text" class="form-control" name="user_fullname" id="fullname" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_fullname'] ?? '') ?>" required>
                         </div>
-
+                        
                         <div class="mb-3">
                             <label for="dni" class="form-label fw-bold">DNI</label>
                             <input type="text" class="form-control" name="user_dni" id="dni" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_dni'] ?? '') ?>" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="nickname" class="form-label fw-bold">Nombre de usuario</label>
+                            <input type="text" class="form-control" name="user_nickname" id="nickname" placeholder="" autocomplete="off" value="<?= htmlspecialchars($old_data['user_nickname'] ?? '') ?>" required>
                         </div>
 
                         <div class="mb-3">
