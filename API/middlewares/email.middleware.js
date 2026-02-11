@@ -17,7 +17,6 @@ export async function sendVerificationEmail(userEmail, userName, token) {
             html: getVerificationTemplate(userName, verificationLink),
         });
 
-        console.log('✅ Correo enviado ID:', data.data.id);
         return { success: true, id: data.data.id };
     } catch (error) {
         console.error('❌ Error enviando correo:', error);
