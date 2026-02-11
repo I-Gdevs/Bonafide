@@ -10,7 +10,8 @@ class UserController {
         try {
             let { user_fullname, user_email, user_dni, user_password, user_role, user_nickname } = req.body;
 
-            let newUser = await userService.createUser({ user_fullname, user_email, user_dni, user_password, user_role, user_nickname });
+            let [newUser] = await userService.createUser({ user_fullname, user_email, user_dni, user_password, user_role, user_nickname });
+
 
             return res.status(201).json({
                 message: "Usuario creado correctamente",
@@ -31,6 +32,28 @@ class UserController {
             });
         }
         
+    }
+
+    async verifyUser(req, res) {
+        try {
+            let { token } = req.body;
+
+            if (!token) {
+                return responseBuilder.error(req, res, { statusCode: 400, message: "Token no proporcionado"});
+            }
+
+            await userService.verifyUser({ verification_token: token });
+
+            return responseBuilder.success(req, res, 200, null, "Cuenta verificada correctamente.");
+        } catch (error) {
+            console.error(error);
+
+            if (error.statusCode === 404) {
+                return responseBuilder.error(req, res, { statusCode: error.statusCode, message: error.message});
+            }
+
+            return responseBuilder.error(req, res, "No se pudo verificar cuenta.");
+        }
     }
 
     async loginUser(req, res) {
