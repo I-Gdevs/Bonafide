@@ -36,13 +36,15 @@ class UserController {
 
     async verifyUser(req, res) {
         try {
-            let { token } = req.body;
+            let { verification_token } = req.body;
 
-            if (!token) {
+            console.log(req.body);
+
+            if (!verification_token) {
                 return responseBuilder.error(req, res, { statusCode: 400, message: "Token no proporcionado"});
             }
 
-            await userService.verifyUser({ verification_token: token });
+            await userService.verifyUser({ verification_token });
 
             return responseBuilder.success(req, res, 200, null, "Cuenta verificada correctamente.");
         } catch (error) {

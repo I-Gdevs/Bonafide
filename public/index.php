@@ -47,6 +47,12 @@
             $view_file = BASE_PATH . '/views/register/register.php';
             break;
 
+        case 'verify':
+            require BASE_PATH . '/controllers/users/verify.controller.php';
+
+            $view_file = BASE_PATH . '/views/users/verify.php';
+            break;
+
         case 'forgottenPassword':
             $view_file = BASE_PATH . '/views/forgottenPassword/forgottenPassword.php';
             break;
