@@ -2,41 +2,75 @@ import dbPool from "../../database/db.js";
 
 class UserModel {
 
-    async createUser({ user_fullname, user_email, user_dni, user_password, user_role, user_nickname }) {
+    async createUser({ user_fullname, user_email, user_dni, user_password, user_role, user_nickname, verification_token }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
             
-            let dbQuery = "INSERT INTO usuarios (nombre_usuario, correo_usuario, dni_usuario, contraseña_usuario, id_rol, nick_usuario) VALUES (?, ?, ?, ?, ?, ?)";
+            let dbQuery = "INSERT INTO usuarios (nombre_usuario, correo_usuario, dni_usuario, contraseña_usuario, id_rol, nick_usuario, token_verificacion) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-            dbConnection.beginTransaction();
+            await dbConnection.beginTransaction();
 
-            result[0] = await dbConnection.query(dbQuery, [
+            result = await dbConnection.query(dbQuery, [
                 user_fullname,
                 user_email,
                 user_dni,
                 user_password,
                 user_role,
-                user_nickname
+                user_nickname,
+                verification_token
             ]);
 
             await dbConnection.commit();
 
         } catch (error) {
-            
+            console.error(error)
+
             if (dbConnection) {
                 await dbConnection.rollback();
             }
+
+            throw error;
 
         } finally {
 
             if (dbConnection) {
                 await dbConnection.release();
             }
+        }
+    }
 
-            return result[0];
+    async activateUser(user_id) {
+        let dbConnection;
+        let result;
+
+        try {
+            dbConnection = await dbPool.getConnection();
+
+            let dbQuery = "UPDATE usuarios SET verificado_bool = 1 WHERE id_usuario = (?)";
+            
+            await dbConnection.beginTransaction();
+
+            result = await dbConnection.query(dbQuery, user_id);
+
+            await dbConnection.commit();
+            
+        } catch (error) {
+            console.error(error);
+
+            if (dbConnection) {
+                dbConnection.rollback();
+            }
+
+            throw error;
+        } finally {
+            if (dbConnection) {
+                dbConnection.release();
+            }
+
+            return result;
         }
     }
 
@@ -94,6 +128,7 @@ class UserModel {
                     correo_usuario AS email,
                     dni_usuario AS dni,
                     id_rol AS role,
+                    token_verificacion,
                     contraseña_usuario AS password
                 FROM usuarios
                 WHERE 1=1
@@ -116,15 +151,23 @@ class UserModel {
                 dbParams.push(`%${filters.nickname}`);
             }
 
+            if (filters.verification_token) {
+                dbQuery += " AND token_verificacion = (?)";
+                dbParams.push(filters.verification_token);
+            }
+
             result = await dbConnection.query(dbQuery, dbParams);
 
         } catch (error) {
             console.error("Error en getUsers:", error);
 
+            throw error;
+
         } finally {
             if (dbConnection) {
                 dbConnection.release();
             }
+
             return result;
         }
     }
