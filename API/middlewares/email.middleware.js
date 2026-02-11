@@ -7,7 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendVerificationEmail(userEmail, userName, token) {
     
-    const verificationLink = `${process.env.FRONTEND_URL}/verificar.php?token=${token}`;
+    const verificationLink = `${process.env.FRONTEND_URL}/verify?verification_token=${token}`;
 
     try {
         const data = await resend.emails.send({
