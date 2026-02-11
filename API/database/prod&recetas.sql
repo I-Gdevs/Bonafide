@@ -280,10 +280,10 @@ SET imagen_producto = CASE nombre_producto
     WHEN 'Té con Leche' THEN 'img/productos/te_con_leche.jpg'
     
     -- ESPECIALES (CREAMS)
-    WHEN 'Bocadito Cream' THEN 'img/productos/cream_choco.jpg'
-    WHEN 'Donuts Cream' THEN 'img/productos/cream_caramel.jpg'
-    WHEN 'Nugaton Cream' THEN 'img/productos/cream_avellana.jpg'
-    WHEN 'Chocman Cream' THEN 'img/productos/cream_intenso.jpg'
+    WHEN 'Bocadito Cream' THEN 'img/productos/cream_bocadito.jpg'
+    WHEN 'Donuts Cream' THEN 'img/productos/cream_donuts.jpg'
+    WHEN 'Nugaton Cream' THEN 'img/productos/cream_nugaton.jpg'
+    WHEN 'Chocman Cream' THEN 'img/productos/cream_chocman.jpg'
     WHEN 'Café Calipso' THEN 'img/productos/cafe_calipso.jpg'
     WHEN 'Café Inglés' THEN 'img/productos/cafe_ingles.jpg'
     WHEN 'Café Irlandés' THEN 'img/productos/cafe_irlandes.jpg'

@@ -273,6 +273,14 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
                     </li>
                     <?php endforeach; ?>
                 </ul>
+
+                <?php if ($es_admin): ?>
+                    <div class="mt-4 pt-3 border-top">
+                        <button type="button" class="btn btn-danger w-100 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+                            <i class="bi bi-plus-lg me-2"></i> Añadir Receta
+                        </button>
+                    </div>
+                <?php endif; ?>
             </div>
             
             <div class="col-md-10">
@@ -391,6 +399,92 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
   </div>
 </div>
 
+
+<!-- Modal para crear recetas -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title fw-bold"><i class="bi bi-file-earmark-plus me-2"></i>Nueva Receta</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="new-recipe-form">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <h6 class="text-danger fw-bold mb-3">Imagen de Portada</h6>
+                    
+                    <div class="border rounded bg-light d-flex align-items-center justify-content-center mb-3 position-relative" 
+                         style="height: 250px; overflow: hidden; background-image: url('https://www.bonafide.com.ar/images/logo.png'); background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0.8;">
+                        
+                        <img id="preview-new-img" src="" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                        
+                        <div id="placeholder-text" class="text-muted position-absolute w-100" style="pointer-events: none;">
+                            <small>Sin imagen seleccionada</small>
+                        </div>
+                    </div>
+
+                    <input type="file" id="new-image-file" class="d-none" accept="image/*" onchange="previewImage(this)">
+                    
+                    <button type="button" class="btn btn-outline-danger w-100" onclick="document.getElementById('new-image-file').click()">
+                        <i class="bi bi-upload me-2"></i> Subir Imagen
+                    </button>
+                    <small class="text-muted d-block mt-2">Formatos: JPG, PNG, WEBP</small>
+                </div>
+                
+                <div class="col-md-8">
+                    <h6 class="text-danger fw-bold mb-3">Detalles de la Preparación</h6>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label small fw-bold">Nombre del Producto</label>
+                            <input type="text" class="form-control" placeholder="Ej: Frapuccino Especial">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold">Categoría</label>
+                            <select class="form-select">
+                                <?php foreach($categorias as $cat => $name): ?>
+                                    <option value="<?= $cat ?>"><?= $name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Descripción Corta</label>
+                            <textarea class="form-control" rows="2" placeholder="Breve descripción para la tarjeta..."></textarea>
+                        </div>
+
+                        <div class="col-12 mt-3">
+                            <label class="form-label small fw-bold">Ingredientes</label>
+                            <div class="input-group mb-2">
+                                <input type="text" id="new-ing-name" class="form-control" placeholder="Ingrediente">
+                                <input type="text" id="new-ing-qty" class="form-control" placeholder="Cant." style="max-width: 100px;">
+                                <button type="button" class="btn btn-success" onclick="addNewIngredient()">
+                                    <i class="bi bi-plus-lg"></i>
+                                </button>
+                            </div>
+                            <ul id="new-ingredients-list" class="list-group list-group-flush border rounded" style="min-height: 100px; max-height: 150px; overflow-y: auto; background: #f9f9f9;">
+                                <li class="list-group-item text-center text-muted small py-4">Agrega ingredientes arriba</li>
+                            </ul>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Pasos de Preparación</label>
+                            <textarea class="form-control" rows="4" placeholder="1. Calentar la leche..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger fw-bold" onclick="saveNewRecipe()">Crear Receta</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
     const ETIQUETAS_DISPONIBLES = <?= $etiquetas_disponibles_json ?>;
     let activeIngredients = [];
@@ -502,6 +596,92 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
         document.getElementById('receta-display').classList.add('active'); 
         window.filterProducts('todos');
     });
+
+    // --- LÓGICA PARA NUEVA RECETA ---
+    
+    let newRecipeIngredients = [];
+
+    // 1. Previsualizar Imagen al Subir
+    function previewImage(input) {
+        const preview = document.getElementById('preview-new-img');
+        const placeholder = document.getElementById('placeholder-text');
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // 2. Gestionar Ingredientes (Modal Nuevo)
+    function addNewIngredient() {
+        const nameInput = document.getElementById('new-ing-name');
+        const qtyInput = document.getElementById('new-ing-qty');
+        
+        const name = nameInput.value.trim();
+        const qty = qtyInput.value.trim();
+        
+        if(name === '') return;
+        
+        const itemText = qty ? `${name} (${qty})` : name;
+        newRecipeIngredients.push(itemText);
+        
+        renderNewIngredients();
+        
+        nameInput.value = '';
+        qtyInput.value = '';
+        nameInput.focus();
+    }
+
+    function removeNewIngredient(index) {
+        newRecipeIngredients.splice(index, 1);
+        renderNewIngredients();
+    }
+
+    function renderNewIngredients() {
+        const list = document.getElementById('new-ingredients-list');
+        list.innerHTML = '';
+        
+        if(newRecipeIngredients.length === 0) {
+            list.innerHTML = '<li class="list-group-item text-center text-muted small py-4">Agrega ingredientes arriba</li>';
+            return;
+        }
+        
+        newRecipeIngredients.forEach((ing, index) => {
+            list.innerHTML += `
+                <li class="list-group-item d-flex justify-content-between align-items-center py-1">
+                    <span><i class="bi bi-dot"></i> ${ing}</span>
+                    <button type="button" class="btn btn-sm text-danger p-0" onclick="removeNewIngredient(${index})">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                </li>
+            `;
+        });
+    }
+
+    // 3. Guardar Nueva Receta
+    function saveNewRecipe() {
+        // Aquí iría la lógica para enviar el FormData con la imagen a PHP
+        // const formData = new FormData(document.getElementById('new-recipe-form'));
+        
+        const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+        modal.hide();
+        
+        showNotification('Nueva receta creada correctamente (Simulado)');
+        
+        // Limpiar formulario para la próxima
+        document.getElementById('new-recipe-form').reset();
+        newRecipeIngredients = [];
+        renderNewIngredients();
+        document.getElementById('preview-new-img').style.display = 'none';
+        document.getElementById('placeholder-text').style.display = 'block';
+    }
 </script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>
