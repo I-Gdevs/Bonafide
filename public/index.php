@@ -57,15 +57,6 @@
             $view_file = BASE_PATH . '/views/forgottenPassword/forgottenPassword.php';
             break;
 
-        case 'register':
-            $view_file = BASE_PATH . '/views/register/register.php';
-            break;
-
-
-        case 'logout':
-            require BASE_PATH . '/controllers/users/logout.controller.php';
-            break;
-
 
         // Stock
         case 'stock':
