@@ -17,7 +17,7 @@ router.use("/providers", providerRouter);
 router.use("/buildings", buildingRouter);
 router.use("/item-templates", itemTemplateRouter);
 router.use("/stock", stockRouter);
-router.use("/product", productRouter);
+router.use("/products", productRouter);
 router.use("/recipe", recipeRouter);
 router.use("/shopping-cart", shoppingcartRouter);
 router.use("/sales", salesRouter);

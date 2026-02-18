@@ -2,14 +2,14 @@ import dbPool from "../../database/db.js";
 
 class ProductModel {
 
-    async createProduct({ product_name, product_price, is_combo_bool, product_category }) {
+    async createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "INSERT INTO producto_para_venta (nombre_producto, precio_producto, es_combo_bool, categoria_producto) VALUES (?, ?, ?, ?);";
+            let dbQuery = "INSERT INTO productos (nombre_producto, precio_producto, es_combo_bool, categoria_producto, descripcion_producto, imagen_url) VALUES (?, ?, ?, ?, ?, ?);";
 
             await dbConnection.beginTransaction();
 
@@ -17,7 +17,9 @@ class ProductModel {
                 product_name,
                 product_price,
                 is_combo_bool,
-                product_category
+                product_category,
+                product_description,
+                product_image_url
             ]);
 
             await dbConnection.commit();
@@ -44,7 +46,7 @@ class ProductModel {
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM producto_para_venta WHERE 1=1";
+            let dbQuery = "SELECT * FROM productos WHERE producto_desactivado_bool = 0";
 
             if (product_id) {
                 dbQuery += ` AND id_producto = ${product_id};`;

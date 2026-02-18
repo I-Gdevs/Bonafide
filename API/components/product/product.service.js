@@ -4,16 +4,18 @@ const productModel = new ProductModel();
 
 class ProductService {
 
-    async createProduct({ product_name, product_price, is_combo_bool, product_category }) {
+    async createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url }) {
 
-        let newProduct = await productModel.createProduct({ product_name, product_price, is_combo_bool, product_category });
+        let newProduct = await productModel.createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url });
 
         return {
             newProductId: Number(newProduct.insertId),
             product_name,
             product_price,
             is_combo_bool,
-            product_category
+            product_category,
+            product_description,
+            product_image_url
         };
     }
 

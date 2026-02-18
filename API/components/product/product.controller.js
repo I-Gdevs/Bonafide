@@ -6,9 +6,9 @@ class ProductController {
 
     async createProduct(req, res) {
         try {
-            let { product_name, product_price, is_combo_bool, product_category } = req.body;
+            let { product_name, product_price, is_combo_bool, product_category, product_description, product_image_url } = req.body;
 
-            let newProduct = await productService.createProduct({ product_name, product_price, is_combo_bool, product_category });
+            let newProduct = await productService.createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url });
 
             return res.status(201).json({
                 message: "Nuevo producto creado correctamente.",
