@@ -1,19 +1,19 @@
 import dbPool from "../../database/db.js";
+import { errorHandler } from "../../helpers/error.helper.js";
 
 class ProductModel {
 
-    async createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url }) {
+    async createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url, product_ingredients }) {
         let dbConnection;
-        let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "INSERT INTO productos (nombre_producto, precio_producto, es_combo_bool, categoria_producto, descripcion_producto, imagen_url) VALUES (?, ?, ?, ?, ?, ?);";
+            let dbQueryProducto = "INSERT INTO productos (nombre_producto, precio_producto, es_combo_bool, categoria_producto, descripcion_producto, imagen_url) VALUES (?, ?, ?, ?, ?, ?);";
 
             await dbConnection.beginTransaction();
 
-            result[0] = await dbConnection.query(dbQuery, [
+            let resultProduct = await dbConnection.query(dbQueryProducto, [
                 product_name,
                 product_price,
                 is_combo_bool,
@@ -22,20 +22,41 @@ class ProductModel {
                 product_image_url
             ]);
 
+            let newProductId = Number(resultProduct.insertId);
+
+            if (product_ingredients && product_ingredients.length > 0) {
+                let dbQueryIngredients = `INSERT INTO ingredientes (id_producto, id_modelo_articulo, cantidad) VALUES (?, ?, ?)`;
+                let dbParams = product_ingredients.map(ing => [ newProductId, ing.id, ing.cantidad ]);
+
+                await dbConnection.batch(dbQueryIngredients, dbParams);
+            
+            }
+
             await dbConnection.commit();
+            return resultProduct;
 
         } catch (error) {
-            console.error(error);
+            console.error("[Model] Error:", error);
 
             if (dbConnection) {
                 await dbConnection.rollback();
             }
 
+            if (error.code === 'ER_NO_REFERENCED_ROW_2') {
+                errorHandler.badRequest("Uno de los ingredientes seleccionados no existe en el stock.");
+            }
+
+            if (error.code === 'ER_DUP_ENTRY') {
+                errorHandler.conflict("Ya existe un producto con ese nombre.");
+            }
+
+            if (error.isOperational) throw error;
+            
+            errorHandler.custom("Error de base de datos al crear producto.", 500);
         } finally {
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result[0];
         }
     }
 

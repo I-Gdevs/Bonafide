@@ -5,7 +5,7 @@ import providerRouter from "../components/providers/providers.route.js";
 import buildingRouter from "../components/buildings/buildings.route.js";
 import itemTemplateRouter from "../components/item-templates/item-template.route.js";
 import stockRouter from "../components/stock/stock.router.js";
-import productRouter from "../components/product/product.route.js";
+import productRouter from "../components/products/product.route.js";
 import recipeRouter from "../components/recipe/recipe.route.js";
 import shoppingcartRouter from "../components/shoppingcart/shoppingcart.route.js";
 import salesRouter from "../components/sales/sales.route.js";

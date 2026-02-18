@@ -1,4 +1,5 @@
 import ProductService from "./product.service.js";
+import * as responseBuilder from "../../helpers/response.helper.js";
 
 const productService = new ProductService();
 
@@ -6,26 +7,36 @@ class ProductController {
 
     async createProduct(req, res) {
         try {
-            let { product_name, product_price, is_combo_bool, product_category, product_description, product_image_url } = req.body;
+            let { product_name,
+                product_price,
+                is_combo_bool,
+                product_category,
+                product_description,
+                product_image_url,
+                product_ingredients
+            } = req.body;
 
-            let newProduct = await productService.createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url });
-
-            return res.status(201).json({
-                message: "Nuevo producto creado correctamente.",
-                newProduct
+            let newProductData = await productService.createProduct({
+                product_name,
+                product_price,
+                is_combo_bool,
+                product_category,
+                product_description,
+                product_image_url,
+                product_ingredients
             });
+
+            return responseBuilder.success(req, res, 201, newProductData, "Producto y receta creados correctamente.");
         } catch (error) {
-            console.log("Error al intentar crear un nuevo producto: ", error.message);
+            console.log("[Controller] Error al intentar crear un nuevo producto: ", error);
 
-            return res.status(500).json({
-                error: "Error interno al intentar crear un nuevo producto."
-            });
+            return responseBuilder.error(req, res, error);
         }
     }
 
     async getProducts(req, res) {
         try {
-            let { product_id } = req.body;
+            let { product_id }  = req.params;
 
             let productList = await productService.getProducts({ product_id });
 

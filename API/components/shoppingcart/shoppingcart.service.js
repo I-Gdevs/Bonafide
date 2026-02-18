@@ -1,5 +1,5 @@
 import ShoppingCartModel from "./shoppingcart.model.js";
-import ProductModel from "../product/product.model.js";
+import ProductModel from "../products/product.model.js";
 
 const shoppingcartModel = new ShoppingCartModel();
 const productModel = new ProductModel();

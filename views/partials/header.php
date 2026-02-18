@@ -18,7 +18,7 @@
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/seleccionarLocal">Pedir</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/nosotros">Nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/productos">Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/products">Productos</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/stock">Stock</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/comandas">Comandas</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/administracion">Administración</a></li>

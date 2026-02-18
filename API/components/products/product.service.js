@@ -1,21 +1,38 @@
 import ProductModel from "./product.model.js";
+import { errorHandler } from "../../helpers/error.helper.js";
 
 const productModel = new ProductModel();
 
 class ProductService {
 
-    async createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url }) {
+    async createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url, product_ingredients }) {
 
-        let newProduct = await productModel.createProduct({ product_name, product_price, is_combo_bool, product_category, product_description, product_image_url });
+        if (!product_name || !product_price || !product_category) {
+            errorHandler.badRequest("El nombre, precio y categoría son obligatorios.");
+        }
 
-        return {
-            newProductId: Number(newProduct.insertId),
+        if (parseFloat(product_price) < 0) {
+            errorHandler.badRequest("El precio del producto no puede ser negativo.");
+        }
+
+        if (product_ingredients && !Array.isArray(product_ingredients)) {
+            errorHandler.badRequest("El formato de los ingredientes es inválido.");
+        }
+        
+        let result = await productModel.createProduct({
             product_name,
             product_price,
             is_combo_bool,
             product_category,
             product_description,
-            product_image_url
+            product_image_url,
+            product_ingredients
+        });
+
+        return {
+            newProductId: Number(result.insertId),
+            product_name,
+            product_ingredients_count: product_ingredients ? product_ingredients.length : 0
         };
     }
 
