@@ -52,6 +52,10 @@
 
             $view_file = BASE_PATH . '/views/users/verify.php';
             break;
+        
+        case 'logout':
+            require BASE_PATH . '/controllers/users/logout.controller.php';
+            break;
 
         case 'forgottenPassword':
             $view_file = BASE_PATH . '/views/forgottenPassword/forgottenPassword.php';
