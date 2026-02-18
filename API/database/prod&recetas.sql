@@ -200,21 +200,8 @@ FROM recetas r JOIN producto_para_venta p ON r.id_producto = p.id_producto,
 JOIN modelos_de_articulos m ON m.id_modelo_articulo = insumos.id_modelo_articulo
 WHERE p.nombre_producto = 'Sandwich Tostado J/Q';
 
--- 7. Bagel Caesar (Pan Bagel + Pollo)
-INSERT INTO recetas (id_producto, descripcion_receta, tiempo_preparacion_receta)
-SELECT id_producto, 'Bagel con pollo', '00:10:00' FROM producto_para_venta WHERE nombre_producto = 'Bagel Caesar';
 
-INSERT INTO ingredientes_para_receta (id_receta, id_modelo_articulo, cantidad_para_receta)
-SELECT r.id_receta, m.id_modelo_articulo, cantidad
-FROM recetas r JOIN producto_para_venta p ON r.id_producto = p.id_producto,
-(
-    SELECT id_modelo_articulo, 1 as cantidad FROM modelos_de_articulos WHERE nombre_modelo_articulo = 'Pan Bagel'
-    UNION ALL SELECT id_modelo_articulo, 0.100 FROM modelos_de_articulos WHERE nombre_modelo_articulo = 'Pollo Cocido'
-) as insumos
-JOIN modelos_de_articulos m ON m.id_modelo_articulo = insumos.id_modelo_articulo
-WHERE p.nombre_producto = 'Bagel Caesar';
-
--- 8. Combo Clásico Medialunas
+-- 7. Combo Clásico Medialunas
 INSERT INTO recetas (id_producto, descripcion_receta, tiempo_preparacion_receta)
 SELECT id_producto, 'Café c/leche y 2 medialunas', '00:04:00' FROM producto_para_venta WHERE nombre_producto = 'Combo Clásico Medialunas';
 
@@ -231,7 +218,7 @@ FROM recetas r JOIN producto_para_venta p ON r.id_producto = p.id_producto,
 JOIN modelos_de_articulos m ON m.id_modelo_articulo = insumos.id_modelo_articulo
 WHERE p.nombre_producto = 'Combo Clásico Medialunas';
 
--- 9. Frappé Bocadito
+-- 8. Frappé Bocadito
 INSERT INTO recetas (id_producto, descripcion_receta, tiempo_preparacion_receta)
 SELECT id_producto, 'Licuado hielo, café y bocadito', '00:06:00' FROM producto_para_venta WHERE nombre_producto = 'Frappé Bocadito';
 
@@ -247,7 +234,7 @@ FROM recetas r JOIN producto_para_venta p ON r.id_producto = p.id_producto,
 JOIN modelos_de_articulos m ON m.id_modelo_articulo = insumos.id_modelo_articulo
 WHERE p.nombre_producto = 'Frappé Bocadito';
 
--- 10. Porción de Torta
+-- 9. Porción de Torta
 INSERT INTO recetas (id_producto, descripcion_receta, tiempo_preparacion_receta)
 SELECT id_producto, 'Servir porción', '00:01:00' FROM producto_para_venta WHERE nombre_producto = 'Porción de Torta';
 
@@ -289,19 +276,18 @@ SET imagen_producto = CASE nombre_producto
     WHEN 'Café Irlandés' THEN 'img/productos/cafe_irlandes.jpg'
 
     -- BEBIDAS FRÍAS
-    WHEN 'Frappé Bocadito' THEN 'img/productos/frappe_choco.jpg'
-    WHEN 'Frappé Nugaton' THEN 'img/productos/frappe_avellana.jpg'
+    WHEN 'Frappé Bocadito' THEN 'img/productos/frappe_bocadito.jpg'
+    WHEN 'Frappé Nugaton' THEN 'img/productos/frappe_nugaton.jpg'
     WHEN 'Frappé Amaretti' THEN 'img/productos/frappe_almendra.jpg'
     WHEN 'Milkshake' THEN 'img/productos/milkshake.jpg'
     WHEN 'Limonada' THEN 'img/productos/limonada.jpg'
-    WHEN 'Jugo Exprimido' THEN 'img/productos/jugo_naranja.jpg'
+    WHEN 'Jugo Exprimido' THEN 'img/productos/jugo_de_naranja.jpg'
 
     -- COMIDA Y COMBOS
     WHEN 'Combo Clásico Medialunas' THEN 'img/productos/combo_medialunas.jpg'
     WHEN 'Combo Tostadas' THEN 'img/productos/combo_tostadas.jpg'
     WHEN 'Combo Tostado' THEN 'img/productos/combo_tostado.jpg'
     WHEN 'Sandwich Tostado J/Q' THEN 'img/productos/tostado_jq.jpg'
-    WHEN 'Croissant Relleno' THEN 'img/productos/croissant_relleno.jpg'
     WHEN 'Bagel Caesar' THEN 'img/productos/bagel_pollo.jpg'
     WHEN 'Ciabatta de Peceto' THEN 'img/productos/ciabatta.jpg'
     WHEN 'Wrap de Pollo' THEN 'img/productos/wrap.jpg'
