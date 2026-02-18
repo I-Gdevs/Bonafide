@@ -390,7 +390,7 @@
                                 <option disabled selected value="">Agregar insumo...</option>
                                 <?php foreach ($itemTemplates as $item): ?>
                                     <option value="<?= $item["id_modelo_articulo"] ?>" data-unit="<?= $item["unidad_medida_modelo_articulo"]?>">
-                                        <?= $item["nombre_modelo_articulo"] ?>
+                                        <?= $item["nombre_modelo_articulo"] ?> (<?= $item["unidad_medida_modelo_articulo"] ?>)
                                     </option>
                                 <?php endforeach; ?>
                             </select>
