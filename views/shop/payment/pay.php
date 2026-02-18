@@ -1,22 +1,20 @@
-<?php 
+<?php
+    include BASE_PATH . '/views/partials/head.php'; 
+    include BASE_PATH . '/views/partials/header.php'; 
 
+    // 2. LÓGICA PHP: Procesamos los datos si vienen por POST (desde el carrito)
+    $productos_checkout = isset($_POST['cart_data']) ? json_decode($_POST['cart_data'], true) : [];
+    $tipo_entrega = $_POST['delivery_type'] ?? 'local';
+    $sucursal_id = $_POST['sucursal'] ?? 'tribunales';
 
-include BASE_PATH . '/views/partials/head.php'; 
-include BASE_PATH . '/views/partials/header.php'; 
+    // Definición de sucursales
+    $sucursales = [
+        'tribunales' => ['nombre' => 'Bonafide Tribunales', 'direccion' => 'Talcahuano 550, CABA'],
+        'centro' => ['nombre' => 'Bonafide Centro', 'direccion' => 'Av. Corrientes 800, CABA']
+    ];
 
-// 2. LÓGICA PHP: Procesamos los datos si vienen por POST (desde el carrito)
-$productos_checkout = isset($_POST['cart_data']) ? json_decode($_POST['cart_data'], true) : [];
-$tipo_entrega = $_POST['delivery_type'] ?? 'local';
-$sucursal_id = $_POST['sucursal'] ?? 'tribunales';
-
-// Definición de sucursales
-$sucursales = [
-    'tribunales' => ['nombre' => 'Bonafide Tribunales', 'direccion' => 'Talcahuano 550, CABA'],
-    'centro' => ['nombre' => 'Bonafide Centro', 'direccion' => 'Av. Corrientes 800, CABA']
-];
-
-$costo_envio = ($tipo_entrega === 'delivery') ? 2100 : 0;
-$subtotal = 0;
+    $costo_envio = ($tipo_entrega === 'delivery') ? 2100 : 0;
+    $subtotal = 0;
 ?>
 
 <style>
@@ -54,7 +52,7 @@ $subtotal = 0;
 
 <main class="container my-5">
     <div class="mb-4">
-        <a href="<?= BASE_URL ?>/pedir" class="btn btn-link text-danger fw-bold p-0 text-decoration-none">
+        <a href="<?= BASE_URL ?>/shop" class="btn btn-link text-danger fw-bold p-0 text-decoration-none">
             <i class="bi bi-arrow-left"></i> VOLVER A MI PEDIDO
         </a>
     </div>
@@ -64,7 +62,7 @@ $subtotal = 0;
             <div class="checkout-container shadow-sm">
                 <h4 class="fw-bold mb-4 border-bottom pb-2">Datos de Facturación</h4>
                 <form id="main-payment-form" action="<?= BASE_URL ?>/procesar_pago" method="POST">
-                    <div class="row g-3">
+                    <div class="row g-2">
                         <div class="col-md-6">
                             <label class="fw-bold small">Nombre</label>
                             <input type="text" name="nombre" class="form-control" required>
@@ -75,11 +73,32 @@ $subtotal = 0;
                         </div>
                         
                         <?php if ($tipo_entrega === 'delivery'): ?>
-                        <div class="col-12">
-                            <label class="fw-bold small">Dirección de Entrega</label>
-                            <input type="text" name="direccion" class="form-control" placeholder="Calle y altura" required>
+                        <div class="row g-2 justify-content-between">
+                            <div class="col-md-6">
+                                <label class="fw-bold small">Calle</label>
+                                <input type="text" name="direccion" class="form-control" placeholder="Calle" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fw-bold small">Número</label>
+                                <input type="text" name="direccion" class="form-control" placeholder="Número" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="fw-bold small">Departamento</label>
+                                <input type="text" name="direccion" class="form-control" placeholder="Dpto." required>
+                            </div>
                         </div>
                         <?php endif; ?>
+
+                        <div class="row g-2">
+                            <div class="col-md-6 g-2">
+                                <label class="fw-bold small">Número de celular / WhatsApp</label>
+                                <input type="text" name="celular" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 g-2">
+                                <label class="fw-bold small">Correo electrónico</label>
+                                <input type="text" name="correo" class="form-control" required>
+                            </div>
+                        </div>
 
                         <div class="col-12 mt-4">
                             <h6 class="fw-bold">Tarjeta de Crédito / Débito</h6>
@@ -100,13 +119,14 @@ $subtotal = 0;
             <div class="order-summary shadow-sm">
                 <h5 class="fw-bold mb-3">Resumen del Pedido</h5>
 
-                <?php if ($tipo_entrega === 'local'): ?>
                 <div class="local-info-box shadow-sm">
-                    <div class="fw-bold text-danger"><i class="bi bi-shop"></i> Retiro en:</div>
+                    <div class="fw-bold text-danger">
+                        <i class="bi bi-shop"></i>
+                        <?= ($tipo_entrega === "local") ? "Retiro en:" : "Se envía desde:"; ?>
+                    </div>
                     <div class="fw-bold"><?= $sucursales[$sucursal_id]['nombre'] ?></div>
                     <div class="text-muted small"><?= $sucursales[$sucursal_id]['direccion'] ?></div>
                 </div>
-                <?php endif; ?>
 
                 <div class="product-list mb-4">
                     <?php if (empty($productos_checkout)): ?>

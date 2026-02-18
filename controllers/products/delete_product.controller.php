@@ -13,7 +13,6 @@
             }
         }
 
-        // Redirigimos siempre al listado
         header("Location: " . BASE_URL . "/products");
         exit;
     }
