@@ -1,46 +1,12 @@
 <?php 
+    if (!defined('BASE_PATH')) define('BASE_PATH', dirname(__DIR__, 2)); 
+    if (!defined('BASE_URL')) define('BASE_URL', '/');
 
-if (!defined('BASE_PATH')) define('BASE_PATH', dirname(__DIR__, 2)); 
-if (!defined('BASE_URL')) define('BASE_URL', '/');
+    include BASE_PATH . '/views/partials/head.php'; 
+    include BASE_PATH . '/views/partials/header.php'; 
+    $flash = getFlash();
 
-include BASE_PATH . '/views/partials/head.php'; 
-include BASE_PATH . '/views/partials/header.php'; 
-$flash = getFlash();
-
-$categorias = [
-    'combos' => 'Combos', 'clasicos' => 'Clásicos', 'bebidas_calientes' => 'Bebidas Calientes',
-    'cafeteria' => 'Cafetería', 'bebidas_frias' => 'Bebidas Frías', 'postres' => 'Postres',
-];
-
-// $productos = [
-//     [
-//         'id' => 101, 
-//         'nombre' => 'COMBO Café + 2 Medialunas', 
-//         'descripcion' => 'Café con leche con 2 medialunas de manteca.',
-//         'precio' => 2800, 
-//         'cat' => 'clasicos', 
-//         'img' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg', 
-//         'combo' => true
-//     ],
-//     [
-//         'id' => 102, 
-//         'nombre' => 'Submarino', 
-//         'descripcion' => 'Chocolate caliente con barra fundida.',
-//         'precio' => 3400, 
-//         'cat' => 'bebidas_calientes', 
-//         'img' => 'https://img.freepik.com/premium-photo/closeup-tasty-coffee-espresso-with-tasty-foam-small-ceramic-cup-male-hands-holding-warm-hot-drink_1220-1563.jpg', 
-//         'combo' => false
-//     ],
-//     [
-//         'id' => 105, 
-//         'nombre' => 'Cheesecake Frutos Rojos', 
-//         'descripcion' => 'Porción de torta con base crocante y salsa.',
-//         'precio' => 5500, 
-//         'cat' => 'postres', 
-//         'img' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg', 
-//         'combo' => false
-//     ],
-// ];
+    $categorias = array_filter(array_unique(array_column($products, "categoria_producto")));
 ?>
 
 <style>
@@ -75,8 +41,13 @@ $categorias = [
             <h5 class="fw-bold mb-3">CATEGORÍAS</h5>
             <ul class="list-group list-group-flush" id="category-list">
                 <li class="list-group-item active" style="cursor:pointer" onclick="filterProducts('todos', this)">Todos</li>
-                <?php foreach ($categorias as $key => $name): ?>
-                    <li class="list-group-item" style="cursor:pointer" onclick="filterProducts('<?= $key ?>', this)"><?= $name ?></li>
+                <?php foreach ($categorias as $name): ?>
+                    <?php
+                        $slug = strtolower(str_replace(" ", "_", $name));
+                    ?>
+                    <li class="list-group-item" style="cursor:pointer" onclick="filterProducts('<?= $slug ?>', this)">
+                        <?= $name ?>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </aside>
@@ -85,8 +56,9 @@ $categorias = [
             <div class="row row-cols-md-3 g-3" id="product-grid">
                 
                 <?php foreach ($products as $producto): 
-                    // Lógica para filtrar (adaptada al JS nuevo)
-                    $filter_categories = $producto['categoria_producto'] . ($producto['es_combo_bool'] ? ' combos' : '');
+                    $catSlug = strtolower(str_replace(" ", "_", $producto["categoria_producto"]));
+
+                    $filter_categories = $catSlug . ($producto["es_combo_bool"] ? " combos" : "");
                 ?>
                 <div class="col product-item" data-cat="<?= $filter_categories ?>">
                     <div class="card h-100 product-card">
@@ -131,7 +103,7 @@ $categorias = [
                     <div class="d-flex justify-content-between fw-bold fs-5 mt-2">
                         <span>Total:</span><span id="cart-total">$0</span>
                     </div>
-                    <form action="<?= BASE_URL ?>/pagar" method="POST" id="checkout-form">
+                    <form action="<?= BASE_URL ?>/pay" method="POST" id="checkout-form">
                         <input type="hidden" name="cart_data" id="cart-input">
                         <input type="hidden" name="delivery_type" id="delivery-input">
                         <button type="button" class="btn btn-danger w-100 mt-3 fw-bold" onclick="goToCheckout()">PAGAR</button>

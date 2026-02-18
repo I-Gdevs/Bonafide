@@ -164,7 +164,7 @@
 
         // Pagar (vista clientes)
         case 'pay':
-            $view_file = BASE_PATH . '/views/shop/pago/pagar.php';
+            $view_file = BASE_PATH . '/views/shop/payment/pay.php';
             break;
 
         // Añadir Receta
