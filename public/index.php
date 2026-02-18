@@ -152,17 +152,17 @@
 
         // SeleccionarLocal
         case 'seleccionarLocal':
-            $view_file = BASE_PATH . '/views/pedir/seleccionarLocal.php';
+            $view_file = BASE_PATH . '/views/shop/seleccionarLocal.php';
             break;
         
         // Pedir_Pedir
-        case 'pedir':
-            $view_file = BASE_PATH . '/views/pedir/pedir.php';
+        case 'shop':
+            $view_file = BASE_PATH . '/views/shop/pedir.php';
             break;
 
         // Pagar
-        case 'pagar':
-            $view_file = BASE_PATH . '/views/pedir/pago/pagar.php';
+        case 'pay':
+            $view_file = BASE_PATH . '/views/shop/pago/pagar.php';
             break;
 
         // Añadir Receta
