@@ -11,7 +11,7 @@
             $extensionesPermitidas = ["jpg", "jpeg", "png"];
 
             if (in_array(strtolower($extension), $extensionesPermitidas)) {
-                $nombreFinalImagen = "prod_" . uniqid() . "." . $extension;
+                $nombreFinalImagen = "prod_" . strtolower(str_replace(" ", "_", $_POST["nombre"])) . "_" . uniqid() . "." . $extension;
                 $rutaDestino = BASE_PATH . "/public/img/productos/" . $nombreFinalImagen;
 
                 if (!move_uploaded_file($archivo["tmp_name"], $rutaDestino)) {

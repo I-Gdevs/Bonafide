@@ -37,38 +37,49 @@ class ProductService {
     }
 
     async getProducts({ product_id }) {
-        let products = [];
+        let products;
 
         products = await productModel.getProducts({ product_id });
 
         if (products.length === 0) {
             throw new Error("No hay ningún modelo de stock cargado.");
         }
+
         return products;
     }
 
-    async updateProduct({ product_id, new_product_name, new_product_price, new_product_category }) {
+    async updateProduct({ product_id, new_product_name, new_product_price, is_combo_bool, new_product_category, new_product_description, new_product_image_url, new_product_ingredients }) {
 
         if (!product_id) {
-            throw new Error("No se puede actualizar el producto. Datos faltanttes. No se proporcionó ningún ID de producto.");
+            throw new Error("No se puede actualizar el producto. Datos faltantes. No se proporcionó ningún ID de producto.");
         }
 
         if (!new_product_name && !new_product_price && !new_product_category) {
             throw new Error("No se puede actualizar producto. Datos faltantes. No se proporcionó ningún cambio { new_product_name, new_product_price, new_product_category }.");
         }
 
-        let updatedProduct = await productModel.updateProduct({ product_id, new_product_name, new_product_price, new_product_category });
+        let result = await productModel.updateProduct({
+            product_id,
+            new_product_name,
+            new_product_price,
+            is_combo_bool,
+            new_product_category,
+            new_product_description,
+            new_product_image_url,
+            new_product_ingredients
+        });
 
-        if (updatedProduct.affectedRows != 1) {
-            throw new Error("No se pudo actualizar el producto.");
-        }
-
-        return updatedProduct = { product_id, new_product_name, new_product_price, new_product_category }
+        return {
+            product_id: product_id,
+            new_product_name,
+            action: "updated"
+        };
+        
     }
 
     async deleteProduct({ product_id }) {
 
-        if (!productModel) {
+        if (!product_id) {
             throw new Error("No se puede eliminar producto. Datos faltantes. No se proporcionó ningún ID de producto.");
         }
 

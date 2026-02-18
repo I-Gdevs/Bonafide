@@ -196,7 +196,15 @@
         case 'products/create':
             require BASE_PATH . '/controllers/products/create_product.controller.php';
             break;
-            
+        
+        case 'products/edit':
+            require BASE_PATH . '/controllers/products/edit_product.controller.php';
+            break;
+
+        case 'products/delete':
+            require BASE_PATH . '/controllers/products/delete_product.controller.php';
+            break;
+
         // Administracion
         case 'administracion':
             $view_file = BASE_PATH . '/views/administracion/administracion.php';

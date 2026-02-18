@@ -10,7 +10,7 @@
     $productsResponse = callApi("GET", "/products");
 
     if ($productsResponse["ok"]) {
-        $products = $productsResponse["res"]["product_list"] ?? [];
+        $products = $productsResponse["res"]["data"] ?? [];
     } else {
         $error ="No se pudo buscar la lista de productos: " . ($productsResponse["res"]["error"] ?? 'Error de API');
     }

@@ -60,20 +60,32 @@ class ProductModel {
         }
     }
 
-    async getProducts({ product_id }) {
+    async getProducts() {
         let dbConnection;
-        let result = [];
+        let result;
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM productos WHERE producto_desactivado_bool = 0";
-
-            if (product_id) {
-                dbQuery += ` AND id_producto = ${product_id};`;
-            }
+            let dbQueryProducts = "SELECT * FROM productos WHERE producto_desactivado_bool = 0";
+            let products = await dbConnection.query(dbQueryProducts);
             
-            result = await dbConnection.query(dbQuery);
+            let dbQueryIngredients = `
+                SELECT
+                    i.id_producto,
+                    i.id_modelo_articulo,
+                    i.cantidad,
+                    m.nombre_modelo_articulo AS nombre,
+                    m.unidad_medida_modelo_articulo AS unidad
+                FROM ingredientes i
+                INNER JOIN modelos_de_articulos m ON i.id_modelo_articulo = m.id_modelo_articulo
+            `;
+            let ingredients = await dbConnection.query(dbQueryIngredients);
+
+            result = products.map(prod => {
+                prod.ingredientes = ingredients.filter(r => r.id_producto == prod.id_producto);
+                return prod;
+            });
 
         } catch (error) {
             if (dbConnection) {
@@ -89,40 +101,54 @@ class ProductModel {
         }
     }
 
-    async updateProduct({ product_id, new_product_name, new_product_price, new_product_category }) {
+    async updateProduct({ product_id, new_product_name, new_product_price, is_combo_bool, new_product_category, new_product_description, new_product_image_url, new_product_ingredients }) {
         let dbConnection;
-        let result = [];
+        let resultUpdate = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbUpdates = [];
-            let dbParams = [];
-
-            if (new_product_name) {
-                dbUpdates.push("nombre_producto = (?)");
-                dbParams.push(new_product_name);
-            }
-
-            if (new_product_price) {
-                dbUpdates.push("precio_producto = (?)");
-                dbParams.push(new_product_price);
-            }
-
-            if (new_product_category) {
-                dbUpdates.push("categoria_producto = (?)");
-                dbParams.push(new_product_category);
-            }
-
-            dbParams.push(product_id);
-
-            let dbQuery = `UPDATE producto_para_venta SET ${dbUpdates.join(", ")} WHERE id_producto = (?);`
+            let dbQueryUpdateProduct = `
+                UPDATE productos 
+                SET nombre_producto = ?, 
+                    precio_producto = ?, 
+                    categoria_producto = ?, 
+                    descripcion_producto = ?, 
+                    imagen_url = ? 
+                WHERE id_producto = ?
+            `;
 
             await dbConnection.beginTransaction();
 
-            result = await dbConnection.query(dbQuery, dbParams);
+            resultUpdate = await dbConnection.query(dbQueryUpdateProduct, [
+                new_product_name,
+                new_product_price,
+                new_product_category,
+                new_product_description,
+                new_product_image_url,
+                product_id
+            ]);
+
+            if (resultUpdate.affectedRows === 0) {
+                let error = new Error("El producto no existe.");
+                error.statusCode = 404; 
+                error.isOperational = true;
+                throw error;
+            }
+
+            let dbQueryDeleteIngredients = "DELETE FROM ingredientes WHERE id_producto = ?";
+            await dbConnection.query(dbQueryDeleteIngredients, product_id);
+
+            if (new_product_ingredients && new_product_ingredients.length > 0) {
+                let dbQueryUpdateIngredients = `INSERT INTO ingredientes (id_producto, id_modelo_articulo, cantidad) VALUES (?, ?, ?)`;
+                
+                let dbParams = new_product_ingredients.map(ing => [ product_id, ing.id, ing.cantidad ]);
+
+                await dbConnection.batch(dbQueryUpdateIngredients, dbParams);
+            }
 
             await dbConnection.commit();
+
 
         } catch (error) {
             console.error(error);
@@ -134,7 +160,7 @@ class ProductModel {
             if (dbConnection) {
                 dbConnection.release();
             }
-            return result;
+            return resultUpdate;
         }
     }
 
@@ -147,7 +173,7 @@ class ProductModel {
 
             dbConnection.beginTransaction();
 
-            let dbQuery = "UPDATE producto_para_venta SET producto_desactivado_bool = 1 WHERE id_producto = (?);"
+            let dbQuery = "UPDATE productos SET producto_desactivado_bool = 1 WHERE id_producto = (?);"
 
             result = await dbConnection.query(dbQuery, product_id);
 
