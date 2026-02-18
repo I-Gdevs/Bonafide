@@ -155,12 +155,14 @@
             $view_file = BASE_PATH . '/views/shop/seleccionarLocal.php';
             break;
         
-        // Pedir_Pedir
+        // Pedir (vista clientes)
         case 'shop':
-            $view_file = BASE_PATH . '/views/shop/pedir.php';
+            require BASE_PATH . '/controllers/products/products.controller.php';
+            
+            $view_file = BASE_PATH . '/views/shop/shop.php';
             break;
 
-        // Pagar
+        // Pagar (vista clientes)
         case 'pay':
             $view_file = BASE_PATH . '/views/shop/pago/pagar.php';
             break;
