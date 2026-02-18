@@ -1,133 +1,130 @@
 <?php 
-$es_admin = true; 
+    $es_admin = true;
 ?>
 
 <head>
-    <title>Bonafide | Recetas</title>
+    <title>Bonafide | Productos</title>
 </head>
 
-<?php 
-if (!defined('BASE_PATH')) define('BASE_PATH', dirname(__DIR__, 2)); 
-if (!defined('BASE_URL')) define('BASE_URL', '/');
-
-include BASE_PATH . '/views/partials/head.php'; 
-include BASE_PATH . '/views/partials/header.php'; 
+<?php
+    include BASE_PATH . '/views/partials/head.php'; 
+    include BASE_PATH . '/views/partials/header.php'; 
 ?>
 
 <?php
-$categorias = [
-    'combos' => 'Combos', 
-    'clasicos' => 'Clásicos', 
-    'bebidas_calientes' => 'Bebidas Calientes', 
-    'cafeteria' => 'Cafetería', 
-    'bebidas_frias' => 'Bebidas Frías', 
-    'postres' => 'Postres',
-    'mediodias' => 'Mediodías', 
-    'sandwiches' => 'Sandwiches',
-];
+    $categorias = [
+        'combos' => 'Combos', 
+        'clasicos' => 'Clásicos', 
+        'bebidas_calientes' => 'Bebidas Calientes', 
+        'cafeteria' => 'Cafetería', 
+        'bebidas_frias' => 'Bebidas Frías', 
+        'postres' => 'Postres',
+        'mediodias' => 'Mediodías', 
+        'sandwiches' => 'Sandwiches',
+    ];
 
-$etiquetas_disponibles = ['Sin TACC', 'Gluten', 'Vegan Friendly', 'Frío', 'Lácteo', 'Invierno', 'Vegetariano', 'Combo', 'Picante', 'Dietético'];
-$etiquetas_disponibles_json = json_encode($etiquetas_disponibles);
+    $etiquetas_disponibles = ['Sin TACC', 'Gluten', 'Vegan Friendly', 'Frío', 'Lácteo', 'Invierno', 'Vegetariano', 'Combo', 'Picante', 'Dietético'];
+    $etiquetas_disponibles_json = json_encode($etiquetas_disponibles);
 
-$productos_raw = [
-    [
-        'id' => 101, 'nombre' => 'Café con Leche Clásico', 'descripcion' => 'Receta base de café con leche.',
-        'precio' => 2800, 
-        'imagen' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg',
-        'categoria' => 'clasicos', 'es_combo' => false,
-        'ingredientes' => ['Expresso (50ml)', 'Leche Texturizada (150ml)', 'Azúcar (1 cucharadita)'],
-        'pasos' => ['1. Preparar el Expresso.', '2. Texturizar la leche a 65°C.', '3. Verter la leche sobre el Expresso.'],
-        'etiquetas' => ['Sin TACC', 'Vegan Friendly'],
-    ],
-    [
-        'id' => 105, 'nombre' => 'Torta Cheesecake New York', 'descripcion' => 'Postre cremoso con base de galleta.',
-        'precio' => 5500, 
-        'imagen' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg',
-        'categoria' => 'postres', 'es_combo' => false,
-        'ingredientes' => ['Queso Crema (200g)', 'Galletas Graham (150g)', 'Mantequilla (50g)', 'Vainilla'],
-        'pasos' => ['1. Triturar galletas y mezclar con mantequilla (base).', '2. Mezclar queso crema, azúcar y vainilla.', '3. Hornear a 160°C por 45 minutos.'],
-        'etiquetas' => ['Gluten'],
-    ],
-    [
-        'id' => 103, 'nombre' => 'COMBO Tostado con Café', 'descripcion' => 'Café + Tostado jamón y queso',
-        'precio' => 4800, 
-        'imagen' => 'https://img.freepik.com/free-photo/closeup-shot-baked-sandwiches-made-with-sausage-served-wooden-board_181624-61300.jpg',
-        'categoria' => 'mediodias', 'es_combo' => true,
-        'ingredientes' => ['1 Tostado J/Q', '1 Expresso Doble'],
-        'pasos' => ['1. Tostar el pan con jamón y queso.', '2. Preparar el café.', '3. Servir inmediatamente.'],
-        'etiquetas' => ['Gluten', 'Combo'],
-    ],
-    [
-        'id' => 106, 'nombre' => 'Latte Vainilla Helado', 'descripcion' => 'Bebida fría y refrescante con toque de vainilla.',
-        'precio' => 4200, 
-        'imagen' => 'https://i.pinimg.com/1200x/4e/f0/31/4ef031186eb0275a4f9635b7553031f2.jpg',
-        'categoria' => 'bebidas_frias', 'es_combo' => false,
-        'ingredientes' => ['100ml Leche Fría', '50ml Expresso', 'Jarabe de Vainilla', 'Hielo'],
-        'pasos' => ['1. Llenar el vaso con hielo.', '2. Verter leche y jarabe.', '3. Añadir el Expresso.', '4. Mezclar suavemente.'],
-        'etiquetas' => ['Frío'],
-    ],
-    [
-        'id' => 108, 'nombre' => 'Muffin de Arándanos', 'descripcion' => 'Muffin esponjoso con arándanos frescos.',
-        'precio' => 3200, 
-        'imagen' => 'https://i.pinimg.com/736x/d3/8d/ec/d38decbae9815ad2855408752ff01b0c.jpg',
-        'categoria' => 'postres', 'es_combo' => false,
-        'ingredientes' => ['Harina', 'Huevo', 'Azúcar', 'Arándanos'],
-        'pasos' => ['1. Preparar la mezcla.', '2. Rellenar moldes.', '3. Hornear a 180°C.'],
-        'etiquetas' => ['Gluten'],
-    ],
-    [
-        'id' => 109, 'nombre' => 'Café Americano', 'descripcion' => 'Café expresso diluido con agua caliente.',
-        'precio' => 2000, 
-        'imagen' => 'https://i.pinimg.com/1200x/c3/2c/ff/c32cff96adfec244037e741ad9bd1c6e.jpg',
-        'categoria' => 'cafeteria', 'es_combo' => false,
-        'ingredientes' => ['1 Expresso', 'Agua Caliente'],
-        'pasos' => ['1. Servir el agua caliente.', '2. Agregar el expresso.'],
-        'etiquetas' => ['Sin Lácteos', 'Sin TACC'],
-    ],
-    [
-        'id' => 110, 'nombre' => 'Sándwich de Palta y Huevo', 'descripcion' => 'Tostada con palta y huevo escalfado.',
-        'precio' => 4500, 
-        'imagen' => 'https://i.pinimg.com/736x/53/ce/49/53ce49c785343c391ea36eb8c76e2864.jpg',
-        'categoria' => 'sandwiches', 'es_combo' => false,
-        'ingredientes' => ['Pan de masa madre', 'Palta', '1 Huevo', 'Sal y Pimienta'],
-        'pasos' => ['1. Tostar el pan.', '2. Untar palta.', '3. Escalfar el huevo y colocar encima.'],
-        'etiquetas' => ['Vegetariano'],
-    ],
-    [
-        'id' => 111, 'nombre' => 'Chocolate Caliente Clásico', 'descripcion' => 'El clásico con un toque de canela.',
-        'precio' => 3800, 
-        'imagen' => 'https://i.pinimg.com/1200x/f2/6d/ce/f26dcee0b1546fbbe86c290889751226.jpg',
-        'categoria' => 'bebidas_calientes', 'es_combo' => false,
-        'ingredientes' => ['200ml Leche', '30g Chocolate semiamargo', 'Pizca de Canela'],
-        'pasos' => ['1. Calentar leche.', '2. Derretir el chocolate.', '3. Mezclar con la canela.'],
-        'etiquetas' => ['Lácteo', 'Invierno'],
-    ],
-];
+    $productos_raw = [
+        [
+            'id' => 101, 'nombre' => 'Café con Leche Clásico', 'descripcion' => 'Receta base de café con leche.',
+            'precio' => 2800, 
+            'imagen' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg',
+            'categoria' => 'clasicos', 'es_combo' => false,
+            'ingredientes' => ['Expresso (50ml)', 'Leche Texturizada (150ml)', 'Azúcar (1 cucharadita)'],
+            'pasos' => ['1. Preparar el Expresso.', '2. Texturizar la leche a 65°C.', '3. Verter la leche sobre el Expresso.'],
+            'etiquetas' => ['Sin TACC', 'Vegan Friendly'],
+        ],
+        [
+            'id' => 105, 'nombre' => 'Torta Cheesecake New York', 'descripcion' => 'Postre cremoso con base de galleta.',
+            'precio' => 5500, 
+            'imagen' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg',
+            'categoria' => 'postres', 'es_combo' => false,
+            'ingredientes' => ['Queso Crema (200g)', 'Galletas Graham (150g)', 'Mantequilla (50g)', 'Vainilla'],
+            'pasos' => ['1. Triturar galletas y mezclar con mantequilla (base).', '2. Mezclar queso crema, azúcar y vainilla.', '3. Hornear a 160°C por 45 minutos.'],
+            'etiquetas' => ['Gluten'],
+        ],
+        [
+            'id' => 103, 'nombre' => 'COMBO Tostado con Café', 'descripcion' => 'Café + Tostado jamón y queso',
+            'precio' => 4800, 
+            'imagen' => 'https://img.freepik.com/free-photo/closeup-shot-baked-sandwiches-made-with-sausage-served-wooden-board_181624-61300.jpg',
+            'categoria' => 'mediodias', 'es_combo' => true,
+            'ingredientes' => ['1 Tostado J/Q', '1 Expresso Doble'],
+            'pasos' => ['1. Tostar el pan con jamón y queso.', '2. Preparar el café.', '3. Servir inmediatamente.'],
+            'etiquetas' => ['Gluten', 'Combo'],
+        ],
+        [
+            'id' => 106, 'nombre' => 'Latte Vainilla Helado', 'descripcion' => 'Bebida fría y refrescante con toque de vainilla.',
+            'precio' => 4200, 
+            'imagen' => 'https://i.pinimg.com/1200x/4e/f0/31/4ef031186eb0275a4f9635b7553031f2.jpg',
+            'categoria' => 'bebidas_frias', 'es_combo' => false,
+            'ingredientes' => ['100ml Leche Fría', '50ml Expresso', 'Jarabe de Vainilla', 'Hielo'],
+            'pasos' => ['1. Llenar el vaso con hielo.', '2. Verter leche y jarabe.', '3. Añadir el Expresso.', '4. Mezclar suavemente.'],
+            'etiquetas' => ['Frío'],
+        ],
+        [
+            'id' => 108, 'nombre' => 'Muffin de Arándanos', 'descripcion' => 'Muffin esponjoso con arándanos frescos.',
+            'precio' => 3200, 
+            'imagen' => 'https://i.pinimg.com/736x/d3/8d/ec/d38decbae9815ad2855408752ff01b0c.jpg',
+            'categoria' => 'postres', 'es_combo' => false,
+            'ingredientes' => ['Harina', 'Huevo', 'Azúcar', 'Arándanos'],
+            'pasos' => ['1. Preparar la mezcla.', '2. Rellenar moldes.', '3. Hornear a 180°C.'],
+            'etiquetas' => ['Gluten'],
+        ],
+        [
+            'id' => 109, 'nombre' => 'Café Americano', 'descripcion' => 'Café expresso diluido con agua caliente.',
+            'precio' => 2000, 
+            'imagen' => 'https://i.pinimg.com/1200x/c3/2c/ff/c32cff96adfec244037e741ad9bd1c6e.jpg',
+            'categoria' => 'cafeteria', 'es_combo' => false,
+            'ingredientes' => ['1 Expresso', 'Agua Caliente'],
+            'pasos' => ['1. Servir el agua caliente.', '2. Agregar el expresso.'],
+            'etiquetas' => ['Sin Lácteos', 'Sin TACC'],
+        ],
+        [
+            'id' => 110, 'nombre' => 'Sándwich de Palta y Huevo', 'descripcion' => 'Tostada con palta y huevo escalfado.',
+            'precio' => 4500, 
+            'imagen' => 'https://i.pinimg.com/736x/53/ce/49/53ce49c785343c391ea36eb8c76e2864.jpg',
+            'categoria' => 'sandwiches', 'es_combo' => false,
+            'ingredientes' => ['Pan de masa madre', 'Palta', '1 Huevo', 'Sal y Pimienta'],
+            'pasos' => ['1. Tostar el pan.', '2. Untar palta.', '3. Escalfar el huevo y colocar encima.'],
+            'etiquetas' => ['Vegetariano'],
+        ],
+        [
+            'id' => 111, 'nombre' => 'Chocolate Caliente Clásico', 'descripcion' => 'El clásico con un toque de canela.',
+            'precio' => 3800, 
+            'imagen' => 'https://i.pinimg.com/1200x/f2/6d/ce/f26dcee0b1546fbbe86c290889751226.jpg',
+            'categoria' => 'bebidas_calientes', 'es_combo' => false,
+            'ingredientes' => ['200ml Leche', '30g Chocolate semiamargo', 'Pizca de Canela'],
+            'pasos' => ['1. Calentar leche.', '2. Derretir el chocolate.', '3. Mezclar con la canela.'],
+            'etiquetas' => ['Lácteo', 'Invierno'],
+        ],
+    ];
 
-$productos = array_map(function($p) {
-    if (empty($p['fondo'])) {
-        $p['fondo'] = $p['imagen'];
-    }
-    return $p;
-}, $productos_raw);
+    $productos = array_map(function($p) {
+        if (empty($p['fondo'])) {
+            $p['fondo'] = $p['imagen'];
+        }
+        return $p;
+    }, $productos_raw);
 
-$receta_seleccionada = null;
-$producto_id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+    $receta_seleccionada = null;
+    $producto_id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
-if ($producto_id) {
-    foreach ($productos as $producto) {
-        if ($producto['id'] === $producto_id) {
-            $receta_seleccionada = $producto;
-            break;
+    if ($producto_id) {
+        foreach ($productos as $producto) {
+            if ($producto['id'] === $producto_id) {
+                $receta_seleccionada = $producto;
+                break;
+            }
         }
     }
-}
 
-if (!$receta_seleccionada && !empty($productos)) {
-    $receta_seleccionada = $productos[0];
-    $producto_id = $productos[0]['id'];
-}
-$receta_activa_class = ($receta_seleccionada) ? 'active' : '';
+    if (!$receta_seleccionada && !empty($productos)) {
+        $receta_seleccionada = $productos[0];
+        $producto_id = $productos[0]['id'];
+    }
+    $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
 ?>
 
 <style>
@@ -197,8 +194,10 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
 
 <main>
     <div class="container my-2">
+
         
-        <section id="receta-display" class="p-4 shadow-lg <?= $receta_activa_class ?>">
+        
+        <!-- <section id="receta-display" class="p-4 shadow-lg <?= $receta_activa_class ?>">
             
             <div id="receta-bg" style="background-image: url('<?= htmlspecialchars($receta_seleccionada['fondo'] ?? '') ?>');"></div>
             
@@ -256,12 +255,13 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
                     <p class="text-muted">Las recetas aparecerán aquí.</p>
                 <?php endif; ?>
             </div>
-        </section>
+        </section> -->
         
         <div class="row g-4">
-            
+
             <div class="col-md-2">
-                <h4 class="fw-bold mb-3">CATEGORIAS</h4>
+                <h4 class="fw-bold my-3">CATEGORIAS</h4>
+                
                 <ul class="list-group" id="category-list">
                     <li class="list-group-item active" data-category="todos" onclick="filterProducts('todos', this)">
                         <a href="#" class="text-decoration-none">Todos</a>
@@ -273,18 +273,31 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
                     </li>
                     <?php endforeach; ?>
                 </ul>
+                
+                <div class="mt-4 pt-3 border-top">
+                    <button type="button" class="btn btn-danger w-100 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#modalCrearProducto">
+                        <i class="bi bi-plus-lg me-2"></i> Crear producto
+                    </button>
+                </div>
 
-                <?php if ($es_admin): ?>
+                <!-- <?php if ($es_admin): ?>
                     <div class="mt-4 pt-3 border-top">
                         <button type="button" class="btn btn-danger w-100 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addModal">
                             <i class="bi bi-plus-lg me-2"></i> Añadir Receta
                         </button>
                     </div>
-                <?php endif; ?>
+                <?php endif; ?> -->
             </div>
             
             <div class="col-md-10">
-                <div class="row row-cols-1 row-cols-md-4 g-3" id="product-grid">
+                <!-- <button class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#modalCrearProducto"
+                >
+                    <i class="bi bi-plus-lg"></i>
+                </button> -->
+
+                <div class="row row-cols-1 row-cols-md-4 mt-2 g-3" id="product-grid">
                     <?php foreach ($productos as $producto): 
                         $filter_categories = $producto['categoria'] . ($producto['es_combo'] ? ' combos' : '');
                         $card_active = ($producto['id'] === $producto_id) ? 'border-danger border-3 shadow-lg' : '';
@@ -323,6 +336,115 @@ $receta_activa_class = ($receta_seleccionada) ? 'active' : '';
         </div>
     </div>
 </main>
+
+<div class="modal fade" id="modalCrearProducto" tabindex="-1" aria-labelledby="labelCrearProducto" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            
+            <div class="modal-header bg-danger text-white">
+                <i class="bi bi-cup-hot me-2 fw-bold fs-4"></i>
+                <h5 class="modal-title fw-bold" id="labelCrearProducto">Crear nuevo producto</h5>
+                <button class="btn-close btn-close-white" type="button" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form action="<?= BASE_URL ?>/products/create" method="POST" enctype="multipart/form-data">
+                
+                <div class="modal-body bg-light">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-dark">Nombre del producto</label>
+                        <input type="text" name="nombre" class="form-control" placeholder="Ej: Chocoffee (leche con chocolate...)" required>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-dark">Categoría</label>
+                            <select name="categoria" class="form-select">
+                                <option value="Bebida">Bebida</option>
+                                <option value="Cafeteria">Cafetería</option>
+                                <option value="Pasteleria">Pastelería</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-dark">Precio</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" name="precio" class="form-control" placeholder="4500" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-dark">Imagen del Producto</label>
+                        <input type="file" name="imagen" class="form-control" accept="image/png, image/jpeg, image/jpg">
+                    </div>
+
+                    <hr class="text-muted">
+
+                    <div class="mb-2">
+                        <label class="form-label fw-bold small text-dark">Receta</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" placeholder="Buscar insumo de stock...">
+                            
+                            <span class="input-group-text bg-white text-muted">kg</span>
+                            
+                            <input type="number" class="form-control" placeholder="Cantidad" style="max-width: 100px;">
+                            
+                            <button class="btn btn-danger" type="button"><i class="bi bi-plus-lg"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 ps-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div class="small fw-bold text-dark">
+                                - 25 gr. <span class="fw-normal text-muted ms-2">Café en granos</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm text-secondary"><i class="bi bi-pencil-fill"></i></button>
+                                <button type="button" class="btn btn-sm text-danger"><i class="bi bi-trash-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div class="small fw-bold text-dark">
+                                - 200 ml <span class="fw-normal text-muted ms-2">Leche</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm text-secondary"><i class="bi bi-pencil-fill"></i></button>
+                                <button type="button" class="btn btn-sm text-danger"><i class="bi bi-trash-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-1">
+                            <div class="small fw-bold text-dark">
+                                - 50 gr. <span class="fw-normal text-muted ms-2">Chocolate en polvo</span>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-sm text-secondary"><i class="bi bi-pencil-fill"></i></button>
+                                <button type="button" class="btn btn-sm text-danger"><i class="bi bi-trash-fill"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small text-dark">Detalle de la receta</label>
+                        <textarea name="descripcion" class="form-control" rows="3"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer bg-light border-0 justify-content-center gap-2 pb-4">
+                    <button type="button" class="btn btn-secondary px-4 fw-bold" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle-fill me-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-danger px-4 fw-bold">
+                        <i class="bi bi-arrow-right-circle-fill me-2"></i>Crear producto
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">

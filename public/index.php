@@ -187,6 +187,9 @@
         
         // Productos
         case 'productos':
+            require BASE_PATH . '/controllers/products/products.controller.php';
+            require BASE_PATH . '/controllers/stock/item_templates/item_templates.controller.php';
+            
             $view_file = BASE_PATH . '/views/productos/productos.php';
             break;
 
