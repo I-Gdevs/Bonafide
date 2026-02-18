@@ -1,5 +1,5 @@
 import SalesModel from "./sales.model.js";
-import ProductModel from "../product/product.model.js";
+import ProductModel from "../products/product.model.js";
 
 const salesModel = new SalesModel();
 const productModel = new ProductModel();

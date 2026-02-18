@@ -186,11 +186,23 @@
             break;
         
         // Productos
-        case 'productos':
+        case 'products':
             require BASE_PATH . '/controllers/products/products.controller.php';
             require BASE_PATH . '/controllers/stock/item_templates/item_templates.controller.php';
             
             $view_file = BASE_PATH . '/views/productos/productos.php';
+            break;
+
+        case 'products/create':
+            require BASE_PATH . '/controllers/products/create_product.controller.php';
+            break;
+        
+        case 'products/edit':
+            require BASE_PATH . '/controllers/products/edit_product.controller.php';
+            break;
+
+        case 'products/delete':
+            require BASE_PATH . '/controllers/products/delete_product.controller.php';
             break;
 
         // Administracion
