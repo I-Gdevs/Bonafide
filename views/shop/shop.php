@@ -5,42 +5,42 @@ if (!defined('BASE_URL')) define('BASE_URL', '/');
 
 include BASE_PATH . '/views/partials/head.php'; 
 include BASE_PATH . '/views/partials/header.php'; 
-
+$flash = getFlash();
 
 $categorias = [
     'combos' => 'Combos', 'clasicos' => 'Clásicos', 'bebidas_calientes' => 'Bebidas Calientes',
     'cafeteria' => 'Cafetería', 'bebidas_frias' => 'Bebidas Frías', 'postres' => 'Postres',
 ];
 
-$productos = [
-    [
-        'id' => 101, 
-        'nombre' => 'COMBO Café + 2 Medialunas', 
-        'descripcion' => 'Café con leche con 2 medialunas de manteca.',
-        'precio' => 2800, 
-        'cat' => 'clasicos', 
-        'img' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg', 
-        'combo' => true
-    ],
-    [
-        'id' => 102, 
-        'nombre' => 'Submarino', 
-        'descripcion' => 'Chocolate caliente con barra fundida.',
-        'precio' => 3400, 
-        'cat' => 'bebidas_calientes', 
-        'img' => 'https://img.freepik.com/premium-photo/closeup-tasty-coffee-espresso-with-tasty-foam-small-ceramic-cup-male-hands-holding-warm-hot-drink_1220-1563.jpg', 
-        'combo' => false
-    ],
-    [
-        'id' => 105, 
-        'nombre' => 'Cheesecake Frutos Rojos', 
-        'descripcion' => 'Porción de torta con base crocante y salsa.',
-        'precio' => 5500, 
-        'cat' => 'postres', 
-        'img' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg', 
-        'combo' => false
-    ],
-];
+// $productos = [
+//     [
+//         'id' => 101, 
+//         'nombre' => 'COMBO Café + 2 Medialunas', 
+//         'descripcion' => 'Café con leche con 2 medialunas de manteca.',
+//         'precio' => 2800, 
+//         'cat' => 'clasicos', 
+//         'img' => 'https://img.freepik.com/fotos-premium/cafe-taza-sobre-fondo-antiguo_200402-8347.jpg', 
+//         'combo' => true
+//     ],
+//     [
+//         'id' => 102, 
+//         'nombre' => 'Submarino', 
+//         'descripcion' => 'Chocolate caliente con barra fundida.',
+//         'precio' => 3400, 
+//         'cat' => 'bebidas_calientes', 
+//         'img' => 'https://img.freepik.com/premium-photo/closeup-tasty-coffee-espresso-with-tasty-foam-small-ceramic-cup-male-hands-holding-warm-hot-drink_1220-1563.jpg', 
+//         'combo' => false
+//     ],
+//     [
+//         'id' => 105, 
+//         'nombre' => 'Cheesecake Frutos Rojos', 
+//         'descripcion' => 'Porción de torta con base crocante y salsa.',
+//         'precio' => 5500, 
+//         'cat' => 'postres', 
+//         'img' => 'https://img.freepik.com/premium-photo/classic-new-york-cheesecake-with-dollop-whipped-cream_1148901-4889.jpg', 
+//         'combo' => false
+//     ],
+// ];
 ?>
 
 <style>
@@ -84,24 +84,24 @@ $productos = [
         <section class="col-md-7">
             <div class="row row-cols-md-3 g-3" id="product-grid">
                 
-                <?php foreach ($productos as $producto): 
+                <?php foreach ($products as $producto): 
                     // Lógica para filtrar (adaptada al JS nuevo)
-                    $filter_categories = $producto['cat'] . ($producto['combo'] ? ' combos' : '');
+                    $filter_categories = $producto['categoria_producto'] . ($producto['es_combo_bool'] ? ' combos' : '');
                 ?>
                 <div class="col product-item" data-cat="<?= $filter_categories ?>">
                     <div class="card h-100 product-card">
-                        <img src="<?= htmlspecialchars($producto['img']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['nombre']) ?>" style="height: 150px; object-fit: cover;">
+                        <img src="img/productos/<?= htmlspecialchars($producto['imagen_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['nombre_producto']) ?>" style="height: 150px; object-fit: cover;">
                         
                         <div class="card-body">
-                            <h6 class="card-title fw-bold"><?= htmlspecialchars($producto['nombre']) ?></h6>
-                            <p class="card-text small text-muted"><?= htmlspecialchars($producto['descripcion']) ?></p>
+                            <h6 class="card-title fw-bold"><?= htmlspecialchars($producto['nombre_producto']) ?></h6>
+                            <p class="card-text small text-muted"><?= htmlspecialchars($producto['descripcion_producto']) ?></p>
                             
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="text-danger fw-bold">$<?= number_format($producto['precio'], 0, ',', '.') ?></span>
+                                <span class="text-danger fw-bold">$<?= number_format($producto['precio_producto'], 0, ',', '.') ?></span>
                                 
                                 <button 
                                     class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm"
-                                    onclick="addItem(<?= $producto['id'] ?>, '<?= htmlspecialchars($producto['nombre']) ?>', <?= $producto['precio'] ?>)"
+                                    onclick="addItem(<?= $producto['id_producto'] ?>, '<?= htmlspecialchars($producto['nombre_producto']) ?>', <?= $producto['precio_producto'] ?>)"
                                 >
                                     +
                                 </button>
