@@ -7,7 +7,7 @@ let stockModel = new StockModel();
 
 class SalesModel {
 
-    async createSale({ sale_total_price, building_id, user_id, product_list }) {
+    async createSale({ sale_total_price, building_id, user_id, product_list, payment_method, customer_phone, customer_address }) {
         let dbConnection;
         let sale_id;
 
@@ -15,17 +15,29 @@ class SalesModel {
             dbConnection = await dbPool.getConnection();
             await dbConnection.beginTransaction();
 
-            let dbSaleQuery = "INSERT INTO ventas (precio_total_venta, id_local, id_usuario) VALUES (?, ?, ?);";
+            let direccionFinal = (customer_address && customer_address.trim() !== "") ? customer_address.trim() : null;
+            let celularFinal = customer_phone || null;
+
+            let dbSaleQuery = "INSERT INTO ventas (precio_total_venta, id_local, id_usuario, celular_cliente, direccion_envio) VALUES (?, ?, ?, ?, ?);";
 
             let newSale = await dbConnection.query(dbSaleQuery, [
                 sale_total_price,
                 building_id,
-                user_id
+                user_id,
+                celularFinal,
+                direccionFinal
             ]);
 
             sale_id = newSale.insertId;
-            let newBatchId = crypto.randomUUID();
 
+            let dbChargeQuery = "INSERT INTO cobros (id_venta, monto_cobrado, metodo_pago) VALUES (?, ?, ?);";
+            await dbConnection.query(dbChargeQuery, [
+                sale_id,
+                sale_total_price,
+                payment_method || "Efectivo"
+            ]);
+
+            let newBatchId = crypto.randomUUID();
             let dbSaleDetailsQuery = "INSERT INTO detalle_venta (id_venta, id_producto, cantidad_producto, precio_producto) VALUES (?, ?, ?, ?);";
 
             for (let item of product_list) {
@@ -170,6 +182,58 @@ class SalesModel {
             }
 
             return result;
+        }
+    }
+
+    async getSaleById(sale_id) {
+        let dbConnection;
+
+        try {
+            dbConnection = await dbPool.getConnection();
+
+            let sqlCabecera = `
+                SELECT 
+                    v.id_venta, 
+                    v.precio_total_venta, 
+                    v.direccion_envio, 
+                    c.metodo_pago, 
+                    c.fecha_cobro,
+                    u.nombre_usuario, 
+                    u.dni_usuario
+                FROM ventas v
+                LEFT JOIN cobros c ON v.id_venta = c.id_venta
+                LEFT JOIN usuarios u ON v.id_usuario = u.id_usuario
+                WHERE v.id_venta = ?
+            `;
+                    
+            let cabeceraRows = await dbConnection.query(sqlCabecera, [sale_id]);
+
+            if (cabeceraRows.length === 0) {
+                throw new Error("Venta no encontrada");
+            }
+
+            let cabeceraInfo = cabeceraRows[0];
+
+            let sqlDetalle = `
+                SELECT 
+                    dv.cantidad_producto, 
+                    dv.precio_producto, 
+                    p.nombre_producto
+                FROM detalle_venta dv
+                INNER JOIN productos p ON dv.id_producto = p.id_producto
+                WHERE dv.id_venta = ?
+            `;
+            let detalles = await dbConnection.query(sqlDetalle, [sale_id]);
+
+            return {
+                ...cabeceraInfo,
+                productos: detalles
+            };
+
+        } catch (error) {
+            throw error;
+        } finally {
+            if (dbConnection) dbConnection.release();
         }
     }
 }

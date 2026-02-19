@@ -171,8 +171,14 @@
             $view_file = BASE_PATH . '/views/shop/payment/pay.php';
             break;
         
+        // Crear una compra nueva
         case 'pay/create':
             require BASE_PATH . '/controllers/pay/pay.controller.php';
+            break;
+
+        // Generar PDF con ticket.
+        case 'ticket':
+            require BASE_PATH . '/views/shop/payment/ticket.php';
             break;
 
         // Añadir Receta
@@ -239,13 +245,6 @@
         case 'cartel1':
             $view_file = BASE_PATH . '/views/publicidad/cartel1.php';
             break;
-
-        // ticket
-        case 'ticket':
-            $view_file = BASE_PATH . '/views/emails/email_Ticket.html';
-            break;
-
-
         
         // Caso por defecto - HTTP 404
         default:

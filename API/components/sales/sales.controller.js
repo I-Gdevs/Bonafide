@@ -7,9 +7,9 @@ class SalesController {
 
     async createSale(req, res) {
         try {
-            let { building_id, user_id, product_list, sale_total_price } = req.body;
+            let { building_id, user_id, product_list, sale_total_price, payment_method, customer_phone, customer_address } = req.body;
 
-            let newSale = await salesService.createSale({ building_id, user_id, product_list, sale_total_price });
+            let newSale = await salesService.createSale({ building_id, user_id, product_list, sale_total_price, payment_method, customer_phone, customer_address });
 
             return responseBuilder.success(req, res, 201, newSale, "Venta procesada correctamente");
         } catch (error) {
@@ -69,6 +69,29 @@ class SalesController {
             
             return res.status(500).json({
                 error: "Error interno al intentar actualizar registro de venta."
+            });
+        }
+    }
+
+    async getSaleById(req, res) {
+        try {
+            const { id } = req.params;
+
+            const saleData = await salesService.getSaleById(id);
+
+            return res.status(200).json({
+                success: true,
+                res: saleData
+            });
+
+        } catch (error) {
+            console.error("[Controller] Error al obtener detalle de venta: ", error);
+            
+            const httpStatus = error.statusCode || 500;
+            
+            return res.status(httpStatus).json({
+                success: false,
+                error: error.message
             });
         }
     }

@@ -6,7 +6,7 @@ const salesRouter = Router();
 const salesController = new SalesController();
 
 salesRouter.post("", verifyToken, (req, res) => salesController.createSale(req, res));
-salesRouter.get("/:user_id", verifyToken, (req, res) => salesController.getSales(req, res));
+salesRouter.get("/:id", verifyToken, (req, res) => salesController.getSaleById(req, res));
 salesRouter.patch("/:sale_id", verifyToken, (req, res) => salesController.updateSale(req, res));
 
 export default salesRouter;
