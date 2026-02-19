@@ -6,7 +6,7 @@
 
         if (!$cartData || empty($cartData)) {
             setFlash("El carrito está vacío.", "error");
-            header("Location: " . BASE_URL . "/products");
+            header("Location: " . BASE_URL . "/shop");
             exit;
         }
 
@@ -46,7 +46,7 @@
             setFlash($errorMsg, "error");
         }
 
-        header("Location: " . BASE_URL . "/products");
+        header("Location: " . BASE_URL . "/shop");
         exit;
     }
 
