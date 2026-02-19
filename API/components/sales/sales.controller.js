@@ -1,4 +1,5 @@
 import SalesService from "./sales.service.js";
+import * as responseBuilder from "../../helpers/response.helper.js";
 
 const salesService = new SalesService();
 
@@ -10,22 +11,15 @@ class SalesController {
 
             let newSale = await salesService.createSale({ building_id, user_id, product_list });
 
-            return res.status(201).json({
-                message: "Nuevo registro de venta creado correctamente.",
-                newSale
-            });
+            return responseBuilder.success(req, res, 201, newSale, "Venta procesada correctamente");
         } catch (error) {
-            console.log("Error al intentar crear nuevo registro de venta: ", error.message);
+            console.log("[Controller] Error al intentar crear nuevo registro de venta: ", error);
 
-            if (error.message.includes("faltantes")) {
-                return res.status(400).json({
-                    error: error.message
-                });
+            if (error.isOperationl) {
+                return responseBuilder.error(req, res, error);
             }
             
-            return res.status(500).json({
-                error: "Error interno al intentar crear un nuevo registro de venta."
-            });
+            return responseBuilder.error(req, res, error);
         }
     }
 

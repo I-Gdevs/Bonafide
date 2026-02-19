@@ -1,39 +1,27 @@
 import SalesModel from "./sales.model.js";
 import ProductModel from "../products/product.model.js";
+import { errorHandler } from "../../helpers/error.helper.js";
 
 const salesModel = new SalesModel();
 const productModel = new ProductModel();
 
 class SalesService {
 
-    async createSale({ building_id, user_id, product_list}) {
+    async createSale({ building_id, user_id, product_list }) {
 
         let sale_total_price = 0;
-        let parsed_product_list = [];
 
-        if (!building_id && !user_id && !product_list) {
-            throw new Error("No se puede registrar nueva venta. Datos faltantes. No se proporcionó ninguno de los parámtros { building_id, user_id, product_list }");
+        if (!building_id && !user_id) {
+            errorHandler.badRequest("No se puede registrar nueva venta. Datos faltantes. No se proporcionó ninguno de los parámtros { building_id, user_id, product_list }");
         }
 
-        if (product_list.length > 0) {
-            for (let item of product_list) {
-                let product = await productModel.getProducts({ product_id: item.product_id });
-                
-                parsed_product_list.push({
-                    "product_id": product[0].id_producto,
-                    "product_price": product[0].precio_producto,
-                    "product_quantity": item.product_quantity
-                });
-
-                sale_total_price += product[0].precio_producto * item.product_quantity;
-            }
+        if (!product_list || !Array.isArray(product_list) || product_list.length === 0) {
+            errorHandler.badRequest("El carrito de compras está vacío o es inválido.");
         }
 
-        let newSale = await salesModel.createSale({ sale_total_price, building_id, user_id, product_list: parsed_product_list });
+        sale_total_price = product_list.reduce((acc, item) => acc + (item.product_price * item.product_quantity), 0);
 
-        if (!newSale) {
-            throw new Error("No se pudo crear el nuevo registro de venta.");
-        }
+        let newSale = await salesModel.createSale({ sale_total_price, building_id, user_id, product_list });
 
         return {
             newSaleId: Number(newSale),

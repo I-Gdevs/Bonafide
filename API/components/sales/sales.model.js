@@ -1,4 +1,9 @@
 import dbPool from "../../database/db.js";
+import { MOVEMENTS } from "../../helpers/stock-movement.helper.js";
+import StockModel from "../stock/stock.model.js";
+import crypto from "crypto";
+
+let stockModel = new StockModel();
 
 class SalesModel {
 
@@ -19,6 +24,7 @@ class SalesModel {
             ]);
 
             sale_id = newSale.insertId;
+            let newBatchId = crypto.randomUUID();
 
             let dbSaleDetailsQuery = "INSERT INTO detalle_venta (id_venta, id_producto, cantidad_producto, precio_producto) VALUES (?, ?, ?, ?);";
 
@@ -30,25 +36,66 @@ class SalesModel {
                     item.product_quantity,
                     item.product_price
                 ]);
+
+                let dbIngredientsQuery = "SELECT id_modelo_articulo, cantidad FROM ingredientes WHERE id_producto = (?)";
+                let ingredients = await dbConnection.query(dbIngredientsQuery, item.product_id);
+
+                for (let ing of ingredients) {
+                    let cantIngrediente = parseFloat(ing.cantidad) || 0;
+                    let cantComprada = parseFloat(item.product_quantity) || 0;
+
+                    let cantidadADescontar = cantIngrediente * cantComprada;
+                    if (isNaN(cantidadADescontar) || cantidadADescontar <= 0) {
+                        throw new Error(`Error calculando cantidad a descontar para el ingrediente ID: ${ing.id_modelo_articulo}. Cantidad ingrediente: ${ing.cantidad}, Cantidad comprada: ${item.cantidad}`);
+                    }
+
+                    let itemProcessed = {
+                        item_template_id: ing.id_modelo_articulo,
+                        quantity: cantidadADescontar,
+                        movement_type: MOVEMENTS.TYPES.OUT
+                    };
+
+                    try {
+                        await stockModel._processItemStock(
+                            dbConnection,
+                            building_id,
+                            itemProcessed,
+                            MOVEMENTS.REASONS.SALE,
+                            user_id,
+                            sale_id,
+                            newBatchId,
+                            null,
+                            MOVEMENTS.RECEIPT_TYPES.TICKET
+                        );
+                    } catch (stockError) {
+                        console.warn(`Aviso de Stock: ${stockError.message}`);
+
+                        let friendlyError = new Error(`No hay suficiente stock para preparar el producto ID: ${item.product_id}.`);
+                        friendlyError.statusCode = 400;
+                        
+                        throw friendlyError;
+                    }
+                }
             }
 
             await dbConnection.commit();
+            return sale_id;
+
 
         } catch (error) {
-            console.error("No se pudo crear el nuevo registro de venta: ", error.message);
+            console.error("No se pudo crear el nuevo registro de venta: ", error);
 
             if (dbConnection) {
                 dbConnection.rollback();
             }
             
-            sale_id = 0;
+            throw error;
 
         } finally {
             if (dbConnection) {
                 dbConnection.release();
             }
 
-            return sale_id;
         }
     }
 
