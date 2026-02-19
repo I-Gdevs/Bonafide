@@ -313,7 +313,7 @@ class StockModel {
             new_quantity += quantity_to_move;
         } else {
             if (current_quantity < quantity_to_move) {
-                throw new Error(`Stock insuficiente para el artículo ${item.item_template_id}. Se tiene ${current_quantity} y se debe mover ${quantity_to_move}.`);
+                throw new Error(`Stock insuficiente para el artículo ID: ${item.item_template_id}. Se tiene ${current_quantity} y se debe mover ${quantity_to_move}.`);
             }
             new_quantity -= quantity_to_move;
         }
@@ -340,8 +340,6 @@ class StockModel {
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
-
-        console.log("Tratando de guardar recibo:", reference_id);
 
         await dbConnection.query(logQuery, [
             stock_id,

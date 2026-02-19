@@ -114,6 +114,28 @@
     </div>
 </main>
 
+<!-- FLASH - TOAST ALERTA -->
+<?php if ($flash): ?>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="flashToast" class="toast bg-<?= $flash["type"] ?>-subtle" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Avisos | Pedir</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                <?= $flash["message"]; ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let toastElement = document.getElementById("flashToast");
+            var toastTrigger = new bootstrap.Toast(toastElement);
+            toastTrigger.show();
+        });
+    </script>
+<?php endif; ?>
+
 <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || {};
     let isDelivery = false;

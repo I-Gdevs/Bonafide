@@ -1,4 +1,5 @@
 import SalesService from "./sales.service.js";
+import * as responseBuilder from "../../helpers/response.helper.js";
 
 const salesService = new SalesService();
 
@@ -6,26 +7,19 @@ class SalesController {
 
     async createSale(req, res) {
         try {
-            let { building_id, user_id, product_list } = req.body;
+            let { building_id, user_id, product_list, sale_total_price, payment_method, customer_phone, customer_address } = req.body;
 
-            let newSale = await salesService.createSale({ building_id, user_id, product_list });
+            let newSale = await salesService.createSale({ building_id, user_id, product_list, sale_total_price, payment_method, customer_phone, customer_address });
 
-            return res.status(201).json({
-                message: "Nuevo registro de venta creado correctamente.",
-                newSale
-            });
+            return responseBuilder.success(req, res, 201, newSale, "Venta procesada correctamente");
         } catch (error) {
-            console.log("Error al intentar crear nuevo registro de venta: ", error.message);
+            console.log("[Controller] Error al intentar crear nuevo registro de venta: ", error);
 
-            if (error.message.includes("faltantes")) {
-                return res.status(400).json({
-                    error: error.message
-                });
+            if (error.isOperationl) {
+                return responseBuilder.error(req, res, error);
             }
             
-            return res.status(500).json({
-                error: "Error interno al intentar crear un nuevo registro de venta."
-            });
+            return responseBuilder.error(req, res, error);
         }
     }
 
@@ -75,6 +69,29 @@ class SalesController {
             
             return res.status(500).json({
                 error: "Error interno al intentar actualizar registro de venta."
+            });
+        }
+    }
+
+    async getSaleById(req, res) {
+        try {
+            const { id } = req.params;
+
+            const saleData = await salesService.getSaleById(id);
+
+            return res.status(200).json({
+                success: true,
+                res: saleData
+            });
+
+        } catch (error) {
+            console.error("[Controller] Error al obtener detalle de venta: ", error);
+            
+            const httpStatus = error.statusCode || 500;
+            
+            return res.status(httpStatus).json({
+                success: false,
+                error: error.message
             });
         }
     }

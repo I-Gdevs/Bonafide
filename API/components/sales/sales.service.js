@@ -1,39 +1,21 @@
 import SalesModel from "./sales.model.js";
-import ProductModel from "../products/product.model.js";
+import { errorHandler } from "../../helpers/error.helper.js";
 
 const salesModel = new SalesModel();
-const productModel = new ProductModel();
 
 class SalesService {
 
-    async createSale({ building_id, user_id, product_list}) {
+    async createSale({ building_id, user_id, product_list, sale_total_price, payment_method, customer_phone, customer_address }) {
 
-        let sale_total_price = 0;
-        let parsed_product_list = [];
-
-        if (!building_id && !user_id && !product_list) {
-            throw new Error("No se puede registrar nueva venta. Datos faltantes. No se proporcionó ninguno de los parámtros { building_id, user_id, product_list }");
+        if (!building_id || !user_id ||!sale_total_price) {
+            errorHandler.badRequest("No se puede registrar nueva venta. Datos faltantes. No se proporcionó ninguno de los parámtros { building_id, user_id, product_list }");
         }
 
-        if (product_list.length > 0) {
-            for (let item of product_list) {
-                let product = await productModel.getProducts({ product_id: item.product_id });
-                
-                parsed_product_list.push({
-                    "product_id": product[0].id_producto,
-                    "product_price": product[0].precio_producto,
-                    "product_quantity": item.product_quantity
-                });
-
-                sale_total_price += product[0].precio_producto * item.product_quantity;
-            }
+        if (!product_list || !Array.isArray(product_list) || product_list.length === 0) {
+            errorHandler.badRequest("El carrito de compras está vacío o es inválido.");
         }
 
-        let newSale = await salesModel.createSale({ sale_total_price, building_id, user_id, product_list: parsed_product_list });
-
-        if (!newSale) {
-            throw new Error("No se pudo crear el nuevo registro de venta.");
-        }
+        let newSale = await salesModel.createSale({ sale_total_price, building_id, user_id, product_list, payment_method, customer_phone, customer_address });
 
         return {
             newSaleId: Number(newSale),
@@ -72,6 +54,24 @@ class SalesService {
         return updatedSale = {
             sale_id,
             new_sale_state
+        }
+    }
+
+    async getSaleById(sale_id) {
+        try {
+            if (!sale_id || isNaN(sale_id)) {
+                let error = new Error("El ID de la venta es inválido o requerido.");
+                error.statusCode = 400;
+                throw error;
+            }
+
+            const sale = await salesModel.getSaleById(sale_id);
+            
+            return sale;
+
+        } catch (error) {
+            console.error("[Service] Error al obtener detalle de venta: ", error.message);
+            throw error;
         }
     }
 }

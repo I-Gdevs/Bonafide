@@ -34,8 +34,6 @@ class StockService {
             errorHandler.badRequest("No se puede registrar compra: Falta especificar proveedor.");
         }
 
-        console.log("Servicio pasando los datos:", data);
-
         return await stockModel.createPurchaseMovement(data);
     }
 
