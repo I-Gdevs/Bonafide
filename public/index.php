@@ -170,6 +170,10 @@
         case 'pay':
             $view_file = BASE_PATH . '/views/shop/payment/pay.php';
             break;
+        
+        case 'pay/create':
+            require BASE_PATH . '/controllers/pay/pay.controller.php';
+            break;
 
         // Añadir Receta
         case 'añadirReceta':

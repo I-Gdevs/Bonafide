@@ -7,9 +7,9 @@ class SalesController {
 
     async createSale(req, res) {
         try {
-            let { building_id, user_id, product_list } = req.body;
+            let { building_id, user_id, product_list, sale_total_price } = req.body;
 
-            let newSale = await salesService.createSale({ building_id, user_id, product_list });
+            let newSale = await salesService.createSale({ building_id, user_id, product_list, sale_total_price });
 
             return responseBuilder.success(req, res, 201, newSale, "Venta procesada correctamente");
         } catch (error) {

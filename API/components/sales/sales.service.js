@@ -7,19 +7,15 @@ const productModel = new ProductModel();
 
 class SalesService {
 
-    async createSale({ building_id, user_id, product_list }) {
+    async createSale({ building_id, user_id, product_list, sale_total_price }) {
 
-        let sale_total_price = 0;
-
-        if (!building_id && !user_id) {
+        if (!building_id || !user_id ||!sale_total_price) {
             errorHandler.badRequest("No se puede registrar nueva venta. Datos faltantes. No se proporcionó ninguno de los parámtros { building_id, user_id, product_list }");
         }
 
         if (!product_list || !Array.isArray(product_list) || product_list.length === 0) {
             errorHandler.badRequest("El carrito de compras está vacío o es inválido.");
         }
-
-        sale_total_price = product_list.reduce((acc, item) => acc + (item.product_price * item.product_quantity), 0);
 
         let newSale = await salesModel.createSale({ sale_total_price, building_id, user_id, product_list });
 

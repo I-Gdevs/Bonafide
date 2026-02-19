@@ -140,8 +140,6 @@ class SalesModel {
             return result;
         }
 
-
-
     }
 
     async updateSale({ new_sale_state, sale_id }) {

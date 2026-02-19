@@ -2,12 +2,10 @@
     include BASE_PATH . '/views/partials/head.php'; 
     include BASE_PATH . '/views/partials/header.php'; 
 
-    // 2. LÓGICA PHP: Procesamos los datos si vienen por POST (desde el carrito)
     $productos_checkout = isset($_POST['cart_data']) ? json_decode($_POST['cart_data'], true) : [];
     $tipo_entrega = $_POST['delivery_type'] ?? 'local';
     $sucursal_id = $_POST['sucursal'] ?? 'tribunales';
 
-    // Definición de sucursales
     $sucursales = [
         'tribunales' => ['nombre' => 'Bonafide Tribunales', 'direccion' => 'Talcahuano 550, CABA'],
         'centro' => ['nombre' => 'Bonafide Centro', 'direccion' => 'Av. Corrientes 800, CABA']
@@ -61,7 +59,10 @@
         <div class="col-md-7">
             <div class="checkout-container shadow-sm">
                 <h4 class="fw-bold mb-4 border-bottom pb-2">Datos de Facturación</h4>
-                <form id="main-payment-form" action="<?= BASE_URL ?>/procesar_pago" method="POST">
+                <form id="main-payment-form" action="<?= BASE_URL ?>/pay/create" method="POST">
+                    <input type="hidden" name="cart_data" value="<?= htmlspecialchars($_POST["cart_data"] ?? "[]", ENT_QUOTES, "UTF-8") ?>">
+                    <input type="hidden" name="delivery_type" value="<?= htmlspecialchars($tipo_entrega) ?>">
+                    <input type="hidden" name="sucursal" value="<?= htmlspecialchars($sucursal_id) ?>">
                     <div class="row g-2">
                         <div class="col-md-6">
                             <label class="fw-bold small">Nombre</label>
@@ -177,19 +178,20 @@
 </div>
 
 <script>
-    // JS Mínimo: Solo para el efecto visual del popup y limpiar el carrito
     function showFinalPopup() {
-        if(document.getElementById('main-payment-form').checkValidity()) {
-            document.getElementById('success-popup').style.display = 'flex';
-        } else {
-            alert("Por favor, completa todos los campos.");
-        }
-    }
+        const form = document.getElementById('main-payment-form');
+        
+        if(form.checkValidity()) {
+            
+            const btn = document.querySelector('button[onclick="showFinalPopup()"]');
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Procesando...';
+            btn.disabled = true;
 
-    function clearAndGo() {
-        localStorage.removeItem('cart'); // Borramos el carrito al terminar
-        window.location.href = '<?= BASE_URL ?>/home';
-    }
+            form.submit();
+            
+        } else {
+            form.reportValidity(); 
+        }    }
 </script>
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?>

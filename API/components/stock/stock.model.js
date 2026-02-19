@@ -341,8 +341,6 @@ class StockModel {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         `;
 
-        console.log("Tratando de guardar recibo:", reference_id);
-
         await dbConnection.query(logQuery, [
             stock_id,
             item.movement_type,
