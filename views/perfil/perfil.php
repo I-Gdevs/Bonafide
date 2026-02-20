@@ -105,19 +105,46 @@
                     
                     <div class="tab-pane fade" id="list-pedidos" role="tabpanel" aria-labelledby="list-pedidos-list">
                         <h4 class="fw-bold text-dark mb-4">Mis Últimos Pedidos</h4>
-                        <div class="card p-3 shadow-sm mb-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1 fw-bold">Pedido #20250105</h6>
-                                    <small class="text-muted">Fecha: 05/01/2025</small>
-                                </div>
-                                <div>
-                                    <span class="badge bg-success me-3">Entregado</span>
-                                    <span class="fw-bold">$4.500</span>
-                                </div>
+                        
+                        <?php
+                        $userId = $_SESSION["user"]["id_usuario"] ?? null; 
+                        $salesResponse = callApi("GET", "/sales?user_id=" . $userId);
+                        
+                        $salesData = $salesResponse['res']['data'] ?? [];
+
+                        if (empty($salesData)): ?>
+                            <div class="alert alert-light border shadow-sm">
+                                Aún no has realizado ningún pedido. ¡Te esperamos en la tienda!
                             </div>
-                            <small class="mt-2 text-primary">Ver Detalles</small>
-                        </div>
+                        <?php else: 
+                            foreach ($salesData as $pedido): 
+                                $fecha = date('d/m/Y', strtotime($pedido['fecha_venta']));
+                                $id_venta = $pedido['id_venta'];
+                        ?>
+                                <div class="card p-3 shadow-sm mb-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">Pedido #<?= str_pad($id_venta, 6, '0', STR_PAD_LEFT) ?></h6>
+                                            <small class="text-muted">Fecha: <?= $fecha ?></small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-success mb-2 d-block">
+                                                <?= ucfirst($pedido['estado_venta'] ?? 'Completado') ?>
+                                            </span>
+                                            <span class="fw-bold d-block">$ <?= number_format($pedido['precio_total_venta'], 0, ',', '.') ?></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-3 border-top pt-2 d-flex justify-content-between">
+                                        <button onclick="printTicket('<?= $id_venta ?>')" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-printer me-1"></i> Reimprimir Ticket
+                                        </button>
+                                    </div>
+                                </div>
+                        <?php 
+                            endforeach; 
+                        endif; 
+                        ?>
                     </div>
                 </div>
             </div>
@@ -125,6 +152,14 @@
         
     </div>
 </main>
+
+<script>
+    function printTicket(saleId) {
+        if (!saleId) return;
+        const url = "<?= BASE_URL ?>/ticket?id=" + saleId;
+        window.open(url, '_blank', 'width=450,height=600');
+    }
+</script>
 
 
 <?php include BASE_PATH . '/views/partials/footer.php'; ?> 

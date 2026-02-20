@@ -111,30 +111,31 @@ class SalesModel {
         }
     }
 
-    async getSales({ sale_id, user_id, building_id }) {
+    async getSales({ user_id }) {
         let dbConnection;
         let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQuery = "SELECT * FROM ventas WHERE 1=1";
+            let dbQuery = `
+                SELECT 
+                    v.*, 
+                    u.nombre_usuario, 
+                    u.dni_usuario,
+                    c.fecha_cobro as fecha_venta
+                FROM ventas v
+                INNER JOIN usuarios u ON v.id_usuario = u.id_usuario
+                LEFT JOIN cobros c ON v.id_venta = c.id_venta
+            `;
             let dbParams = [];
 
-            if (sale_id) {
-                dbQuery += " AND id_venta = (?)";
-                dbParams.push(sale_id);
-            }
-
             if (user_id) {
-                dbQuery += " AND id_usuario = (?)";
+                dbQuery += " WHERE v.id_usuario = ?";
                 dbParams.push(user_id);
             }
 
-            if (building_id) {
-                dbQuery += " AND id_local = (?)";
-                dbParams.push(building_id);
-            }
+            dbQuery += " ORDER BY v.id_venta DESC";
 
             result = await dbConnection.query(dbQuery, dbParams);
 
