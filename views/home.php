@@ -125,7 +125,7 @@ include BASE_PATH . '/views/partials/header.php';
             <h1 class="hero-title animate-up delay-1">El sabor de siempre,<br>ahora donde estés.</h1>
             <p class="hero-subtitle animate-up delay-2">Disfruta de tu café Bonafide favorito y nuestra pastelería artesanal sin hacer filas. Pide online y retira o recibe en casa.</p>
             <div class="animate-up delay-2">
-                <a href="<?= BASE_URL ?>/pedir" class="btn btn-cta btn-cta-primary text-decoration-none">
+                <a href="<?= BASE_URL ?>/shop" class="btn btn-cta btn-cta-primary text-decoration-none">
                     <i class="bi bi-bag-check-fill me-2"></i> Hacer Pedido
                 </a>
                 <a href="#favoritos" class="btn btn-cta btn-cta-outline text-decoration-none">Ver Menú</a>
@@ -150,7 +150,7 @@ include BASE_PATH . '/views/partials/header.php';
                             <h5 class="fw-bold">Combo Desayuno</h5>
                             <p class="text-muted small">Café con leche + 2 Medialunas de manteca.</p>
                             <h5 class="text-danger fw-bold">$2.800</h5>
-                            <a href="<?= BASE_URL ?>/pedir" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
+                            <a href="<?= BASE_URL ?>/shop" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@ include BASE_PATH . '/views/partials/header.php';
                             <h5 class="fw-bold">Cheesecake NY</h5>
                             <p class="text-muted small">La dulzura perfecta con frutos rojos frescos.</p>
                             <h5 class="text-danger fw-bold">$5.500</h5>
-                            <a href="<?= BASE_URL ?>/pedir" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
+                            <a href="<?= BASE_URL ?>/shop" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
                         </div>
                     </div>
                 </div>
@@ -172,14 +172,14 @@ include BASE_PATH . '/views/partials/header.php';
                             <h5 class="fw-bold">Tostado Especial</h5>
                             <p class="text-muted small">Jamón y queso en pan de miga tostado.</p>
                             <h5 class="text-danger fw-bold">$4.800</h5>
-                            <a href="<?= BASE_URL ?>/pedir" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
+                            <a href="<?= BASE_URL ?>/shop" class="btn btn-outline-danger rounded-pill w-100 mt-2 fw-bold">Pedir Ahora</a>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="text-center mt-5">
-                <a href="<?= BASE_URL ?>/pedir" class="btn btn-link text-danger fw-bold text-decoration-none fs-5">
+                <a href="<?= BASE_URL ?>/shop" class="btn btn-link text-danger fw-bold text-decoration-none fs-5">
                     Ver todo el menú <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
