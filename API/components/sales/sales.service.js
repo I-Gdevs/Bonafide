@@ -27,11 +27,11 @@ class SalesService {
         };
     } 
 
-    async getSales({ sale_id, user_id, building_id }) {
+    async getSales({ user_id }) {
 
         let sales_list = [];
 
-        sales_list = await salesModel.getSales({ sale_id, user_id, building_id });
+        sales_list = await salesModel.getSales({ user_id });
 
         if (sales_list.length === 0) {
             throw new Error("No hay ningún registro de venta cargado.");

@@ -25,26 +25,17 @@ class SalesController {
 
     async getSales(req, res) {
         try {
-            let { sale_id, user_id, building_id } = req.body;
+            let { user_id } = req.query;
 
-            let sales_list = await salesService.getSales({ sale_id, user_id, building_id });
+            console.log(user_id);
 
-            return res.status(200).json({
-                message: "Se pudo buscar correctamente los registros de ventas.",
-                sales_list
-            });
+            let sales_list = await salesService.getSales({ user_id });
+
+            return responseBuilder.success(req, res, 201, sales_list);
         } catch (error) {
             console.log("Error al intentar buscar los registros de ventas: ", error.message);
 
-            if (error.message.includes("No hay")) {
-                return res.status(404).json({
-                    error: error.message
-                });
-            }
-            
-            return res.status(500).json({
-                error: "Error interno al intentar buscar la lista de ventas."
-            })
+            return responseBuilder.error(req, res, "Error al intentar buscar los registros de pedidos.");
         }
     }
 
