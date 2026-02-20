@@ -31,7 +31,7 @@ $locales = [
     
     <?php foreach ($locales as $local): ?>
     <div class="col">
-        <a href="<?= BASE_URL ?>/pedir" class="text-decoration-none text-dark">
+        <a href="<?= BASE_URL ?>/shop" class="text-decoration-none text-dark">
             <div class="card local-card h-100">
                 <img src="<?= htmlspecialchars($local['imagen']) ?>" class="card-img-top" alt="Fachada <?= $local['nombre'] ?>">
                 
