@@ -154,15 +154,35 @@
             $view_file = BASE_PATH . '/views/errors/presentacion.php';
             break;
 
-        // SeleccionarLocal
-        case 'seleccionarLocal':
-            $view_file = BASE_PATH . '/views/shop/seleccionarLocal.php';
+        // Seleccionar local favorito
+        case 'choose-shop':
+            require BASE_PATH . '/controllers/stock/buildings/buildings.controller.php';
+
+            $view_file = BASE_PATH . '/views/shop/choose_shop.php';
+            break;
+
+        // Guardar local favorito
+        case 'set-local':
+            $id_local = $_GET['id'] ?? null;
+            $nombre_local = $_GET['nombre'] ?? 'Nuestra Sucursal';
+
+            if ($id_local) {
+                $_SESSION['id_local_preferido'] = $id_local;
+                $_SESSION['nombre_local_preferido'] = $nombre_local;
+            }
+            
+            header('Location: ' . BASE_URL . '/shop');
+            exit;
             break;
         
         // Pedir (vista clientes)
         case 'shop':
+            if (!isset($_SESSION['id_local_preferido'])) {
+                header('Location: ' . BASE_URL . '/choose-shop');
+                exit;
+            }
+
             require BASE_PATH . '/controllers/products/products.controller.php';
-            
             $view_file = BASE_PATH . '/views/shop/shop.php';
             break;
 
@@ -181,16 +201,6 @@
             require BASE_PATH . '/views/shop/payment/ticket.php';
             break;
 
-        // Añadir Receta
-        case 'añadirReceta':
-            $view_file = BASE_PATH . '/views/productos/añadirReceta/añadirReceta.php';
-            break;
-
-        // Ver Receta
-        case 'receta':
-            $view_file = BASE_PATH . '/views/productos/receta.php';
-            break;
-
         // Nosotros
         case 'nosotros':
             $view_file = BASE_PATH . '/views/nosotros/nosotros.php';
@@ -201,7 +211,8 @@
             $view_file = BASE_PATH . '/views/comandas/comandas.php';
             break;
         
-        // Productos
+
+        // Productos (Administración de los productos, vista para empleados)
         case 'products':
             require BASE_PATH . '/controllers/products/products.controller.php';
             require BASE_PATH . '/controllers/stock/item_templates/item_templates.controller.php';
@@ -221,6 +232,7 @@
             require BASE_PATH . '/controllers/products/delete_product.controller.php';
             break;
 
+        
         // Administracion
         case 'administracion':
             $view_file = BASE_PATH . '/views/administracion/administracion.php';
@@ -230,17 +242,12 @@
             $view_file = BASE_PATH . '/views/administracion/estadisticas.php';
             break;
 
-        
+
         // Perfil
         case 'perfil':
             $view_file = BASE_PATH . '/views/perfil/perfil.php';
             break;
         
-        // pdf
-        case 'pdf':
-            $view_file = BASE_PATH . '/views/pdfviewer.php';
-            break;
-
         // cartel1
         case 'cartel1':
             $view_file = BASE_PATH . '/views/publicidad/cartel1.php';
