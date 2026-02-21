@@ -54,10 +54,10 @@ include BASE_PATH . '/views/partials/header.php';
     }
     
     .btn-cta-primary {
-        background-color: #e53935; color: white; border: none;
+        background-color: #c62828; color: white; border: none;
     }
     .btn-cta-primary:hover {
-        background-color: #c62828; transform: translateY(-3px); color: white;
+        background-color: #e53935; transform: translateY(-3px); color: white;
         box-shadow: 0 15px 30px rgba(229, 57, 53, 0.4);
     }
 
@@ -126,9 +126,9 @@ include BASE_PATH . '/views/partials/header.php';
             <p class="hero-subtitle animate-up delay-2">Disfruta de tu café Bonafide favorito y nuestra pastelería artesanal sin hacer filas. Pide online y retira o recibe en casa.</p>
             <div class="animate-up delay-2">
                 <a href="<?= BASE_URL ?>/shop" class="btn btn-cta btn-cta-primary text-decoration-none">
-                    <i class="bi bi-bag-check-fill me-2"></i> Hacer Pedido
+                    <i class="bi bi-bag-check-fill me-2"></i> Comprar
                 </a>
-                <a href="#favoritos" class="btn btn-cta btn-cta-outline text-decoration-none">Ver Menú</a>
+                <a href="#favoritos" class="btn btn-cta btn-cta-outline text-decoration-none">Ver Productos</a>
             </div>
         </div>
     </section>
