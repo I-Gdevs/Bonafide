@@ -24,12 +24,22 @@
 
     $productos_checkout = json_decode($cart_json, true);
     $tipo_entrega = $_POST['delivery_type'] ?? 'local';
-    $sucursal_id = $_POST['sucursal'] ?? 'tribunales';
+    $sucursal_id = $_SESSION['id_local_preferido'] ?? null;
 
-    $sucursales = [
-        'tribunales' => ['nombre' => 'Bonafide Tribunales', 'direccion' => 'Talcahuano 550, CABA'],
-        'centro' => ['nombre' => 'Bonafide Centro', 'direccion' => 'Av. Corrientes 800, CABA']
-    ];
+    $nombre_local = "Bonafide";
+    $direccion_local = "Dirección a confirmar";
+
+    if ($sucursal_id && !empty($buildings)) {
+        foreach ($buildings as $local) {
+            $id_actual = $local['id_local'] ?? $local['id']; 
+            
+            if ($id_actual == $sucursal_id) {
+                $nombre_local = $local['nombre_local'] ?? $local['nombre'];
+                $direccion_local = $local['direccion_local'] ?? $local['direccion'];
+                break;
+            }
+        }
+    }
 
     $costo_envio = ($tipo_entrega === 'delivery') ? 2100 : 0;
     $subtotal = 0;
@@ -171,8 +181,11 @@
                         <i class="bi bi-shop"></i>
                         <?= ($tipo_entrega === "local") ? "Retiro en:" : "Se envía desde:"; ?>
                     </div>
-                    <div class="fw-bold"><?= $sucursales[$sucursal_id]['nombre'] ?></div>
-                    <div class="text-muted small"><?= $sucursales[$sucursal_id]['direccion'] ?></div>
+                    <div class="fw-bold">Sucursal <?= htmlspecialchars($nombre_local) ?></div>
+                    <div class="text-muted small">
+                        <i class="bi bi-geo-alt-fill text-danger me-1"></i>
+                        <?= htmlspecialchars($direccion_local) ?>
+                    </div>
                 </div>
 
                 <div class="product-list mb-4">

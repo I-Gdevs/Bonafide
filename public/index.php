@@ -188,6 +188,8 @@
 
         // Pagar (vista clientes)
         case 'pay':
+            require BASE_PATH . '/controllers/stock/buildings/buildings.controller.php';
+
             $view_file = BASE_PATH . '/views/shop/payment/pay.php';
             break;
         
