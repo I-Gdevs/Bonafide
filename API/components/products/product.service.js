@@ -36,10 +36,10 @@ class ProductService {
         };
     }
 
-    async getProducts({ product_id }) {
+    async getProducts({ product_id, building_id }) {
         let products;
 
-        products = await productModel.getProducts({ product_id });
+        products = await productModel.getProducts({ product_id, building_id });
 
         if (products.length === 0) {
             throw new Error("No hay ningún modelo de stock cargado.");

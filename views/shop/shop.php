@@ -76,19 +76,34 @@
                     <div class="card h-100 product-card">
                         <img src="img/productos/<?= htmlspecialchars($producto['imagen_url']) ?>" class="card-img-top" alt="<?= htmlspecialchars($producto['nombre_producto']) ?>" style="height: 150px; object-fit: cover;">
                         
-                        <div class="card-body">
-                            <h6 class="card-title fw-bold"><?= htmlspecialchars($producto['nombre_producto']) ?></h6>
-                            <p class="card-text small text-muted"><?= htmlspecialchars($producto['descripcion_producto']) ?></p>
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div>
+                                <h6 class="card-title fw-bold"><?= htmlspecialchars($producto['nombre_producto']) ?></h6>
+                                <p class="card-text small text-muted"><?= htmlspecialchars($producto['descripcion_producto']) ?></p>
+                            </div>
                             
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="text-danger fw-bold">$<?= number_format($producto['precio_producto'], 0, ',', '.') ?></span>
+                            <?php 
+                                $stock_disponible = isset($producto['stock_disponible']) ? (int)$producto['stock_disponible'] : 999;
+                            ?>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3 border-top pt-3">
                                 
-                                <button 
-                                    class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm"
-                                    onclick="addItem(<?= $producto['id_producto'] ?>, '<?= htmlspecialchars($producto['nombre_producto']) ?>', <?= $producto['precio_producto'] ?>)"
-                                >
-                                    +
-                                </button>
+                                <span class="text-danger fw-bold fs-5">
+                                    $<?= number_format($producto['precio_producto'], 0, ',', '.') ?>
+                                </span>
+                                
+                                <?php if ($stock_disponible > 0): ?>
+                                    <button 
+                                        class="btn btn-sm btn-outline-danger rounded-circle btn-round-sm shadow-sm"
+                                        onclick="addItem(<?= $producto['id_producto'] ?>, '<?= htmlspecialchars($producto['nombre_producto'], ENT_QUOTES) ?>', <?= $producto['precio_producto'] ?>, <?= $stock_disponible ?>)"
+                                        title="Quedan <?= $stock_disponible ?> disponibles"
+                                    >
+                                        +
+                                    </button>
+                                <?php else: ?>
+                                    <span class="badge bg-secondary px-2 py-2 shadow-sm">Sin stock</span>
+                                <?php endif; ?>
+                                
                             </div>
                         </div>
                     </div>
@@ -161,19 +176,36 @@
         renderCart();
     }
 
-    function addItem(id, name, price) {
-        if (cart[id]) cart[id].qty++;
-        else cart[id] = { id, name, price, qty: 1 };
+    function addItem(id, name, price, maxStock) {
+        // Se verifica si ya no alcanzó el límite antes de sumar
+        if (cart[id] && cart[id].qty >= maxStock) {
+            showStockAlert(`No hay más stock disponible para ${name}. Límite: ${maxStock} unidades.`);
+            return;
+        }
+
+        if (cart[id]) {
+            cart[id].qty++;
+        } else {
+            cart[id] = { id, name, price, qty: 1, maxStock: maxStock }; 
+        }
         renderCart();
     }
 
     function updateQty(id, change) {
         if (!cart[id]) return;
+
+        let newQty = cart[id].qty + change;
+
+        if (change > 0 && newQty > cart[id].maxStock) {
+            showStockAlert(`Límite de stock alcanzado (${cart[id].maxStock} unidades máximo).`);
+            return;
+        }
+
         cart[id].qty += change;
         if (cart[id].qty <= 0) delete cart[id];
         renderCart();
     }
-
+    
     function renderCart() {
         const list = document.getElementById('cart-list');
         let subtotal = 0;
@@ -211,6 +243,41 @@
         document.getElementById('cart-input').value = JSON.stringify(Object.values(cart));
         document.getElementById('delivery-input').value = isDelivery ? 'delivery' : 'local';
         document.getElementById('checkout-form').submit();
+    }
+
+    function showStockAlert(message) {
+        let toastContainer = document.getElementById('dynamic-toast-container');
+        if (!toastContainer) {
+            toastContainer = document.createElement('div');
+            toastContainer.id = 'dynamic-toast-container';
+            toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+            toastContainer.style.zIndex = '1055';
+            document.body.appendChild(toastContainer);
+        }
+
+        const toastEl = document.createElement('div');
+        toastEl.className = 'toast align-items-center text-bg-danger border-0 shadow-lg mb-2';
+        toastEl.setAttribute('role', 'alert');
+        toastEl.setAttribute('aria-live', 'assertive');
+        toastEl.setAttribute('aria-atomic', 'true');
+
+        toastEl.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body fw-bold">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+
+        toastContainer.appendChild(toastEl);
+
+        const bsToast = new bootstrap.Toast(toastEl, { delay: 3000 });
+        bsToast.show();
+
+        toastEl.addEventListener('hidden.bs.toast', () => {
+            toastEl.remove();
+        });
     }
 
     function filterProducts(cat, el) {

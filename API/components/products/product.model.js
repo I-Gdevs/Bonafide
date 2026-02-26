@@ -60,16 +60,44 @@ class ProductModel {
         }
     }
 
-    async getProducts() {
+    async getProducts({ product_id, building_id }) {
         let dbConnection;
-        let result;
+        let result = [];
 
         try {
             dbConnection = await dbPool.getConnection();
 
-            let dbQueryProducts = "SELECT * FROM productos WHERE producto_desactivado_bool = 0";
-            let products = await dbConnection.query(dbQueryProducts);
+            // 1. Buscamos los productos. 
+            // Si nos pasan un building_id, calculamos el stock máximo posible ("stock_disponible").
+            // La fórmula es: dividir la cantidad en stock por la cantidad requerida en la receta, 
+            // y quedarnos con el número más bajo (el ingrediente limitante).
+            let dbQueryProducts = `
+                SELECT 
+                    p.*
+                    ${building_id ? `, COALESCE(
+                        (SELECT MIN(FLOOR(COALESCE(s.cantidad_stock, 0) / i.cantidad))
+                         FROM ingredientes i
+                         LEFT JOIN stock s ON i.id_modelo_articulo = s.id_modelo_articulo AND s.id_local = ?
+                         WHERE i.id_producto = p.id_producto
+                        ), 0) AS stock_disponible` : ''}
+                FROM productos p
+                WHERE p.producto_desactivado_bool = 0
+            `;
             
+            let dbParamsProducts = [];
+            
+            if (building_id) {
+                dbParamsProducts.push(building_id);
+            }
+
+            if (product_id) {
+                dbQueryProducts += " AND p.id_producto = ?";
+                dbParamsProducts.push(product_id);
+            }
+
+            let products = await dbConnection.query(dbQueryProducts, dbParamsProducts);
+            
+            // 2. Buscamos los ingredientes como lo hacías antes
             let dbQueryIngredients = `
                 SELECT
                     i.id_producto,
@@ -82,20 +110,25 @@ class ProductModel {
             `;
             let ingredients = await dbConnection.query(dbQueryIngredients);
 
+            // 3. Armamos el objeto final
             result = products.map(prod => {
                 prod.ingredientes = ingredients.filter(r => r.id_producto == prod.id_producto);
+                
+                // Si el producto no tiene ingredientes (es raro, pero por las dudas), 
+                // le ponemos un stock alto o 0 según tu lógica de negocio.
+                if (building_id && prod.ingredientes.length === 0) {
+                     prod.stock_disponible = 99; // O cero, si preferís que no se venda sin receta.
+                }
+
                 return prod;
             });
 
         } catch (error) {
-            if (dbConnection) {
-                await dbConnection.release();
-            }
-            console.error(error);
-
+            console.error("[Model] Error en getProducts:", error);
+            // El release lo hacemos en el finally
         } finally {
             if (dbConnection) {
-                await dbConnection.release();
+                dbConnection.release(); // Corrección: no lleva await
             }
             return result;
         }
