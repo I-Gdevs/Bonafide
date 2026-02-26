@@ -36,9 +36,9 @@ class ProductController {
 
     async getProducts(req, res) {
         try {
-            let { product_id }  = req.query;
+            let { product_id, building_id }  = req.query;
 
-            let productList = await productService.getProducts({ product_id });
+            let productList = await productService.getProducts({ product_id, building_id });
             return responseBuilder.success(req, res, 200, productList);
 
         } catch (error) {
