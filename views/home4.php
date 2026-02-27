@@ -1,5 +1,4 @@
 <?php
-    // Si una persona entra sin tener una sesión iniciada, se lo redirige a la página de login
     if (!isset($_SESSION['token'])) {
         header("Location: " . BASE_URL . "/login");
     }

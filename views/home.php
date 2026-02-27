@@ -189,7 +189,6 @@ include BASE_PATH . '/views/partials/header.php';
 </main>
 
 <script>
-    // Pequeño script para suavizar el scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();

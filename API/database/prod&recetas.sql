@@ -288,9 +288,7 @@ SET imagen_producto = CASE nombre_producto
     WHEN 'Combo Tostadas' THEN 'img/productos/combo_tostadas.jpg'
     WHEN 'Combo Tostado' THEN 'img/productos/combo_tostado.jpg'
     WHEN 'Sandwich Tostado J/Q' THEN 'img/productos/tostado_jq.jpg'
-    WHEN 'Bagel Caesar' THEN 'img/productos/bagel_pollo.jpg'
-    WHEN 'Ciabatta de Peceto' THEN 'img/productos/ciabatta.jpg'
-    WHEN 'Wrap de Pollo' THEN 'img/productos/wrap.jpg'
+    WHEN 'Ciabatta' THEN 'img/productos/ciabatta.jpg'
     WHEN 'Tarta del Día' THEN 'img/productos/tarta.jpg'
 
     -- PASTELERÍA

@@ -8,8 +8,12 @@ include BASE_PATH . '/views/partials/header.php';
 
 
 $categorias = [
-    'combos' => 'Combos', 'clasicos' => 'Clásicos', 'bebidas_calientes' => 'Bebidas Calientes',
-    'cafeteria' => 'Cafetería', 'bebidas_frias' => 'Bebidas Frías', 'postres' => 'Postres',
+    'combos' => 'Combos', 
+    'clasicos' => 'Clásicos', 
+    'bebidas_calientes' => 'Bebidas Calientes',
+    'cafeteria' => 'Cafetería', 
+    'bebidas_frias' => 'Bebidas Frías', 
+    'postres' => 'Postres',
 ];
 
 $productos = [
